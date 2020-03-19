@@ -120,9 +120,11 @@ API Management は、開発チームとアフィリエイト パートナー向�
 ### **Task 4**: SQL Server 2008 R2 仮想マシンの作成
 
 ### **Task 5**: Azure SQL Database のプロビジョニング
+
+### **Task 6**: Azure Database Migration Service の作成
 このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
   1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**をクリックし、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "database migration" と入力しエンターを押し、その検索結果から **Azure Database Migration サービス**を選択し、遷移した画面で**作成**をクリック
+  2. Azure Market Place の検索ウィンドウに "database migration" と入力しエンターを押し、その検索結果から **Azure Database Migration サービス**を選択し**作成**をクリック
   3. 移行サービスの作成の**基本**タブで以下を入力
      > Note: `あなたのサブスクリプションは Microsoft.DataMigration への適切なアクセスを持っていません`というメッセージが表示された場合、次に進む前にブラウザウィンドウをリフレッシュ ( 再読み込み ) してください。もしメッセージが引き続き表示される場合、リソースプロバイダーが正常に登録されていることを確認してください。正常に登録されている場合、このメッセージを無視しても大丈夫です。
      - プロジェクトの詳細
@@ -138,8 +140,6 @@ API Management は、開発チームとアフィリエイト パートナー向�
   6. **確認および作成**をクリック
   7. **作成**をクリック
   8. Azure Data Migration Service の展開には 15 分程かかります。この待ち時間の間に次のタスクに進むことができます。
-
-### **Task 6**: Azure Database Migration Service の作成
 
 ### **Task 7**: API App のプロビジョニング
 
