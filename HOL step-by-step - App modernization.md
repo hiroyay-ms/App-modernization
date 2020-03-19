@@ -120,7 +120,19 @@ API Management は、開発チームとアフィリエイト パートナー向�
 ### **Task 4**: SQL Server 2008 R2 仮想マシンの作成
 
 ### **Task 5**: Azure SQL Database のプロビジョニング
-テスト
+このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
+  1. Azure Portal(@@@ハイパーリンクの設定) で**ポータルメニューの表示**をクリックし、メニューから**リソースの作成**を選択
+  2. Azure Market Place の検索ウィンドウに "database migration" と入力しエンターを押し、その検索結果から **Azure Database Migration サービス**を選択し、遷移した画面で**作成**をクリック
+  3. 移行サービスの作成の**基本**タブで以下を入力
+     - プロジェクトの詳細
+       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
+       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
+     - インスタンスの詳細
+       - **移行サービス名** : "contoso-dms-SUFFIX" と入力
+       - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
+       - **サービスモード** : Azure を選択
+       - **価格レベル** : 
+  4. **ネットワーク**タブを選択
 
 ### **Task 6**: Azure Database Migration Service の作成
 
