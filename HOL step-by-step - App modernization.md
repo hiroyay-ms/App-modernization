@@ -165,21 +165,45 @@ API Management は、開発チームとアフィリエイト パートナー向�
   7. **作成**を選択
   8. Azure Data Migration Service の展開には 15 分程かかります。この待ち時間の間に次のタスクに進むことができます。
 
-### **Task 7**: API App のプロビジョニング
+### **Task 7**: Web App のプロビジョニング
+このタスクでは、Contoso Insurance の Web アプリケーションの実行環境を提供する App Service (Web App) を展開します。
+  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
+  2. Azure Market Place の検索ウィンドウに "web app" と入力しエンターを押し、その検索結果から **Web アプリ**を選択
+  3. Web アプリのブレードから**作成**を選択
+  4. Web アプリの作成の**基本**タブで以下を入力
+     - プロジェクトの詳細
+       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
+       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
+     - インスタンスの詳細
+       - **名前** : "contoso-web-SUFFIX" と入力
+       - **公開** : コード を選択
+       - **ランタイムスタック** : .NET Core 3.0 を選択
+       - **オペレーティングシステム** : Windows を選択
+       - **地域** : ハンズオンラボで使用するリソースのリージョンを選択
+     - App Service プラン
+       - **プラン** : **新規作成**を選択し名前に**hands-on-lab-asp**を入力
+       - **SKU とサイズ** : デフォルトで選択されている Standard S1 ままで OK ( もし、これと異なるものが選択されている場合、\[ サイズを変更します ] から選択し直してください ) 
+  5. **次: 監視**を選択
+  6. **監視**タブにおいて Application Insights を有効にするで**いいえ**を選択
+  7. **確認および作成**を選択
+  8. **作成**を選択
+  9. Azure Data Migration Service の展開には数分かかります。この待ち時間の間に次のタスクに進むことができます。
 
-### **Task 8**: Azure Functions のプロビジョニング
+### **Task 8**: API App のプロビジョニング
 
-### **Task 9**: Cognitive Search Service のプロビジョニング
+### **Task 9**: Azure Functions のプロビジョニング
 
-### **Task 10**: Cognitive Service アカウントの作成
+### **Task 10**: Cognitive Search Service のプロビジョニング
 
-### **Task 11**: Azure Key Vault の作成
+### **Task 11**: Cognitive Service アカウントの作成
 
-### **Task 12**: API Management のプロビジョニング
+### **Task 12**: Azure Key Vault の作成
 
-### **Task 13**: SQL Server データベースの復元
+### **Task 13**: API Management のプロビジョニング
 
-### **Task 14**: Data Migration Assistant のインストール
+### **Task 14**: SQL Server データベースの復元
+
+### **Task 15**: Data Migration Assistant のインストール
 
 ## **Exercise 2: Azure SQL Database へのオンプレミス データベースの移行**
 所要時間：45分
