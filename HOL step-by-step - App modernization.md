@@ -231,7 +231,19 @@ API Management は、開発チームとアフィリエイト パートナー向�
   5. **確認および作成**を選択
   6. **作成**を選択
   7. Azure Cognitive Search Service の展開には 10 分程かかります。この待ち時間の間に次のタスクに進むことができます。
+  
 ### **Task 11**: Cognitive Service アカウントの作成
+このタスクでは、Azure Cognitive Search Account を展開します。
+  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
+  2. Azure Market Place の検索ウィンドウに "cognitive services" と入力しエンターを押し、その検索結果から **Cognitive Services**を選択
+  3. Cognitive Service のブレードから**作成**を選択
+  4. 新しい検索サービスの作成の**基本**タブで以下を入力
+     - **名前** : "ontoso-cog-services" と入力
+     - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
+     - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
+     - **価格レベル** : S0 を選択
+     - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソ      - 注意事項を確認しチェックボックスにチェック
+  . **作成**を選択
 
 ### **Task 12**: Azure Key Vault の作成
 
