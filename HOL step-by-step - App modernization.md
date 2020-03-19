@@ -120,6 +120,7 @@ API Management は、開発チームとアフィリエイト パートナー向�
 ### **Task 4**: SQL Server 2008 R2 仮想マシンの作成
 
 ### **Task 5**: Azure SQL Database のプロビジョニング
+テスト
 
 ### **Task 6**: Azure Database Migration Service の作成
 
