@@ -319,29 +319,29 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 ### **Task 4**: Key Vault へのサービス プリンシパル アクセスの割り当て
 このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
 
-## **Exercise 5: Azure App Services への Web API の展開**
-所要時間：45分
-
+## **Exercise 5: Azure App Services への Web API の展開**  
+所要時間：45分  
+  
 Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。  
-**Test**  
- - Local
-
-
-### **Task 1**: Visual Studio でソリューションを開く
-このタスクでは、ソリューション ファイルをダウンロードして利用します。アプリケーション展開は Visual Studio 2019 を使用して行います。
-
-Contoso ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。
-
-   - **Contoso.Azure**  
-   ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ
-   - **Contoso.Data**  
-   データ アクセス オブジェクトを含むライブラリ
-   - **Contoso.FunctionApp**  
-   Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます
-   - **Contoso.Web**  
-   ASP.NET Core 2.2 PolicyConnect Web アプリケーション
-   - **Contoso.WebApi**  
-   データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API
+  
+### **Task 1**: Visual Studio でソリューションを開く  
+このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。   
+  
+   - **Contoso.Azure**    
+   ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
+   - **Contoso.Data**      
+   データ アクセス オブジェクトを含むライブラリ  
+   - **Contoso.FunctionApp**    
+   Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
+   - **Contoso.Web**    
+   ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
+   - **Contoso.WebApi**    
+   データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
+  
+ 1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開きます。  
+   <img src="imagesE5-T1-1OpenSln.png" />  
+  
+ 2. 
 
 ### **Task 2**: Key Vault を使用するための Web API の更新
 このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために Contoso.WebApi プロジェクトを更新します。接続情報を Contoso.WebApi プロジェクトの appsettings.json ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。
