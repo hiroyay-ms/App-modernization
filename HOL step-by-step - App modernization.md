@@ -339,7 +339,7 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
    データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
   
  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開きます。  
-   <img src="images/E5-T1-1OpenSln.png" />  
+   ![E5-T1-1](https://github.com/hiroyay-ms/App-modernization/blob/itorita/images/E5-T1-1OpenSln.PNG) 
   
  2. 
 
