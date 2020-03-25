@@ -327,18 +327,28 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
 ### **Task 1**: Visual Studio でソリューションを開く  
 このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。   
   
-   - **Contoso.Azure** : ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
-   - **Contoso.Data** : データ アクセス オブジェクトを含むライブラリ  
-   - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
-   - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
-   - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
+  - **Contoso.Azure**: ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
+  - **Contoso.Data**: データ アクセス オブジェクトを含むライブラリ  
+  - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
+  - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
+  - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
   
- 1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く
+  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く
  
-   <img src="images/E5-T1-1OpenSln.PNG" />
+     <img src="images/E5-T1-1OpenSln.PNG" />
   
- 2. 
+  2. ファイルを開く方法を尋ねるメッセージが表示されたら **Visual Studio 2019** を選択し**OK**を選択  
+   
+     <img src="images/E5-T1-2SelectOpen.PNG" />  
 
+  3. Azure アカウントの資格情報を使用して Visual Studio にサインイン  
+   
+     <img src="images/E5-T1-3VSsignin.PNG" />  
+  
+  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択
+  
+     <img src="images/E5-T1-4SecurityCheck.PNG" />  
+  
 ### **Task 2**: Key Vault を使用するための Web API の更新
 このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために Contoso.WebApi プロジェクトを更新します。接続情報を Contoso.WebApi プロジェクトの appsettings.json ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。
 >Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。  
