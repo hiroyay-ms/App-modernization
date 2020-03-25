@@ -629,7 +629,7 @@ API Management は、Contoso Insurance API を管理するために使用しま�
 >API Management は作成の完了まで時間がかかるので、作成をクリック後、次のタスクの実行に移ります。
 
 ### **Task 15**: SQL Server データベースの復元
-このタスクでは、SqlServer2008 仮想マシンへの RDP 接続を行い、サーバー OS への Internet Explorer のセキュリティ設定の無効化、1433 ポートへの TCP 受信トラフィックの許可設定、および SQL Server へのデータベースの復元を行います。
+このタスクでは、SqlServer2008 仮想マシンへの RDP 接続を行い、サーバー OS への Internet Explorer のセキュリティ設定の無効化、および SQL Server へのデータベースの復元を行います。
 
 1. [Azure ポータル](https://portal.azure.com)でリソース グループをクリック
 
