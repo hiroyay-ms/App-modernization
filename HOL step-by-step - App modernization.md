@@ -549,13 +549,12 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   6. 次にコマンドの値を以下のように置換し、Azure Cloud Shell コマンド プロンプトから実行
   
-     - `<your-web-app-name>`: 以前の手順でコピーした Function App 名で置き換え
-     - `<your-storage-account-sas-token>`: 以前の手順でコピーした `policies` コンテナー URL で置き換え
+     - `<your-web-app-name>`: 以前の手順でコピーした Web App 名で置き換え
+     - `<your-api-default-host-name>`: 以前の手順でコピーした Web API デフォルトホスト名で置き換え
      
      ```
      $webAppName = "<your-web-app-name>"
      $defaultHostName = "<your-api-default-host-name>"
-     $resourceGroup = "<your-resource-group-name>"
      az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "ApiUrl=https://$defaultHostName"
      ```
   
