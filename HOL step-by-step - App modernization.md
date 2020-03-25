@@ -460,6 +460,52 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 ### **Task 4**: Azure への API の展開
 このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。
 
+  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+    
+     <img src="images/.PNG" />  
+    
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択
+    
+     <img src="images/.PNG" />  
+    
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (**contoso-api** で始まるリソース) を選択
+    
+     <img src="images/.PNG" />  
+    
+  4. **OK** を選択
+    
+  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行
+    
+     <img src="images/.PNG" />  
+    
+  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web 発行アクティビティ** ビューに表示される
+    
+     <img src="images/.PNG" />  
+    
+     >  **Web 発行アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Microsoft Azure のアクティビティ ログ**の順に選択します
+    
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。
+    
+     <img src="images/.PNG" />  
+    
+  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )
+    
+     <img src="images/.PNG" />  
+     
+     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能
+    
+  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト
+    
+     <img src="images/.PNG" />  
+    
+  10. **Execute** を選択
+    
+     <img src="images/.PNG" />  
+    
+  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
+    
+     <img src="images/.PNG" />  
+    
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
 
