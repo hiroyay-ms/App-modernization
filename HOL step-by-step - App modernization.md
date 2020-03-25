@@ -333,9 +333,9 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
   - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
   - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
   
-  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く
+  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く  
  
-     <img src="images/E5-T1-1OpenSln.PNG" />
+     <img src="images/E5-T1-1OpenSln.PNG" />  
   
   2. ファイルを開く方法を尋ねるメッセージが表示されたら **Visual Studio 2019** を選択し**OK**を選択  
    
@@ -345,7 +345,7 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
    
      <img src="images/E5-T1-3VSsignin.PNG" />  
   
-  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択
+  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択  
   
      <img src="images/E5-T1-4SecurityCheck.PNG" />  
   
@@ -388,11 +388,11 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
     
   7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
     
-     <img src="images/E5-T2-7UpdateTODO2.PNG" /> 
+     <img src="images/E5-T2-7UpdateTODO2.PNG" />  
     
   8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
     
-### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー
+### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー  
 Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。  
 
   1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動  
@@ -403,7 +403,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
     
      <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />  
     
-  3. 構成ブレードの**アプリケーション設定**タブで**Advanced edit**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )  
+  3. 構成ブレードの**アプリケーション設定**タブで**高度な編集**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )  
     
      <img src="images/E5-T3-3SelectAdvancedEdit.PNG" />  
     
@@ -430,7 +430,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
      ]
      ```
   
-  5. エディターの最終的なコンテンツ例は以下
+  5. エディターの最終的なコンテンツ例は以下  
     
      ```
      [
@@ -455,50 +455,50 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
     
   7. **構成** ブレードで**保存**を選択  
     
-     <img src="images/E5-T3-7-1SaveConfiguration.PNG" /> 
+     <img src="images/E5-T3-7-1SaveConfiguration.PNG" />  
     
   8. アプリケーションの再起動確認で**続行**を選択  
     
-     <img src="images/E5-T3-7-2SaveConfiguration.PNG" /> 
+     <img src="images/E5-T3-7-2RebootApp.PNG" />  
       
-### **Task 4**: Azure への API の展開
-このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。
+### **Task 4**: Azure への API の展開  
+このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。  
 
-  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択  
     
-     <img src="images/E5-T4-1SetPublishAPIapp.PNG" />  
+     <img src="images/E5-T4-1SetPublishAPIapp.PNG" />   
     
-  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択  
     
      <img src="images/E5-T4-2SelectPublishAPIapp.PNG" />  
     
-  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (**contoso-api** で始まるリソース) を選択
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (**contoso-api** で始まるリソース) を選択  
     
      <img src="images/E5-T4-3SelectPublishAzureAPIapp.PNG" />  
     
-  4. **OK** を選択
+  4. **OK** を選択  
     
-  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行
+  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行  
     
      <img src="images/E5-T4-5PublishAzureAPIapp.PNG" />  
     
-  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web 発行アクティビティ** ビューに表示される
+  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される  
     
      <img src="images/E5-T4-6CheckPublishStatus.PNG" />  
     
-     >  **Web 発行アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Microsoft Azure のアクティビティ ログ**の順に選択します
+     >  **Web 公開アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Web 公開アクティビティ**の順に選択します  
     
-  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。  
     
      <img src="images/E5-T4-7CantFoundURL.PNG" />  
     
-  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )
+  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )  
     
      <img src="images/E5-T4-8AccessSwagger.PNG" />  
      
-     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能
+     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能  
     
-  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト
+  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト  
     
      <img src="images/E5-T4-9TryGET.PNG" />  
     
@@ -506,7 +506,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
     
       <img src="images/E5-T4-10SelectExecute.PNG" />  
     
-  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
+  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される  
     
       <img src="images/.PNG" />  
       @@@この結果がエラー500 なのであとで確認
