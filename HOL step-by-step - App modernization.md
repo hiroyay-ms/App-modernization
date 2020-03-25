@@ -115,106 +115,106 @@ API Management は、開発チームとアフィリエイト パートナー向�
 
 ### **Task 1**: リソース グループの作成
 
-   1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
+1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
 
-   2. **＋リソースの作成** をクリック
+2. **＋リソースの作成** をクリック
 
-      <img src="images/create-resource.png" />
+   <img src="images/create-resource.png" />
 
-   3. 画面上部の検索ボックスに **resource** と入力し、表示される候補から **Resouce Group** を選択
+3. 画面上部の検索ボックスに **resource** と入力し、表示される候補から **Resouce Group** を選択
 
-      <img src="images/resourcegroup-create-01.png" />
+   <img src="images/resourcegroup-create-01.png" />
 
-   4. リソース グループ作成の**基本**タブで、以下を入力  
-      - **リソースグループ名**（任意、サブスクリプション内で一意）  
-      - **リージョン**（任意、このワークショップで使用する地域）
+4. リソース グループ作成の**基本**タブで、次を入力  
+   - **リソースグループ名**（任意、サブスクリプション内で一意）  
+   - **リージョン**（任意、このワークショップで使用する地域）
 
-      <img src="images/resourcegroup-create-03.png" />
+   <img src="images/resourcegroup-create-03.png" />
 
-   5. **確認および作成**をクリック
+5. **確認および作成**をクリック
 
-   6. 確認および作成タブで**作成**をクリックし、新しいリソース グループを作成
+6. 確認および作成タブで**作成**をクリックし、新しいリソース グループを作成
 
 ### **Task 2**: リソース グループへのアクセス権限の付与
-   1. 作成したリソースの管理ブレードへ移動
+1. 作成したリソースの管理ブレードへ移動
 
-   2. **アクセス制御 (IAM)** をクリック
+2. **アクセス制御 (IAM)** をクリック
 
-      <img src="images/customrole-create-01.png" />
+   <img src="images/customrole-create-01.png" />
 
-   3. **カスタム ロールを作成する**の**追加**をクリック
+3. **カスタム ロールを作成する**の**追加**をクリック
 
-      <img src="images/customrole-create-02.png" />
+   <img src="images/customrole-create-02.png" />
 
-   4. カスタム ロールの作成の**基本**ブレードで、以下の構成オプションを指定
-      - **カスタム ロール名**: 任意
-      - **ベースラインのアクセス許可**: **ロールを複製します** を選択
-      - **複製するロール**: **共同作成者** を選択
+4. カスタム ロールの作成の**基本**ブレードで、次の構成オプションを指定
+   - **カスタム ロール名**: 任意
+   - **ベースラインのアクセス許可**: **ロールを複製します** を選択
+   - **複製するロール**: **共同作成者** を選択
 
-      <img src="images/customrole-create-03.png" />
+   <img src="images/customrole-create-03.png" />
 
-   5. **次へ**をクリック
+5. **次へ**をクリック
 
-   6. **アクセス許可**タブで割り当てられている許可/除外権限を確認し、**次へ**をクリック
+6. **アクセス許可**タブで割り当てられている許可/除外権限を確認し、**次へ**をクリック
 
-      <img src="images/customrole-create-04.png" />
+   <img src="images/customrole-create-04.png" />
 
-   7. **割り当て可能なスコープ**タブで、現在のリソース グループが表示されていることを確認  
-  **確認と作成**をクリック
+7. **割り当て可能なスコープ**タブで、現在のリソース グループが表示されていることを確認  
+   **確認と作成**をクリック
 
-      <img src="images/customrole-create-05.png" />
+   <img src="images/customrole-create-05.png" />
 
-   8. **作成**をクリックし、プロビジョニングを開始
-   9. リソースグループの**アクセス制御 (IAM)** タブで**ロールの割り当てを追加する**の**追加**をクリック
-   0. **ロール割り当ての追加**フォームで、以下の構成オプションを指定
+8. **作成**をクリックし、プロビジョニングを開始
+9. リソースグループの**アクセス制御 (IAM)** タブで**ロールの割り当てを追加する**の**追加**をクリック
+0. **ロール割り当ての追加**フォームで、以下の構成オプションを指定
 
-      <img src="images/customrole-add-user-01.png" />
+   <img src="images/customrole-add-user-01.png" />
 
-   1. **ロール割り当ての追加**フォームで以下を構成
-      - **役割**: 上記手順で作成したカスタム ロールを選択  
-      - **選択**: 権限を付与するユーザーを選択
+1. **ロール割り当ての追加**フォームで次を構成
+    - **役割**: 上記手順で作成したカスタム ロールを選択  
+    - **選択**: 権限を付与するユーザーを選択
 
-         <img src="images/customrole-add-user-02.png" />
+      <img src="images/customrole-add-user-02.png" />
 
-      >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
-   Azure AD 外のユーザーを追加する場合は、メールアドレスを入力してください。
+    >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
+     Azure AD 外のユーザーを追加する場合は、メールアドレスを入力してください。
 
-      ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。 
+   ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。 
 
-      <img src="images/customrole-invitation-mail.png" width="500" />
+   <img src="images/customrole-invitation-mail.png" width="500" />
 
-      「**Get Started**」をクリックすることで、組織へのアクセス権が付与されます。
+   「**Get Started**」をクリックすることで、組織へのアクセス権が付与されます。
 
-   1. カスタム グループへ追加したユーザーで [Azure ポータル](https://portal.azure.com/)を開く
-   2. リソース グループへアクセスできることを確認
+1. カスタム グループへ追加したユーザーで [Azure ポータル](https://portal.azure.com/)を開く
+2. リソース グループへアクセスできることを確認
 
 ### **Task 3**: ストレージ アカウントの作成
 このタスクでは、SQL Advanced Data Security を使用して実行される脆弱性評価だけでなく、ポリシー ドキュメントの格納に使用する Azure ストレージ アカウントをプロビジョニングします。
-   1. [Azure ポータル](https://portal.azure.com/)で**＋リソースの作成**を選択
+1. [Azure ポータル](https://portal.azure.com/)で**＋リソースの作成**を選択
 
-      <img src="images/create-resource.png" />
+   <img src="images/create-resource.png" />
 
-   2. 新規画面にて**ストレージ**を選択し、**ストレージ アカウント**をクリック
+2. 新規画面にて**ストレージ**を選択し、**ストレージ アカウント**をクリック
 
-      <img src="images/storage-account-create-02.png" />
+   <img src="images/storage-account-create-02.png" />
 
-   3. **ストレージ アカウントの作成**の**基本**タブで、次を入力
+3. **ストレージ アカウントの作成**の**基本**タブで、次の構成を設定
 
-      - プロジェクトの詳細
-         - **サブスクリプション**： ワークショップで使用するサブスクリプション
-         - **リソース グループ**： 先の手順で作成したリソース グループ
-      - インスタンスの詳細
-         - **ストレージ アカウント名**： 任意（一意の名前、小文字と数字で3～24文字で指定）
-         - **場所**： リソース グループと同じリージョンを選択
-         - **パフォーマンス**： Standard
-         - **アカウントの種類**： StorageV2 (汎用 v2)
-         - **レプリケーション**： ローカル冗長ストレージ (LRS)
-         - **アクセス層 (既定)**： ホット
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **ストレージ アカウント名**： 任意（一意の名前、小文字と数字で3～24文字で指定）
+      - **場所**： リソース グループと同じリージョンを選択
+      - **パフォーマンス**： Standard
+      - **アカウントの種類**： StorageV2 (汎用 v2)
+      - **レプリケーション**： ローカル冗長ストレージ (LRS)
+      - **アクセス層 (既定)**： ホット
 
-      <img src="images/storage-account-create-03.png" />
+   <img src="images/storage-account-create-03.png" />
 
-   4. **確認および作成**をクリック
-   5. 検証に成功したメッセージを確認し**作成**をクリック
+4. **確認および作成**をクリック
+5. 検証に成功したメッセージを確認し**作成**をクリック
 
 ### **Task 4**: 仮想ネットワークの作成
 このタスクでは、仮想マシンを配置するための仮想ネットワークを作成します。
@@ -227,12 +227,12 @@ API Management は、開発チームとアフィリエイト パートナー向�
 
       <img src="images/vnet-create-01.png" />
 
-   3. **仮想ネットワークの作成**の**基本**タブで、以下の構成を設定
+   3. **仮想ネットワークの作成**の**基本**タブで、次の構成を設定
       - プロジェクトの詳細
          - **サブスクリプション**： ワークショップで使用するサブスクリプション
          - **リソース グループ**： 先の手順で作成したリソース グループ
       - インスタンスの詳細
-         - **名前**： 任意（）
+         - **名前**： 任意（英数字、アンダースコア、ピリオド、ハイフンのみ）
          - **地域**： リソース グループと同じリージョンを選択
 
       <img src="images/vnet-create-02.png" />
@@ -246,77 +246,75 @@ API Management は、開発チームとアフィリエイト パートナー向�
       <img src="images/vnet-create-03.png" />
 
    6. **確認および作成**をクリック
-   7. **作成**をクリックし、仮想ネットワークをプロビジョニング
+   7. **作成**をクリックし、仮想ネットワークのプロビジョニングを開始
 
 ### **Task 5**: SQL Server 2008 R2 仮想マシンの作成
 このタスクでは、Azure 仮想マシンをプロビジョニングします。   
 仮想マシンは Windows Server 2008 R2 イメージ上の SQL Server 2008 SP3 Standard を使用します。
 
-   1. **＋リソースの作成**をクリック
+1. **＋リソースの作成**をクリック
 
-      <img src="images/create-resource.png" />
+   <img src="images/create-resource.png" />
 
-   2. Azure Marketplace の検索ボックスに**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**を入力
+2. Azure Marketplace の検索ボックスに **SQL Server 2008 R2 SP3 on Windows Server 2008 R2** を入力し Enter キーを押下
 
-   3. 表示される候補より**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**をクリック
+   <img src="images/sqlvm-create-01.png" />
 
-      <img src="images/sqlvm-create-01.png" />
+4. **ソフトウェア プランの選択**から**SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2**を選択
+5. **作成**をクリック
 
-   4. **ソフトウェア プランの選択**から**SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2**を選択
-   5. **作成**をクリック
-
-      <img src="images/sqlvm-create-02.png" width="700" />
+   <img src="images/sqlvm-create-02.png" width="700" />
   
-   6. **仮想マシンの作成**の**基本**タブで、次の構成を設定
-       - プロジェクトの詳細
-          - **サブスクリプション**： ワークショップで使用するサブスクリプション
-          - **リソース グループ**： 先の手順で作成したリソース グループ
-       - インスタンスの詳細
-         - **仮想マシン名**： SqlServer2008
-         - **地域**： リソース グループと同じリージョンを選択
-         - **可用性オプション**： インフラストラクチャ冗長は必要ありません
-         - **イメージ**： SQL Server 2008 R2 SP3 on Windows Server 2008 R2
-         - **Azure スポット インスタンス**： いいえ
-         - **サイズ**： Standard D2 v3（サイズを変更しますをクリックして選択）
-      - 管理者アカウント
-         - **ユーザー名**： demouser
-         - **パスワード**： Password.1!!
-      - 受信ポートの規則
-         - **パブリック受信ポート**： 選択したポートを許可する
-         - **受信ポートを選択**： RDP (3389)
-      - お金を節約
-         - **Windows Server ライセンスを既にお持ちの場合**： いいえ
+6. **仮想マシンの作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **仮想マシン名**： SqlServer2008
+      - **地域**： リソース グループと同じリージョンを選択
+      - **可用性オプション**： インフラストラクチャ冗長は必要ありません
+      - **イメージ**： SQL Server 2008 R2 SP3 on Windows Server 2008 R2
+      - **Azure スポット インスタンス**： いいえ
+      - **サイズ**： Standard D2 v3（サイズを変更しますをクリックして選択）
+   - 管理者アカウント
+      - **ユーザー名**： demouser
+      - **パスワード**： Password.1!!
+   - 受信ポートの規則
+      - **パブリック受信ポート**： 選択したポートを許可する
+      - **受信ポートを選択**： RDP (3389)
+   - お金を節約
+      - **Windows Server ライセンスを既にお持ちの場合**： いいえ
 
-      <img src="images/sqlvm-create-03.png" />
+   <img src="images/sqlvm-create-03.png" />
   
-   7. **次：ディスク** **>** をクリック
+7. **次：ディスク** **>** をクリック
 
-   8. **ディスク**タブで **OS ディスクの種類**を **Standard SSD** に変更
+8. **ディスク**タブで **OS ディスクの種類**を **Standard SSD** に変更
 
-      <img src="images/sqlvm-create-04.png" />
+   <img src="images/sqlvm-create-04.png" />
 
-   9. **次：ネットワーク** **>** をクリック
-   0. **ネットワーク**タブで、次の構成を設定
-      - **仮想ネットワーク**： 先の手順で作成した仮想ネットワーク
-      - **サブネット**： 仮想ネットワーク内のサブネット
-      - **パブリック IP**： 既定のまま（新規作成）
+9. **次：ネットワーク** **>** をクリック
+0. **ネットワーク**タブで、次の構成を設定
+   - **仮想ネットワーク**： 先の手順で作成した仮想ネットワーク
+   - **サブネット**： 仮想ネットワーク内のサブネット
+   - **パブリック IP**： 既定のまま（新規作成）
 
-      <img src="images/sqlvm-create-05.png" />
+   <img src="images/sqlvm-create-05.png" />
 
-   1. **SQL Server の設定**タブを選択
+1. **SQL Server の設定**タブを選択
 
-      <img src="images/sqlvm-create-06.png" />
+   <img src="images/sqlvm-create-06.png" />
   
-   2. **SQL Serer の設定**タブで、以下の構成を設定
-      - SQL 認証
-          - **SQL 認証**： 有効化
-          - **ログイン名**： demouser
-          - **パスワード**： Password.1!!
+2. **SQL Serer の設定**タブで、以下の構成を設定
+   - SQL 認証
+      - **SQL 認証**： 有効化
+      - **ログイン名**： demouser
+      - **パスワード**： Password.1!!
 
-      <img src="images/sqlvm-create-07.png" />
+   <img src="images/sqlvm-create-07.png" />
 
-   3. **確認と作成**をクリック
-   4. **作成**をクリックし、仮想マシンをプロビジョニング
+3. **確認と作成**をクリック
+4. **作成**をクリックし、仮想マシンのプロビジョニングを開始
 
 ### **Task 6**: Azure SQL Database のプロビジョニング
 このタスクでは、Azure SQL Database (Azure SQL DB) を展開します。
@@ -324,26 +322,311 @@ API Management は、開発チームとアフィリエイト パートナー向�
 1. **＋リソースの作成**をクリック
 
    <img src="images/create-resource.png" />
+
+2. 新規画面にて**データベース**を選択し、**SQL Database**をクリック
+
+   <img src="images/sqldatabase-create-01.png" />
+
+3. **SQL Database の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - データベースの詳細
+      - **データベース名**： ContosoInsurance
+      - **サーバー**： 任意（contosoinsurance サフィックスを付けて新規作成）
+      - **SQL エラスティック プールを使用しますか**： いいえ
+      - **コンピューティングとストレージ**： 汎用目的 Gen5、2 仮想コア、32 GB ストレージ（既定）
+
+   <img src="images/sqldatabase-create-02.png" />
+
+   ※新しいサーバーの作成フォーム
+      - **サーバー名**： 任意（contosoinsurance サフィックスを付与）
+      - **サーバー管理者ログイン**： demouser
+      - **パスワード**： Password.1!!
+      - **場所**： リソース グループと同じリージョン  
+      <img src="images/sqldatabase-create-03.png" />
+
+4. **次：ネットワーク** **>** をクリック
+5. **ネットワーク**タブで**接続方法**の**アクセスなし**が選択されていることを確認し、**確認および作成**をクリック
+
+   <img src="images/sqldatabase-create-04.png" />
+
+6. **作成**をクリックし、SQL Database のプロビジョニングを開始
+
 ### **Task 7**: Azure Database Migration Service の作成
 このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **Azure Database Migration Service** と入力し Enter キーを押下
+
+   <img src="images/dms-create-01.png" />
+
+3. Azure Database Migration サービス ブレードにて**作成**をクリック
+
+   <img src="images/dms-create-02.png" width="600" />
+
+4. **SQL Database の作成**の**基本**タブで、次の構成を設定
+
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **移行サービス名**： contoso-dms
+      - **場所**： リソース グループと同じリージョン
+      - **サービス モード**： Azure
+      - **価格レベル**： Premium（レベルの構成をクリックし選択）
+
+   <img src="images/dms-create-04.png" />
+
+5. **ネットワーク**タブで SQL Server 2008 仮想マシンが配置されている仮想ネットワークを選択し、**確認および作成**をクリック
+
+   <img src="images/dms-create-05.png" />
+
+6. **作成**をクリックし、Azure Data Migration Service のプロビジョニングを開始
 
 ### **Task 8**: Web App のプロビジョニング
 このタスクでは、Contoso Insurance の Web アプリケーションの実行環境を提供する App Service (Web App) を展開します。
 
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. 新規画面にて **Web** を選択し、**Web アプリ**をクリック
+
+   <img src="images/webapp-create-01.png" />
+
+3. **Web アプリ**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **名前**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core 3.0
+      - **オペレーティング システム**： Windows
+      - **地域**： リソース グループと同じリージョン
+   - App Service プラン
+      - **Windows プラン**： 新規作成をクリックし、任意の名前で作成
+      - **SKU とサイズ**： Standard S1　ACU 合計 100, 1.75 GB メモリ
+
+   <img src="images/webapp-create-02.png" />
+
+   ※App Service プランの作成
+
+   <img src="images/app-service-plan.png" />
+
+4. **次：監視** **>** をクリック
+
+5. **監視**タブで **Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/webapp-create-03.png" />
+
+6. **確認および作成**をクリック
+
+7. **作成**をクリックし、Web アプリのプロビジョニングを開始
+
 ### **Task 9**: API App のプロビジョニング
+このタスクでは、Contoso Insurance API をホスティングする App Service（Web App）を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. 新規画面にて **Web** を選択し、**Web アプリ**をクリック
+
+   <img src="images/webapp-create-01.png" />
+
+3. **Web アプリ**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **名前**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core 3.0
+      - **オペレーティング システム**： Windows
+      - **地域**： リソース グループと同じリージョン
+   - App Service プラン
+      - **Windows プラン**： 先の Web アプリで作成した App Service プランを選択
+      - **SKU とサイズ**： Standard S1　ACU 合計 100, 1.75 GB メモリ
+
+   <img src="images/apiapp-create-01.png" /> 
+
+4. **次：監視** **>** をクリック
+
+5. **監視**タブで **Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/webapp-create-03.png" />
+
+6. **確認および作成**をクリック
+
+7. **作成**をクリックし、Web アプリのプロビジョニングを開始
 
 ### **Task 10**: Azure Functions のプロビジョニング
 このタスクでは、Azure BLOB ストレージから PDF ドキュメントを取得するために使用する Function App を展開します。
 
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **function** と入力し、表示される候補より **Function App** を選択
+
+   <img src="images/function-create-01.png" />
+
+3. **関数アプリ**ブレードで**作成**をクリック
+
+   <img src="images/function-create-02.png" />
+
+4. **関数アプリの作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **関数アプリ名**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core
+      - **バージョン**： 3.1
+      - **地域**： リソース グループと同じリージョン
+
+   <img src="images/function-create-03.png" />
+
+5. **次：ホスト中** **>** をクリック
+
+6. **ホスト中**タブで、次の構成を設定
+   - **ストレージ アカウント**： 既定のまま（新規作成）
+   - **オペレーティング システム**： Windows
+   - **プランの種類**： 消費量 (サーバーレス)
+
+   <img src="images/function-create-04.png" />
+
+7. **次：監視** **>** をクリック
+
+8. **監視**タブで**Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/function-create-05.png" />
+
+9. **確認および作成**をクリック
+
+0. **作成**をクリックし、関数アプリのプロビジョニングを開始
+
 ### **Task 11**: Cognitive Search Service のプロビジョニング
 このタスクでは、Azure Cognitive Search Service を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **Azure Cognitive Search** と入力し Enter キーを押下
+
+3. **Azure Cognitive Search** ブレードで**作成**をクリック
+
+   <img src="images/search-create-02.png" width="600" />
+
+4. **Azure Cognitive Search の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **URL**： 任意（2～60文字、小文字、数字、ダッシュのみ使用可）
+      - **場所**： リソース グループと同じリージョン
+      - **価格レベル**： Standard
+
+   <img src="images/search-create-03.png" />
+
+5. **確認および作成**をクリック
+
+6. **作成**をクリックし、Azure Cognitive Search のプロビジョニングを開始
 
 ### **Task 12**: Cognitive Service アカウントの作成
 このタスクでは、Azure Cognitive Search Account を展開します。
 
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **cognitive service** と入力し、表示される候補より **Cognitive Services** を選択
+
+   <img src="images/cognitive-service-create-01.png" />
+
+3. **Cognitive Services** ブレードで**作成**をクリック
+
+   <img src="images/cognitive-service-create-02.png" />
+
+4. **Cognitive Services の作成**の**基本**タブで、次の構成を設定
+   - **名前**： 任意（2～64文字、英数字、ダッシュのみ使用可）
+   - **サブスクリプション**： ワークショップで使用するサブスクリプション
+   - **場所**： リソース グループと同じリージョン
+   - **価格レベル**： S0
+   - **リソース グループ**： 先の手順で作成したリソース グループ
+   - **以下の通知を読み、理解しました** にチェック
+
+   <img src="images/cognitive-service-create-03.png" />
+
+5. **作成**をクリックし、Cognitive Services のプロビジョニングを開始
+
 ### **Task 13**: Azure Key Vault の作成
+このタスクでは、Azure Key Vault のプロビジョニングを行います。  
+Azure Key Vault はアプリケーション シークレットを安全に保存するために使用できます。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **key vault** と入力し、表示される候補より **Key Vault** を選択
+
+   <img src="images/keyvault-create-01.png" />
+
+3. **Key Vault** ブレードで**作成**をクリック
+
+   <img src="images/keyvault-create-02.png" />
+
+4. **Key Vault の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **Key Vault 名**： 任意
+      - **地域**： リソース グループと同じリージョン
+      - **価格レベル**： 標準
+      - **論理的な削除**： 無効化
+
+   <img src="images/keyvault-create-03.png" />
+
+5. **確認および作成**をクリック
+
+6. **作成**をクリックし、Key Vault のプロビジョニングを開始
 
 ### **Task 14**: API Management のプロビジョニング
+このタスクでは、API Management をプロビジョニングします。  
+API Management は、Contoso Insurance API を管理するために使用します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **API Management** と入力し Enter キーを押下
+
+3. **API Management** ブレードで**作成**をクリック
+
+   <img src="images/api-management-create-02.png" />
+
+4. **API Management の作成**フォームで、次の構成を設定
+   - **名前**： 任意（一意、英数字のみ使用可）
+   - **サブスクリプション**： ワークショップで使用するサブスクリプション
+   - **リソース グループ**： 先の手順で作成したリソース グループ
+   - **場所**： リソース グループと同じリージョン
+   - **組織名**： Contoso Insurance
+   - **管理者のメール アドレス**： 任意（ワークショップ参加者のメール アドレス）
+   - **価格レベル**： 開発者 (いいえ SLA)
+   - **Application Insights を有効にする** へのチェックはなし
+
+   <img src="images/api-management-create-03.png" />
+
+5. **作成**をクリックし、API Management のプロビジョニングを開始
+
+>API Management は作成の完了まで時間がかかるので、作成をクリック後、次のタスクの実行に移ります。
 
 ### **Task 15**: SQL Server データベースの復元
 
