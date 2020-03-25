@@ -349,11 +349,48 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
   
      <img src="images/E5-T1-4SecurityCheck.PNG" />  
   
-### **Task 2**: Key Vault を使用するための Web API の更新
-このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために Contoso.WebApi プロジェクトを更新します。接続情報を Contoso.WebApi プロジェクトの appsettings.json ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。
->Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。  
-追加されているパッケージは Microsoft.Extensions.Configuration.AzureKeyVault です。
-
+### **Task 2**: Key Vault を使用するための Web API の更新  
+このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために `Contoso.WebApi` プロジェクトを更新します。接続情報を `Contoso.WebApi` プロジェクトの `appsettings.json` ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。  
+  > Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。追加されているパッケージは `Microsoft.Extensions.Configuration.AzureKeyVault` です。  
+  
+  1. Visual Studio のソリューション エクスプローラーで `Contoso.WebApi` プロジェクトを展開し `Program.cs` ファイルをダブルクリックして開く  
+    
+     <img src="images/.PNG" />  
+    
+  2. `Program.cs` ファイルで `CreateWebHostBuilder` メソッド内の `TODO #1 ブロック` (23 行目) を見つける  
+    
+     <img src="images/.PNG" />  
+    
+  3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供  　
+     
+     > config.AddAzureKeyVault(  
+           KeyVaultConfig.GetKeyVaultEndpoint(buildConfig["KeyVaultName"]),  
+           buildConfig["KeyVaultClientId"],  
+           buildConfig["KeyVaultClientSecret"]  
+      );  
+      @@@表示の段落を整える  
+    
+  4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる  
+    
+     <img src="images/.PNG" />  
+    
+  5. 次に `Contoso.WebApi` プロジェクトの `Startup.cs` ファイルを更新するためにソリューション エクスプローラーでこのファイルをダブルクリック  
+    
+  6. 前の実習では、Azure SQL Database の接続文字列を Key Vault に追加し、シークレットに `SqlConnectionString` という名前を割り当てた。次は以下のコードを使用して、`Startup.cs` ファイルの `Configuration` プロパティ内の `TODO #2` ブロック (38 行目) を更新する。この更新により、アプリケーションでシークレット名を使用して Key Vault から接続文字列を取得することができる  
+    
+     <img src="images/.PNG" />  
+     
+     > services.AddDbContext<ContosoDbContext>(options =>  
+           options.UseSqlServer(Configuration["SqlConnectionString"]));  
+     @@@実表示の段落を整える
+  
+    
+  7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
+    
+     <img src="images/.PNG" /> 
+    
+  8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
+    
 ### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー
 Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
 
