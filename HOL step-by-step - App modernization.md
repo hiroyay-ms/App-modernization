@@ -388,38 +388,198 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 ### **Task 4**: Key Vault へのサービス プリンシパル アクセスの割り当て
 このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
 
-## **Exercise 5: Azure App Services への Web API の展開**
-所要時間：45分
+## **Exercise 5: Azure App Services への Web API の展開**  
+所要時間：45分  
+  
+Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。  
+  
+### **Task 1**: Visual Studio でソリューションを開く  
+このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。   
+  
+  - **Contoso.Azure**: ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
+  - **Contoso.Data**: データ アクセス オブジェクトを含むライブラリ  
+  - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
+  - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
+  - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
+  
+  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く  
+ 
+     <img src="images/E5-T1-1OpenSln.PNG" />  
+  
+  2. ファイルを開く方法を尋ねるメッセージが表示されたら **Visual Studio 2019** を選択し**OK**を選択  
+   
+     <img src="images/E5-T1-2SelectOpen.PNG" />  
 
-Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。
+  3. Azure アカウントの資格情報を使用して Visual Studio にサインイン  
+   
+     <img src="images/E5-T1-3VSsignin.PNG" />  
+  
+  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択  
+  
+     <img src="images/E5-T1-4SecurityCheck.PNG" />  
+  
+### **Task 2**: Key Vault を使用するための Web API の更新  
+このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために `Contoso.WebApi` プロジェクトを更新します。接続情報を `Contoso.WebApi` プロジェクトの `appsettings.json` ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。  
+  > Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。追加されているパッケージは `Microsoft.Extensions.Configuration.AzureKeyVault` です。  
+  
+  1. Visual Studio のソリューション エクスプローラーで `Contoso.WebApi` プロジェクトを展開し `Program.cs` ファイルをダブルクリックして開く  
+    
+     <img src="images/E5-T2-1OpenProgramcs.png" />  
+    
+  2. `Program.cs` ファイルで `CreateWebHostBuilder` メソッド内の `TODO #1 ブロック` (23 行目) を見つける  
+    
+     <img src="images/E5-T2-2ConfirmTODO1.PNG" />  
+    
+  3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供  　
+     
+     ```
+     config.AddAzureKeyVault(
+         KeyVaultConfig.GetKeyVaultEndpoint(buildConfig["KeyVaultName"]),
+         buildConfig["KeyVaultClientId"],
+         buildConfig["KeyVaultClientSecret"]
+      );
+      ``` 
+    
+  4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる  
+    
+     <img src="images/E5-T2-4UpdateTODO1.PNG" />  
+    
+  5. 次に `Contoso.WebApi` プロジェクトの `Startup.cs` ファイルを更新するためにソリューション エクスプローラーでこのファイルをダブルクリック  
+    
+  6. 前の実習では、Azure SQL Database の接続文字列を Key Vault に追加し、シークレットに `SqlConnectionString` という名前を割り当てた。次は以下のコードを使用して、`Startup.cs` ファイルの `Configuration` プロパティ内の `TODO #2` ブロック (38 行目) を更新する。この更新により、アプリケーションでシークレット名を使用して Key Vault から接続文字列を取得することができる  
+    
+     <img src="images/E5-T2-6ConfirmTODO2.PNG" />  
+     
+     ```
+     services.AddDbContext<ContosoDbContext>(options =>  
+         options.UseSqlServer(Configuration["SqlConnectionString"]));
+     ```
+    
+  7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
+    
+     <img src="images/E5-T2-7UpdateTODO2.PNG" />  
+    
+  8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
+    
+### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー  
+Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。  
 
-### **Task 1**: Visual Studio でソリューションを開く
-このタスクでは、ソリューション ファイルをダウンロードして利用します。アプリケーション展開は Visual Studio 2019 を使用して行います。
+  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動  
+    
+     <img src="images/E5-T3-1SelectAPIapp.PNG" />  
+    
+  2. API App ブレードの左側のメニューで**構成**を選択  
+    
+     <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />  
+    
+  3. 構成ブレードの**アプリケーション設定**タブで**高度な編集**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )  
+    
+     <img src="images/E5-T3-3SelectAdvancedEdit.PNG" />  
+    
+  4. 詳細エディターを使用し 3 つの Key Vault 設定すべてを一度に追加するために詳細エディターの内容を以下で置き換え  
+    
+     - `your-key-vault-name`: 以前の実習でテキストエディターにコピーしたキーコンテナーの名前に置き換え  
+     - `your-service-principal-application-id`: サービス プリンシパルを作成したときに出力として表示された `appId` の値で置き換え  
+     - `your-service-principal-password`: これは、サービス プリンシパルを作成したときに出力として表示された `password` の値で置き換え  
+       
+     ```
+     [
+         {
+             "name": "KeyVaultName",
+             "value": "<your-key-vault-name>"
+         },
+         {
+             "name": "KeyVaultClientId",
+             "value": "<your-service-principal-application-id>"
+         },
+         {
+             "name": "KeyVaultClientSecret",
+             "value": "<your-service-principal-password>"
+         }
+     ]
+     ```
+  
+  5. エディターの最終的なコンテンツ例は以下  
+    
+     ```
+     [
+         {
+             "name": "KeyVaultName",
+             "value": "contosokvjt7yc3zphxfda"
+         },
+         {
+             "name": "KeyVaultClientId",
+             "value": "94ee2739-794b-4038-a378-573a5f52918c"
+         },
+         {
+             "name": "KeyVaultClientSecret",
+             "value": "b9a3a8b7-574d-467f-8cae-d30d1d1c1ac4"
+         }
+     ]
+     ```
+         
+  6. **OK** を選択  
+    
+     <img src="images/E5-T3-6CompleteJSON.PNG" />  
+    
+  7. **構成** ブレードで**保存**を選択  
+    
+     <img src="images/E5-T3-7-1SaveConfiguration.PNG" />  
+    
+  8. アプリケーションの再起動確認で**続行**を選択  
+    
+     <img src="images/E5-T3-7-2RebootApp.PNG" />  
+      
+### **Task 4**: Azure への API の展開  
+このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。  
 
-Contoso ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。
-
-   - **Contoso.Azure**  
-   ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ
-   - **Contoso.Data**  
-   データ アクセス オブジェクトを含むライブラリ
-   - **Contoso.FunctionApp**  
-   Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます
-   - **Contoso.Web**  
-   ASP.NET Core 2.2 PolicyConnect Web アプリケーション
-   - **Contoso.WebApi**  
-   データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API
-
-### **Task 2**: Key Vault を使用するための Web API の更新
-このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために Contoso.WebApi プロジェクトを更新します。接続情報を Contoso.WebApi プロジェクトの appsettings.json ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。
->Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。  
-追加されているパッケージは Microsoft.Extensions.Configuration.AzureKeyVault です。
-
-### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー
-Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
-
-### **Task 4**: Azure への API の展開
-このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。
-
+  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択  
+    
+     <img src="images/E5-T4-1SetPublishAPIapp.PNG" />   
+    
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択  
+    
+     <img src="images/E5-T4-2SelectPublishAPIapp.PNG" />  
+    
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (contoso-**api** で始まるリソース) を選択  
+    
+     <img src="images/E5-T4-3SelectPublishAzureAPIapp.PNG" />  
+    
+  4. **OK** を選択  
+    
+  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行  
+    
+     <img src="images/E5-T4-5PublishAzureAPIapp.PNG" />  
+    
+  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される  
+    
+     <img src="images/E5-T4-6CheckPublishStatus.PNG" />  
+    
+     >  **Web 公開アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Web 公開アクティビティ**の順に選択します  
+    
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。  
+    
+     <img src="images/E5-T4-7CantFoundURL.PNG" />  
+    
+  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )  
+    
+     <img src="images/E5-T4-8AccessSwagger.PNG" />  
+     
+     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能  
+    
+  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト  
+    
+     <img src="images/E5-T4-9TryGET.PNG" />  
+    
+  10. **Execute** を選択  
+    
+      <img src="images/E5-T4-10SelectExecute.PNG" />  
+    
+  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される  
+    
+      <img src="images/.PNG" />  
+      @@@この結果がエラー500 なのであとで確認
+    
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
 
@@ -428,8 +588,99 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 
 このタスクでは、Azure Cloud Shell および Azure CLI を使用して発行済み API App の URL を Web App のアプリケーション設定に追加し、Web App が API App と連動するための準備を行います。
 
+  1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
+  
+     <img src="images/E6-T1-1LaunchCloudShell.PNG" /> 
+  
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+  
+     <img src="images/E6-T1-2SellectPowerShell.png" /> 
+  
+  3. PowerShell Azure プロンプトが表示される
+  
+     <img src="images/E6-T1-3LaunchPowerShell.PNG" /> 
+  
+  4. Cloud Shell プロンプトで以下のコマンドを `<your-resource-group-name>` の箇所をリソース グループの名前で置き換え実行し API App URL と Web App の両方の情報を取得
+  
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp list -g $resourceGroup --output table
+     ```
+     
+    > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、  
+    Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、  
+    このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>`
+    を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
+  
+  5. 出力された次の手順で使用する API App の **DefaultHostName** 値 ("contoso-**api**" で始まるリソース名) および Web App の **Name** の 2 つの値をコピーします
+  
+     <img src="images/E6-T1-5AppInfo.PNG" /> 
+  
+  6. 次にコマンドの値を以下のように置換し、Azure Cloud Shell コマンド プロンプトから実行
+  
+     - `<your-web-app-name>`: 以前の手順でコピーした Web App 名で置き換え
+     - `<your-api-default-host-name>`: 以前の手順でコピーした Web API デフォルトホスト名で置き換え
+     
+     ```
+     $webAppName = "<your-web-app-name>"
+     $defaultHostName = "<your-api-default-host-name>"
+     az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "ApiUrl=https://$defaultHostName"
+     ```
+  
+  7. 出力結果から Web App のアプリケーション設定に新しく追加された設定を確認
+  
+     <img src="images/E6-T1-10CheckNewWebAppConfig.PNG" /> 
+  
 ### **Task 2**: Azure への Web アプリケーションの展開
 このタスクでは、Contoso.Web アプリケーションを Azure Web App に発行します。
+
+  1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.Web` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+  
+     <img src="images/E6-T2-1SetPublishWebApp.PNG" /> 
+  
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択** を選択して**プロファイルの作成**を選択
+  
+     <img src="images/E6-T2-2SelectPublishWebApp.PNG" /> 
+  
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Web App ("contoso-**web**" で始まるリソース) を選択
+  
+     <img src="images/E6-T2-3SelectPublishAzureWebApp.PNG" /> 
+  
+  4. **OK** を選択
+  
+  5. Visual Studio で `Contoso.Web` プロジェクトの発行ページに戻り、**発行**を選択して Web App を Azure Web App に発行
+  
+     <img src="images/E6-T2-5PublishAzureWebApp.PNG" /> 
+  
+  6. Web App が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される
+  
+     <img src="images/E6-T2-6CheckPublishStatus.PNG" /> 
+  
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web App の URL を開く
+  
+  8. PolicyConnect Web ページで以下の資格情報を入力して **Log in** を選択
+  
+     - **Username**: demouser
+     - **Password**: Password.1!!
+     
+     <img src="images/E6-T2-8LogInWebPage.PNG" /> 
+  
+  9. ログイン後、上部のメニューから **Managed Policy Holders** を選択
+  
+     <img src="images/E6-T2-9SelectManagedPolicyHolders.PNG" />
+     
+  10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
+    
+      <img src="images/.PNG" />
+      @@@API の結果がエラーなのでここが表示されないので後で確認
+
+  11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
+    
+      <img src="images/.PNG" />
+      @@@API の結果がエラーなのでここが表示されないので後で確認
+    　　
+  12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
+
 
 ## **Exercise 7: Blob ストレージへの保険契約ドキュメントのアップロード**
 所要時間：10分
@@ -439,6 +690,31 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 参考情報
 - AzCopy  
 <https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azcopy-v10>
+
+  1. [Azure Portal](https://portal.azure.com/)の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択してリソースの一覧から **contosoUniqueId** ストレージ アカウントを選択して**ストレージ アカウント**リソースに移動
+    
+     <img src="images/.PNG" /> 
+  
+  2. ストレージ アカウントの**概要**ブレードのサービスの下にある**コンテナー**を選択
+    
+     <img src="images/.PNG" /> 
+  
+  3. **コンテナー**ブレードで**コンテナー**を選択し、**新しいコンテナー**ダイアログでコンテナー名として**policies**と入力しパブリック アクセス レベルを**プライベート 匿名アクセスなし ) **に設定して [OK] を選択
+    
+     <img src="images/.PNG" /> 
+  
+  4. 作成されたコンテナーを [コンテナー] ブレードで選択し、左側のメニューで [プロパティ] を選択します。[policies - プロパティ] ブレードから URL をコピーします。後で参照するために、この URL をテキスト エディターに貼り付け
+    
+     <img src="images/.PNG" /> 
+  
+  5. 次に、ストレージ アカウントのアクセス キーを取得します。このキーは、以下の AzCopy がストレージ コンテナーに接続するために必要です。Azure Portal の [ストレージ アカウント] ブレードの左側のメニューから [アクセス キー] を選択し、次の手順で使用するために key1 Key の値をテキスト エディターにコピー
+    
+     <img src="images/.PNG" /> 
+  
+
+
+
+
 ### **Task 1**: PDF ファイルを格納するコンテナーの作成
 このタスクでは、ストレージ アカウントにスキャン済み保険契約ドキュメントを格納する新しい Blob コンテナーを作成します。
 
@@ -537,6 +813,6 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
 マイクロソフトは、この文書に記載されている事項に関して、特許、申請中特許、商標、著作権、および他の知的財産権を所有する場合があります。別途マイクロソフトのライセンス契約上に明示の規定のない限り、このドキュメントはこれらの特許、商標、著作権、またはその他の無体財産権に関する権利をユーザーに許諾するものではありません。
 製造業者名、製品名、または URL は情報提供の目的でのみ使用されています。明示、黙示、または法律の規定にかかわらず、これらの製造業者やマイクソフト テクノロジを含む製品の使用に関してマイクロソフトはいかなる責任も負わないものとします。製造業者または製品が記載されていることにより、マイクロソフトによる製造業者または製品の保証が示唆されるものではありません。サード パーティのサイトへのリンクが記載されている可能性があります。そのようなサイトはマイクロソフトの管理下にないので、マイクロソフトは、リンク先のサイトのコンテンツやリンク先のサイトに含まれるリンク、またはそのようなサイトの更新に関していかなる責任も負わないものとします。マイクロソフトは、リンク先のサイトから提供されるウェブキャストまたはその他の形式の送信に責任を負わないものとします。マイクロソフトは、これらのリンクをユーザーの利便性のみを目的として提供しています。含まれるリンクは、サイトやそこに含まれる製品に対するマイクロソフトの保証を示唆するものではありません。
 
-© 2020 Microsoft Corporation. All rights reserved.
+&copy; 2020 Microsoft Corporation. All rights reserved.
 
 マイクロソフトおよび <https://www.microsoft.com/en-us/legal/intellectualproperty/Trademarks/Usage/General.aspx> に記載されている商標は、Microsoft グループ企業の商標ですその他すべての商標は各社が所有しています。
