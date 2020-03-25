@@ -472,7 +472,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
     
      <img src="images/E5-T4-2SelectPublishAPIapp.PNG" />  
     
-  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (**contoso-api** で始まるリソース) を選択  
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (contoso-**api** で始まるリソース) を選択  
     
      <img src="images/E5-T4-3SelectPublishAzureAPIapp.PNG" />  
     
@@ -563,11 +563,56 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
      <img src="images/.PNG" /> 
   
-  
-
-
 ### **Task 2**: Azure への Web アプリケーションの展開
 このタスクでは、Contoso.Web アプリケーションを Azure Web App に発行します。
+
+  1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.Web` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+  
+     <img src="images/.PNG" /> 
+  
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択** を選択して**プロファイルの作成**を選択
+  
+     <img src="images/.PNG" /> 
+  
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Web App ("contoso-**web**" で始まるリソース) を選択
+  
+     <img src="images/.PNG" /> 
+  
+  4. **OK** を選択
+  
+     <img src="images/.PNG" /> 
+  
+  5. Visual Studio で `Contoso.Web` プロジェクトの発行ページに戻り、**発行**を選択して Web App を Azure Web App に発行
+  
+     <img src="images/.PNG" /> 
+  
+  6. Web App が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される
+  
+     <img src="images/.PNG" /> 
+  
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web App の URL を開く
+  
+  8. PolicyConnect Web ページで以下の資格情報を入力して **Log in** を選択
+  
+     - **Username**: demouser
+     - **Password**: Password.1!!
+     
+     <img src="images/.PNG" /> 
+  
+  9. ログイン後、上部のメニューから **Managed Policy Holders** を選択
+  
+     <img src="images/.PNG" />
+     
+  10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
+    
+      <img src="images/.PNG" />
+
+  11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
+    
+      <img src="images/.PNG" />
+    　　
+  12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
+
 
 ## **Exercise 7: Blob ストレージへの保険契約ドキュメントのアップロード**
 所要時間：10分
