@@ -355,11 +355,11 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
   
   1. Visual Studio のソリューション エクスプローラーで `Contoso.WebApi` プロジェクトを展開し `Program.cs` ファイルをダブルクリックして開く  
     
-     <img src="images/.PNG" />  
+     <img src="images/E5-T2-1OpenProgramcs.png" />  
     
   2. `Program.cs` ファイルで `CreateWebHostBuilder` メソッド内の `TODO #1 ブロック` (23 行目) を見つける  
     
-     <img src="images/.PNG" />  
+     <img src="images/E5-T2-2ConfirmTODO1.PNG" />  
     
   3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供  　
      
@@ -373,13 +373,13 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
     
   4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる  
     
-     <img src="images/.PNG" />  
+     <img src="images/E5-T2-4UpdateTODO1.PNG" />  
     
   5. 次に `Contoso.WebApi` プロジェクトの `Startup.cs` ファイルを更新するためにソリューション エクスプローラーでこのファイルをダブルクリック  
     
   6. 前の実習では、Azure SQL Database の接続文字列を Key Vault に追加し、シークレットに `SqlConnectionString` という名前を割り当てた。次は以下のコードを使用して、`Startup.cs` ファイルの `Configuration` プロパティ内の `TODO #2` ブロック (38 行目) を更新する。この更新により、アプリケーションでシークレット名を使用して Key Vault から接続文字列を取得することができる  
     
-     <img src="images/.PNG" />  
+     <img src="images/E5-T2-6ConfirmTODO2.PNG" />  
      
      ```
      services.AddDbContext<ContosoDbContext>(options =>  
@@ -388,7 +388,7 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
     
   7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
     
-     <img src="images/.PNG" /> 
+     <img src="images/E5-T2-7UpdateTODO2.PNG" /> 
     
   8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
     
