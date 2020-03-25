@@ -712,7 +712,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
      <img src="images/.PNG" /> 
   
 
-
+test
 
 
 ### **Task 1**: PDF ファイルを格納するコンテナーの作成
