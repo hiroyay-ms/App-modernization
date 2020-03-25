@@ -519,6 +519,53 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 
 このタスクでは、Azure Cloud Shell および Azure CLI を使用して発行済み API App の URL を Web App のアプリケーション設定に追加し、Web App が API App と連動するための準備を行います。
 
+  1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
+  
+     <img src="images/.PNG" /> 
+  
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+  
+     <img src="images/.PNG" /> 
+  
+  3. PowerShell Azure プロンプトが表示される
+  
+     <img src="images/.PNG" /> 
+  
+  4. Cloud Shell プロンプトで以下のコマンドを `<your-resource-group-name>` の箇所をリソース グループの名前で置き換え実行し API App URL と Web App の両方の情報を取得
+  
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp list -g $resourceGroup --output table
+     ```
+     
+    > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、  
+    Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、  
+    このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>`
+    を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
+  
+  5. 出力された次の手順で使用する API App の **DefaultHostName** 値 ("contoso-**api**" で始まるリソース名) および Web App の **Name** の 2 つの値をコピーします
+  
+     <img src="images/.PNG" /> 
+  
+  6. 次にコマンドの値を以下のように置換し、Azure Cloud Shell コマンド プロンプトから実行
+  
+     - `<your-web-app-name>`: 以前の手順でコピーした Function App 名で置き換え
+     - `<your-storage-account-sas-token>`: 以前の手順でコピーした `policies` コンテナー URL で置き換え
+     
+     ```
+     $webAppName = "<your-web-app-name>"
+     $defaultHostName = "<your-api-default-host-name>"
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "ApiUrl=https://$defaultHostName"
+     ```
+  
+  7. 出力結果から Web App のアプリケーション設定に新しく追加された設定を確認
+  
+     <img src="images/.PNG" /> 
+  
+  
+
+
 ### **Task 2**: Azure への Web アプリケーションの展開
 このタスクでは、Contoso.Web アプリケーションを Azure Web App に発行します。
 
