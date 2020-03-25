@@ -629,8 +629,103 @@ API Management は、Contoso Insurance API を管理するために使用しま�
 >API Management は作成の完了まで時間がかかるので、作成をクリック後、次のタスクの実行に移ります。
 
 ### **Task 15**: SQL Server データベースの復元
+このタスクでは、SqlServer2008 仮想マシンへの RDP 接続を行い、サーバー OS への Internet Explorer のセキュリティ設定の無効化、1433 ポートへの TCP 受信トラフィックの許可設定、および SQL Server へのデータベースの復元を行います。
+
+1. [Azure ポータル](https://portal.azure.com)でリソース グループをクリック
+
+   <img src="images/resource-group.png" />
+
+2. リストから作成したリソース グループを選択
+
+3. リソース グループ内のリソースの一覧より **SqlServer2008** 仮想マシンをクリック
+
+   <img src="images/resource-list-sqlserver.png" />
+
+4. 左側のメニューで**接続**タブを選択し、**RDP ファイルのダウンロード** をクリック
+
+   <img src="images/sqlserver-vm-setting-01.png" />
+
+5. ダウンロードした RDP ファイルを開き、**接続**をクリック
+
+   <img src="images/sqlserver-vm-setting-02.png" />
+
+6. プロンプトが表示されるので、次の資格情報を入力し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-03.png" />
+
+7. メッセージが表示されるので **はい** をクリックし、仮想マシンへ接続
+
+   <img src="images/sqlserver-vm-setting-04.png" />
+
+8. ログイン後、サーバー マネージャーを起動  
+※自動的に開始されない場合は、スタート メニューから起動
+
+9. **Security Information** の **Configure IE ESC** をクリック
+
+   <img src="images/sqlserver-vm-setting-05.png" />
+
+0. **Internet Explorer Enhanced Security** ダイアログが表示  
+**Administrators**, **Users** ともに **Off** を選択し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-06.png" />
+
+1. [ContosoInsurance データベースのバックアップ](https://raw.githubusercontent.com/microsoft/MCW-App-modernization/master/Hands-on%20lab/lab-files/Database/ContosoInsurance.zip) をダウンロードし、zip ファイルを C:\ContosoInsurance に展開
+
+   <img src="images/sqlserver-vm-setting-07.png" />
+
+2. スタート メニューから **SQL Server Management Studio** を起動
+
+   <img src="images/sqlserver-vm-setting-08.png" />
+
+3. **Connect to Server** ダイアログ ボックスで **Connect** をクリック 
+
+   <img src="images/sqlserver-vm-setting-09.png" />
+
+4. オブジェクト エクスプローラー内の **Databases** を右クリック  
+コンテキスト メニューより **Attach...** を選択
+
+   <img src="images/sqlserver-vm-setting-10.png" />
+
+5. **Attach Databases** ダイアログの **General** ページで **Add** ボタンをクリック  
+zip ファイルを展開したフォルダから **ContosoInsurance.mdf** を選択し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-11.png" />
+
+6. **Attach Databases** ダイアログでデータベースの詳細にデータとログ ファイルが表示されていることを確認  
+**OK** をクリックし、データベースをアタッチ
+
+   <img src="images/sqlserver-vm-setting-12.png" />
+
+7. **Databases** リストに **ContosoInsurance** が表示されることを確認
+
+   <img src="images/sqlserver-vm-setting-13.png" />
 
 ### **Task 16**: Data Migration Assistant のインストール
+このタスクでは、SqlServer2008 仮想マシンに Microsoft Data Migration Assistant（DMA）をインストールします。
+
+1. Web ブラウザーを起動し <https://www.microsoft.com/en-us/download/details.aspx?id=53595> へ移動
+
+2. **Download** をクリック
+
+   <img src="images/dma-install-01.png" />
+
+3. ダウンロードしたインストーラーを実行
+
+4. **Microsoft Data Migration Assistant Setup** ウィザードの開始画面で **Next** をクリック
+
+   <img src="images/dma-install-02.png" />
+
+5. ライセンス条項とプライバシー ポリシーに同意し **Next** をクリック
+
+   <img src="images/dma-install-03.png" />
+
+6. **Install** をクリックし、インストールを開始
+
+   <img src="images/dma-install-04.png" />
+
+7. **Finish** をクリックし、インストーラーを終了
+
+   <img src="images/dma-install-05.png" />
 
 ## **Exercise 2: Azure SQL Database へのオンプレミス データベースの移行**
 所要時間：45分
