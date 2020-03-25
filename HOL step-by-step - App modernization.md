@@ -327,19 +327,15 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
 ### **Task 1**: Visual Studio でソリューションを開く  
 このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。   
   
-   - **Contoso.Azure**    
-   ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
-   - **Contoso.Data**      
-   データ アクセス オブジェクトを含むライブラリ  
-   - **Contoso.FunctionApp**    
-   Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
-   - **Contoso.Web**    
-   ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
-   - **Contoso.WebApi**    
-   データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
+   - **Contoso.Azure** : ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
+   - **Contoso.Data** : データ アクセス オブジェクトを含むライブラリ  
+   - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
+   - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
+   - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
   
- 1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開きます。  
-   ![E5-T1-1](https://github.com/hiroyay-ms/App-modernization/blob/itorita/images/E5-T1-1OpenSln.PNG) 
+ 1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く
+ 
+   <img src="images/E5-T1-1OpenSln.PNG" />
   
  2. 
 
