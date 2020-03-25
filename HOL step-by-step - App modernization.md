@@ -17,17 +17,19 @@ March 2020
       - [Task 1: リソース グループの作成](#task-1-リソース-グループの作成)
       - [Task 2: リソース グループへのアクセス権限の付与](#task-2-リソース-グループへのアクセス権限の付与)
       - [Task 3: ストレージ アカウントの作成](#task-3-ストレージ-アカウントの作成)
-      - [Task 4: SQL Server 2008 R2 仮想マシンの作成](#task-4-sql-server-2008-r2-仮想マシンの作成)
-      - [Task 5: Azure SQL Database のプロビジョニング](#task-5-azure-sql-database-のプロビジョニング)
-      - [Task 6: Azure Database Migration Service の作成](#task-6-azure-database-migration-service-の作成)
-      - [Task 7: API App のプロビジョニング](#task-7-api-app-のプロビジョニング)
-      - [Task 8: Azure Functions のプロビジョニング](#task-8-azure-functions-のプロビジョニング)
-      - [Task 9: Cognitive Search Service のプロビジョニング](#task-9-cognitive-search-service-のプロビジョニング)
-      - [Task 10: Cognitive Service アカウントの作成](#task-10-cognitive-service-アカウントの作成)
-      - [Task 11: Azure Key Vault の作成](#task-11-azure-key-vault-の作成)
-      - [Task 12: API Management のプロビジョニング](#task-12-api-management-のプロビジョニング)
-      - [Task 13: SQL Server データベースの復元](#task-12-sql-server-データベースの復元)
-      - [Task 14: Data Migration Assistant のインストール](#task-13-data-migration-assistant-のインストール)
+      - [Task 4: 仮想ネットワークの作成](#task-4-仮想ネットワークの作成)
+      - [Task 5: SQL Server 2008 R2 仮想マシンの作成](#task-5-sql-server-2008-r2-仮想マシンの作成)
+      - [Task 6: Azure SQL Database のプロビジョニング](#task-6-azure-sql-database-のプロビジョニング)
+      - [Task 7: Azure Database Migration Service の作成](#task-7-azure-database-migration-service-の作成)
+      - [Task 8: Web App のプロビジョニング](#task-8-web-app-のプロビジョニング)
+      - [Task 9: API App のプロビジョニング](#task-9-api-app-のプロビジョニング)
+      - [Task 10: Azure Functions のプロビジョニング](#task-10-azure-functions-のプロビジョニング)
+      - [Task 11: Cognitive Search Service のプロビジョニング](#task-11-cognitive-search-service-のプロビジョニング)
+      - [Task 12: Cognitive Service アカウントの作成](#task-12-cognitive-service-アカウントの作成)
+      - [Task 13: Azure Key Vault の作成](#task-13-azure-key-vault-の作成)
+      - [Task 14: API Management のプロビジョニング](#task-14-api-management-のプロビジョニング)
+      - [Task 15: SQL Server データベースの復元](#task-15-sql-server-データベースの復元)
+      - [Task 16: Data Migration Assistant のインストール](#task-16-data-migration-assistant-のインストール)
   - [Exercise 2: Azure SQL Database へのオンプレミス データベースの移行](#exercise-2-azure-sql-database-へのオンプレミス-データベースの移行)
     - [Task 1: ContosoInsurance の構成](#task-1-contosoinsurance-の構成)
     - [Task 2: Azure SQL Database への移行の評価の実行](#task-2-azure-sql-database-への移行の評価の実行)
@@ -113,203 +115,239 @@ API Management は、開発チームとアフィリエイト パートナー向�
 
 ### **Task 1**: リソース グループの作成
 
-  1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
+   1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
 
-  2. **＋リソースの作成** をクリック
+   2. **＋リソースの作成** をクリック
 
-     <img src="images/create-resource.png" />
+      <img src="images/create-resource.png" />
 
-  3. 画面上部の検索ボックスに **resource** と入力し、表示される候補から **Resouce Group** を選択
+   3. 画面上部の検索ボックスに **resource** と入力し、表示される候補から **Resouce Group** を選択
 
-     <img src="images/resourcegroup-create-01.png" />
+      <img src="images/resourcegroup-create-01.png" />
 
-  4. リソース グループ作成の**基本**タブで、以下を入力  
-     - **リソースグループ名**（任意、サブスクリプション内で一意）  
-     - **リージョン**（任意、このワークショップで使用する地域）
+   4. リソース グループ作成の**基本**タブで、以下を入力  
+      - **リソースグループ名**（任意、サブスクリプション内で一意）  
+      - **リージョン**（任意、このワークショップで使用する地域）
 
-     <img src="images/resourcegroup-create-03.png" />
+      <img src="images/resourcegroup-create-03.png" />
 
-  5. **確認および作成**をクリック
+   5. **確認および作成**をクリック
 
-  6. 確認および作成タブで**作成**をクリックし、新しいリソース グループを作成
+   6. 確認および作成タブで**作成**をクリックし、新しいリソース グループを作成
 
 ### **Task 2**: リソース グループへのアクセス権限の付与
-  1. 作成したリソースの管理ブレードへ移動
+   1. 作成したリソースの管理ブレードへ移動
 
-  2. **アクセス制御 (IAM)** をクリック
+   2. **アクセス制御 (IAM)** をクリック
 
-     <img src="images/customrole-create-01.png" />
+      <img src="images/customrole-create-01.png" />
 
-  3. **カスタム ロールを作成する**の**追加**をクリック
+   3. **カスタム ロールを作成する**の**追加**をクリック
 
-     <img src="images/customrole-create-02.png" />
+      <img src="images/customrole-create-02.png" />
 
-  4. カスタム ロールの作成の**基本**ブレードで、以下の構成オプションを指定
-     - **カスタム ロール名**: 任意
-     - **ベースラインのアクセス許可**: **ロールを複製します** を選択
-     - **複製するロール**: **共同作成者** を選択
+   4. カスタム ロールの作成の**基本**ブレードで、以下の構成オプションを指定
+      - **カスタム ロール名**: 任意
+      - **ベースラインのアクセス許可**: **ロールを複製します** を選択
+      - **複製するロール**: **共同作成者** を選択
 
-     <img src="images/customrole-create-03.png" />
+      <img src="images/customrole-create-03.png" />
 
-  5. **次へ**をクリック
+   5. **次へ**をクリック
 
-  6. **アクセス許可**タブで割り当てられている許可/除外権限を確認し、**次へ**をクリック
+   6. **アクセス許可**タブで割り当てられている許可/除外権限を確認し、**次へ**をクリック
 
-     <img src="images/customrole-create-04.png" />
+      <img src="images/customrole-create-04.png" />
 
-  7. **割り当て可能なスコープ**タブで、現在のリソース グループが表示されていることを確認  
+   7. **割り当て可能なスコープ**タブで、現在のリソース グループが表示されていることを確認  
   **確認と作成**をクリック
 
-     <img src="images/customrole-create-05.png" />
+      <img src="images/customrole-create-05.png" />
 
-  8. **作成**をクリックし、プロビジョニングを開始
-  9. リソースグループの**アクセス制御 (IAM)** タブで**ロールの割り当てを追加する**の**追加**をクリック
-  0. **ロール割り当ての追加**フォームで、以下の構成オプションを指定
+   8. **作成**をクリックし、プロビジョニングを開始
+   9. リソースグループの**アクセス制御 (IAM)** タブで**ロールの割り当てを追加する**の**追加**をクリック
+   0. **ロール割り当ての追加**フォームで、以下の構成オプションを指定
 
-     <img src="images/customrole-add-user-01.png" />
+      <img src="images/customrole-add-user-01.png" />
 
-      - **役割**: 上記手順で作成したカスタム ロールを選択
+   1. **ロール割り当ての追加**フォームで以下を構成
+      - **役割**: 上記手順で作成したカスタム ロールを選択  
       - **選択**: 権限を付与するユーザーを選択
 
          <img src="images/customrole-add-user-02.png" />
 
-     >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
+      >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
    Azure AD 外のユーザーを追加する場合は、メールアドレスを入力してください。
 
-     ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。 
+      ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。 
 
-     <img src="images/customrole-invitation-mail.png" width="500" />
+      <img src="images/customrole-invitation-mail.png" width="500" />
 
-     「**Get Started**」をクリックすることで、組織へのアクセス権が付与されます。
+      「**Get Started**」をクリックすることで、組織へのアクセス権が付与されます。
 
-  1. カスタム グループへ追加したユーザーで [Azure ポータル](https://portal.azure.com/)を開く
-  2. リソース グループへアクセスできることを確認
+   1. カスタム グループへ追加したユーザーで [Azure ポータル](https://portal.azure.com/)を開く
+   2. リソース グループへアクセスできることを確認
 
 ### **Task 3**: ストレージ アカウントの作成
 このタスクでは、SQL Advanced Data Security を使用して実行される脆弱性評価だけでなく、ポリシー ドキュメントの格納に使用する Azure ストレージ アカウントをプロビジョニングします。
-  1. [Azure ポータル](https://portal.azure.com/)で**＋リソースの作成**を選択
+   1. [Azure ポータル](https://portal.azure.com/)で**＋リソースの作成**を選択
 
-     <img src="images/create-resource.png" />
+      <img src="images/create-resource.png" />
+
+   2. 新規画面にて**ストレージ**を選択し、**ストレージ アカウント**をクリック
+
+      <img src="images/storage-account-create-02.png" />
+
+   3. **ストレージ アカウントの作成**の**基本**タブで、次を入力
+
+      - プロジェクトの詳細
+         - **サブスクリプション**： ワークショップで使用するサブスクリプション
+         - **リソース グループ**： 先の手順で作成したリソース グループ
+      - インスタンスの詳細
+         - **ストレージ アカウント名**： 任意（一意の名前、小文字と数字で3～24文字で指定）
+         - **場所**： リソース グループと同じリージョンを選択
+         - **パフォーマンス**： Standard
+         - **アカウントの種類**： StorageV2 (汎用 v2)
+         - **レプリケーション**： ローカル冗長ストレージ (LRS)
+         - **アクセス層 (既定)**： ホット
+
+      <img src="images/storage-account-create-03.png" />
+
+   4. **確認および作成**をクリック
+   5. 検証に成功したメッセージを確認し**作成**をクリック
+
+### **Task 4**: 仮想ネットワークの作成
+このタスクでは、仮想マシンを配置するための仮想ネットワークを作成します。
+
+   1. **＋リソースの作成**をクリック
  
-  2. 新規作成画面にて**ストレージ**を選択し、**ストレージ アカウント**を選択
+      <img src="images/create-resource.png" />
 
-     <img src="images/storage-account-create-02.png" />
+   2. 新規画面にて**ネットワーク**を選択し**仮想ネットワーク**をクリック
 
-  3. **ストレージ アカウントの作成**の**基本**タブで、次を入力
+      <img src="images/vnet-create-01.png" />
 
-     - プロジェクトの詳細
-       - **サブスクリプション**： ワークショップで使用するサブスクリプション
-       - **リソース グループ**： 先の手順で作成したリソース グループ
-     - インスタンスの詳細
-       - **ストレージ アカウント名**： 任意（一意の名前、小文字と数字で3～24文字で指定）
-       - **場所**： リソース グループと同じリージョンを選択
-       - **パフォーマンス**： Standard
-       - **アカウントの種類**： StorageV2 (汎用 v2)
-       - **レプリケーション**： ローカル冗長ストレージ (LRS)
-       - **アクセス層 (既定)**： ホット
+   3. **仮想ネットワークの作成**の**基本**タブで、以下の構成を設定
+      - プロジェクトの詳細
+         - **サブスクリプション**： ワークショップで使用するサブスクリプション
+         - **リソース グループ**： 先の手順で作成したリソース グループ
+      - インスタンスの詳細
+         - **名前**： 任意（）
+         - **地域**： リソース グループと同じリージョンを選択
 
-     <img src="images/storage-account-create-03.png" />
+      <img src="images/vnet-create-02.png" />
+   
+   4. **次：IP アドレス** **>** をクリック
 
-  4. **確認および作成**をクリック
-  5. 検証に成功したメッセージを確認し**作成**をクリック
+   5. **IP アドレス**タブで IP アドレス空間とサブネットを構成
 
-### **Task 4**: SQL Server 2008 R2 仮想マシンの作成
+      ※ 本ワークショップでは既定の IP アドレス空間（10.0.0.0/16）、default サブネット（10.0.0.0/24）のままで OK
+
+      <img src="images/vnet-create-03.png" />
+
+   6. **確認および作成**をクリック
+   7. **作成**をクリックし、仮想ネットワークをプロビジョニング
+
+### **Task 5**: SQL Server 2008 R2 仮想マシンの作成
 このタスクでは、Azure 仮想マシンをプロビジョニングします。   
 仮想マシンは Windows Server 2008 R2 イメージ上の SQL Server 2008 SP3 Standard を使用します。
 
-  1. **＋リソースの作成**をクリック
+   1. **＋リソースの作成**をクリック
 
-     <img src="images/create-resource.png" />
+      <img src="images/create-resource.png" />
 
-  2. Azure Marketplace の検索ボックスに**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**を入力
+   2. Azure Marketplace の検索ボックスに**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**を入力
 
-  3. 表示される候補より**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**をクリック
+   3. 表示される候補より**SQL Server 2008 R2 SP3 on Windows Server 2008 R2**をクリック
 
-     <img src="images/sqlvm-create-01.png" />
+      <img src="images/sqlvm-create-01.png" />
 
-  4. **ソフトウェア プランの選択**から**SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2**を選択
-  5. **作成**をクリック
+   4. **ソフトウェア プランの選択**から**SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2**を選択
+   5. **作成**をクリック
 
-     <img src="images/sqlvm-create-02.png" width="700" />
+      <img src="images/sqlvm-create-02.png" width="700" />
   
-  6. **仮想マシンの作成**の**基本**タブで、次の構成を設定
-     - プロジェクトの詳細
-        - **サブスクリプション**： ワークショップで使用するサブスクリプション
-       - **リソース グループ**： 先の手順で作成したリソース グループ
-     - インスタンスの詳細
-       - **仮想マシン名**： SqlServer2008
-       - **地域**： リソース グループと同じリージョンを選択
-       - **可用性オプション**： インフラストラクチャ冗長は必要ありません
-       - **イメージ**： SQL Server 2008 R2 SP3 on Windows Server 2008 R2
-       - **Azure スポット インスタンス**： いいえ
-       - **サイズ**： Standard D2 v3（サイズを変更しますをクリックして選択）
-     - 管理者アカウント
-       - **ユーザー名**： demouser
-       - **パスワード**： Password.1!!
-     - 受信ポートの規則
-       - **パブリック受信ポート**： 選択したポートを許可する
-       - **受信ポートを選択**： RDP (3389)
-     - お金を節約
-       - **Windows Server ライセンスを既にお持ちの場合**： いいえ
+   6. **仮想マシンの作成**の**基本**タブで、次の構成を設定
+       - プロジェクトの詳細
+          - **サブスクリプション**： ワークショップで使用するサブスクリプション
+          - **リソース グループ**： 先の手順で作成したリソース グループ
+       - インスタンスの詳細
+         - **仮想マシン名**： SqlServer2008
+         - **地域**： リソース グループと同じリージョンを選択
+         - **可用性オプション**： インフラストラクチャ冗長は必要ありません
+         - **イメージ**： SQL Server 2008 R2 SP3 on Windows Server 2008 R2
+         - **Azure スポット インスタンス**： いいえ
+         - **サイズ**： Standard D2 v3（サイズを変更しますをクリックして選択）
+      - 管理者アカウント
+         - **ユーザー名**： demouser
+         - **パスワード**： Password.1!!
+      - 受信ポートの規則
+         - **パブリック受信ポート**： 選択したポートを許可する
+         - **受信ポートを選択**： RDP (3389)
+      - お金を節約
+         - **Windows Server ライセンスを既にお持ちの場合**： いいえ
 
-     <img src="images/sqlvm-create-03.png" />
+      <img src="images/sqlvm-create-03.png" />
   
-  7. **次：ディスク** **>** をクリック
+   7. **次：ディスク** **>** をクリック
 
-  8. **ディスク**タブで **OS ディスクの種類**を **Standard SSD** に変更
+   8. **ディスク**タブで **OS ディスクの種類**を **Standard SSD** に変更
 
-     <img src="images/sqlvm-create-04.png" />
+      <img src="images/sqlvm-create-04.png" />
 
-  9. **次：ネットワーク** **>** をクリック
-  0. **ネットワーク**タブで、次の構成を設定
-     - **仮想ネットワーク**： 先の手順で作成した仮想ネットワーク
-     - **サブネット**： 仮想ネットワーク内のサブネット
-     - **パブリック IP**： 既定のまま（新規作成）
+   9. **次：ネットワーク** **>** をクリック
+   0. **ネットワーク**タブで、次の構成を設定
+      - **仮想ネットワーク**： 先の手順で作成した仮想ネットワーク
+      - **サブネット**： 仮想ネットワーク内のサブネット
+      - **パブリック IP**： 既定のまま（新規作成）
 
-     <img src="images/sqlvm-create-05.png" />
+      <img src="images/sqlvm-create-05.png" />
 
-  1. **SQL Server の設定**タブを選択
+   1. **SQL Server の設定**タブを選択
 
-     <img src="images/sqlvm-create-06.png" />
+      <img src="images/sqlvm-create-06.png" />
   
-  2. **SQL Serer の設定**タブで、以下の構成を設定
-     - SQL 認証
-        - **SQL 認証**： 有効化
-        - **ログイン名**： demouser
-        - **パスワード**： Password.1!!
+   2. **SQL Serer の設定**タブで、以下の構成を設定
+      - SQL 認証
+          - **SQL 認証**： 有効化
+          - **ログイン名**： demouser
+          - **パスワード**： Password.1!!
 
-     <img src="images/sqlvm-create-07.png" />
+      <img src="images/sqlvm-create-07.png" />
 
-  3. **確認と作成**をクリック
-  4. **作成**をクリックし、仮想マシンをプロビジョニング
+   3. **確認と作成**をクリック
+   4. **作成**をクリックし、仮想マシンをプロビジョニング
 
-### **Task 5**: Azure SQL Database のプロビジョニング
+### **Task 6**: Azure SQL Database のプロビジョニング
 このタスクでは、Azure SQL Database (Azure SQL DB) を展開します。
 
-### **Task 6**: Azure Database Migration Service の作成
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+### **Task 7**: Azure Database Migration Service の作成
 このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
 
-### **Task 7**: Web App のプロビジョニング
+### **Task 8**: Web App のプロビジョニング
 このタスクでは、Contoso Insurance の Web アプリケーションの実行環境を提供する App Service (Web App) を展開します。
 
-### **Task 8**: API App のプロビジョニング
+### **Task 9**: API App のプロビジョニング
 
-### **Task 9**: Azure Functions のプロビジョニング
+### **Task 10**: Azure Functions のプロビジョニング
 このタスクでは、Azure BLOB ストレージから PDF ドキュメントを取得するために使用する Function App を展開します。
 
-### **Task 10**: Cognitive Search Service のプロビジョニング
+### **Task 11**: Cognitive Search Service のプロビジョニング
 このタスクでは、Azure Cognitive Search Service を展開します。
 
-### **Task 11**: Cognitive Service アカウントの作成
+### **Task 12**: Cognitive Service アカウントの作成
 このタスクでは、Azure Cognitive Search Account を展開します。
 
-### **Task 12**: Azure Key Vault の作成
+### **Task 13**: Azure Key Vault の作成
 
-### **Task 13**: API Management のプロビジョニング
+### **Task 14**: API Management のプロビジョニング
 
-### **Task 14**: SQL Server データベースの復元
+### **Task 15**: SQL Server データベースの復元
 
-### **Task 15**: Data Migration Assistant のインストール
+### **Task 16**: Data Migration Assistant のインストール
 
 ## **Exercise 2: Azure SQL Database へのオンプレミス データベースの移行**
 所要時間：45分
