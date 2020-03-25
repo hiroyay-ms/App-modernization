@@ -521,15 +521,15 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 
   1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T1-1LaunchCloudShell.PNG" /> 
   
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T1-2SellectPowerShell.png" /> 
   
   3. PowerShell Azure プロンプトが表示される
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T1-3LaunchPowerShell.PNG" /> 
   
   4. Cloud Shell プロンプトで以下のコマンドを `<your-resource-group-name>` の箇所をリソース グループの名前で置き換え実行し API App URL と Web App の両方の情報を取得
   
@@ -545,7 +545,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   5. 出力された次の手順で使用する API App の **DefaultHostName** 値 ("contoso-**api**" で始まるリソース名) および Web App の **Name** の 2 つの値をコピーします
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T1-5AppInfo.PNG" /> 
   
   6. 次にコマンドの値を以下のように置換し、Azure Cloud Shell コマンド プロンプトから実行
   
@@ -560,34 +560,32 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   7. 出力結果から Web App のアプリケーション設定に新しく追加された設定を確認
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T1-10CheckNewWebAppConfig.PNG" /> 
   
 ### **Task 2**: Azure への Web アプリケーションの展開
 このタスクでは、Contoso.Web アプリケーションを Azure Web App に発行します。
 
   1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.Web` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-1SetPublishWebApp.PNG" /> 
   
   2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択** を選択して**プロファイルの作成**を選択
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-2SelectPublishWebApp.PNG" /> 
   
   3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Web App ("contoso-**web**" で始まるリソース) を選択
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-3SelectPublishAzureWebApp.PNG" /> 
   
   4. **OK** を選択
   
-     <img src="images/.PNG" /> 
-  
   5. Visual Studio で `Contoso.Web` プロジェクトの発行ページに戻り、**発行**を選択して Web App を Azure Web App に発行
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-5PublishAzureWebApp.PNG" /> 
   
   6. Web App が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される
   
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-6CheckPublishStatus.PNG" /> 
   
   7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web App の URL を開く
   
@@ -596,19 +594,21 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
      - **Username**: demouser
      - **Password**: Password.1!!
      
-     <img src="images/.PNG" /> 
+     <img src="images/E6-T2-8LogInWebPage.PNG" /> 
   
   9. ログイン後、上部のメニューから **Managed Policy Holders** を選択
   
-     <img src="images/.PNG" />
+     <img src="images/E6-T2-9SelectManagedPolicyHolders.PNG" />
      
   10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
     
       <img src="images/.PNG" />
+      @@@API の結果がエラーなのでここが表示されないので後で確認
 
   11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
     
       <img src="images/.PNG" />
+      @@@API の結果がエラーなのでここが表示されないので後で確認
     　　
   12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
 
