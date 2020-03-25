@@ -363,12 +363,13 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
     
   3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供  　
      
-     > config.AddAzureKeyVault(  
-           KeyVaultConfig.GetKeyVaultEndpoint(buildConfig["KeyVaultName"]),  
-           buildConfig["KeyVaultClientId"],  
-           buildConfig["KeyVaultClientSecret"]  
-      );  
-      @@@表示の段落を整える  
+     ```
+     config.AddAzureKeyVault(
+         KeyVaultConfig.GetKeyVaultEndpoint(buildConfig["KeyVaultName"]),
+         buildConfig["KeyVaultClientId"],
+         buildConfig["KeyVaultClientSecret"]
+      );
+      ``` 
     
   4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる  
     
@@ -380,10 +381,10 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
     
      <img src="images/.PNG" />  
      
-     > services.AddDbContext<ContosoDbContext>(options =>  
-           options.UseSqlServer(Configuration["SqlConnectionString"]));  
-     @@@実表示の段落を整える
-  
+     ```
+     services.AddDbContext<ContosoDbContext>(options =>  
+         options.UseSqlServer(Configuration["SqlConnectionString"]));
+     ```
     
   7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
     
@@ -392,8 +393,70 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
   8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
     
 ### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー
-Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
+Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。  
 
+  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動  
+    
+     <img src="images/.PNG" />  
+    
+  2. API App ブレードの左側のメニューで**構成**を選択  
+    
+     <img src="images/.PNG" />  
+    
+  3. 構成ブレードの**アプリケーション設定**タブで**Advanced edit**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )  
+    
+     <img src="images/.PNG" />  
+    
+  4. 詳細エディターを使用し 3 つの Key Vault 設定すべてを一度に追加するために詳細エディターの内容を以下で置き換え  
+    
+     - `your-key-vault-name`: 以前の実習でテキストエディターにコピーしたキーコンテナーの名前に置き換え  
+     - `your-service-principal-application-id`: サービス プリンシパルを作成したときに出力として表示された `appId` の値で置き換え  
+     - `your-service-principal-password`: これは、サービス プリンシパルを作成したときに出力として表示された `password` の値で置き換え  
+       
+     ```
+     [
+         {
+             "name": "KeyVaultName",
+             "value": "<your-key-vault-name>"
+         },
+         {
+             "name": "KeyVaultClientId",
+             "value": "<your-service-principal-application-id>"
+         },
+         {
+             "name": "KeyVaultClientSecret",
+             "value": "<your-service-principal-password>"
+         }
+     ]
+     ```
+  
+  5. エディターの最終的なコンテンツ例は以下
+    
+     ```
+     [
+         {
+             "name": "KeyVaultName",
+             "value": "contosokvjt7yc3zphxfda"
+         },
+         {
+             "name": "KeyVaultClientId",
+             "value": "94ee2739-794b-4038-a378-573a5f52918c"
+         },
+         {
+             "name": "KeyVaultClientSecret",
+             "value": "b9a3a8b7-574d-467f-8cae-d30d1d1c1ac4"
+         }
+     ]
+     ```
+         
+  6. **OK** を選択  
+    
+     <img src="images/.PNG" />  
+    
+  7. **構成** ブレードで**保存**を選択  
+    
+     <img src="images/.PNG" /> 
+    
 ### **Task 4**: Azure への API の展開
 このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。
 
