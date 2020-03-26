@@ -752,12 +752,12 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
       ```
   
   7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
-  
-     <img src="images/E7-T3-7SuccessAzCopy.PNG" />
+    
+       <img src="images/E7-T3-7SuccessAzCopy.PNG" />
   
   8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
   
-     <img src="images/E7-T3-8ConfirmContainerFiles.PNG" />
+      <img src="images/E7-T3-8ConfirmContainerFiles.PNG" />
   
 ## **Exercise 8: PDF にアクセスするための Azure Functions の作成**
 所要時間：30分
@@ -769,15 +769,15 @@ Contoso はアプリケーションを準備するためにいくつかの更新
   
   1. [Azure Portal](https://portal.azure.com/)で画面右上のメニューから Azure Cloud Shell アイコンを選択
     
-     <img src=".PNG" />
+     <img src="images/E8-T1-1LaunchCloudShell.PNG" />
 
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   3. Cloud Shell が正常に要求されたことを示すメッセージが表示され PS Azure プロンプトが表示
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App 名を取得
      ```
@@ -792,7 +792,7 @@ Contoso はアプリケーションを準備するためにいくつかの更新
   
   5. 次の手順で使用するために出力の Name の値をコピー
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   6. `policies` コンテナーの URL および以前の手順でテキスト エディターにコピーした `SAS トークン`の値を以下のように置換し Azure Cloud Shell コマンド プロンプトから実行
      - `<your-function-app-name>`: 以前の手順でコピーした Function App 名で置き換え
@@ -824,7 +824,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
      - **名前**: **PolicyStorageUrl** と入力
      - **値**: 以前の手順でコピーした **policies** コンテナーの URL を貼り付け
      
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   6. プロジェクトを保存
   
@@ -833,11 +833,11 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. LabVM で Visual Studio に戻りソリューション エクスプローラーで `Contoso.FunctionApp` を展開し `PolicyDocsFunction.cs` をダブルクリックして開く
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   2. `PolicyDocsFunction.cs` ファイルで `TODO #3` ブロック (14 行目以降) を確認
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   3. 契約名義人リストおよび契約番号を渡すためのブロック内のコードと "get" リクエストだけを許可するようコードを以下のように更新
     
@@ -851,7 +851,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   4. `PolicyDocsFunction.cs` ファイル内の `GetDocumentsFromStorage` メソッド内で `TODO #4`  ブロックを確認
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   5. ブロック内のコードを更新し上記の手順で追加した環境変数から `PolicyStorageUrl` および `PolicyStorageSas` の値を取得するようコードを以下のように更新
     
@@ -876,13 +876,13 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし**デバッグ**、**新しいインスタンスを開始**の順に選択
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
 
   2. メッセージが表示されたら、Function App がローカル マシンのリソースにアクセスすることを許可
   
   3. 新しいコンソール ダイアログが表示され Function App が読み込まれるので、コンソールの出力で関数のローカル URL を確認
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   4. `PolicyDocs` の後ろにある URL をコピーしてテキスト エディターに貼り付け
     
@@ -904,7 +904,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   7. 契約ドキュメントが新しいブラウザー ウィンドウで開く
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   8. 関数が適切に機能することを確認した後、コンソール ウィンドウを閉じるか、Visual Studio ツールバーの停止ボタンを選択して Visual Studio のデバッグ セッションを停止
     
@@ -913,21 +913,21 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   2. **発行先を選択**ダイアログで **Azure Functions Consumption Plan** を選択し、**既存のものを選択** を選択し、パッケージ ファイルから実行ボックスをオンにしたままにして**プロファイルの作成**を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   3. App Service ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Function App ("contoso-**func**" で始まるリソース) を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   4. **OK** を選択
   
   5. Visual Studio で `Contoso.FunctionApp` プロジェクトの発行ページに戻り、**発行**を選択して Function App を Azure Functions に発行
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   6. 正常に発行されたことを示すメッセージが Visual Studio の出力パネルに表示されることを確認
   
@@ -938,23 +938,23 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-func-UniqueId** App サービスを選択して **Function App** に移動
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   2. Function App ブレードの上部に表示されている **Configure Application Insights to capture function logs.** を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   3. アプリケーション インサイト ブレードで**新しいリソースを作成**を選択し、contoso-ai-SUFFIX などのグローバルに一意の名前を入力して**OK**を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   4. Application Insights リソースを作成した後、Function App の概要ブレードに戻り、構成済み機能]の **Application Insights** を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   5. Application Insights ブレードの左側のメニューから**ライブ メトリックス ストリーム**を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
      
       > メモ: アプリがオフラインであることを示すメッセージが表示される場合もありますが、この問題は次のタスクで処理します。
   
@@ -965,15 +965,15 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   3. PowerShell Azure プロンプトが表示される
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App の URL を取得
      ```
@@ -984,7 +984,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   5. 後で使用するために **DefaultHostName** 値をテキスト エディターにコピー
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   6. `<your-resource-group-name>` をリソース グループの名前で置き換えCloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得
      ```
@@ -993,15 +993,15 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   7. 後で使用するために Web App の名前 ("contoso-**web**" で始まるリソース名) をテキスト エディターにコピー
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   8. Function App に必要な最後の設定の Default Host Key を取得するには、Azure Portal で Function App に移動し概要ブレードで **Function App** の設定を選択
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
     
@@ -1018,7 +1018,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   11. Web App のアプリケーション設定に新しく追加した `PolicyDocumentsPath` 設定が表示される
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
 ### **Task 8**: Web アプリからドキュメント取得のテスト
 このタスクでは、PolicyConnect Web アプリを開いて保険契約ドキュメントをダウンロードします。以前の手順ではページが見つからないことを示すエラーが表示されていました。
@@ -1032,23 +1032,23 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
        - **Username**: demouser
        - **Password**: Password.1!!
        
-      <img src=".PNG" />
+      <img src="images/.PNG" />
   
   3. ログインしたら、上部のメニューから **Managed Policy Holders** を選択
     
-      <img src=".PNG" />
+      <img src="images/.PNG" />
 
   4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある [Details] リンクを選択
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
   6. **File Path** の下のリンクを選択して、契約ドキュメントをダウンロード
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
 ### **Task 9**: ライブ メトリックス ストリームの表示
   
@@ -1056,22 +1056,169 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の [Sample Telemetry] セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
     
-     <img src=".PNG" />
+     <img src="images/.PNG" />
   
 ## **Exercise 9: 保険契約ドキュメントへのフルテキスト検索機能の追加**
 所要時間：15分
-
-Contoso は保険契約ドキュメントのフルテキスト検索を実行する機能を実装したいと考えています。以前、Contoso では、使用可能な状態でドキュメントから情報を取得することができませんでしたが、『Azure Search Service でのコグニティブ検索』で紹介されている技法を検索インデックスで活用することを検討しています。この実習では、Blob ストレージ コンテナーのコグニティブ検索を構成します。
-
+  
+Contoso は保険契約ドキュメントのフルテキスト検索を実行する機能を実装したいと考えています。以前、Contoso では、使用可能な状態でドキュメントから情報を取得することができませんでしたが、[Azure Search Service でのコグニティブ検索](https://docs.microsoft.com/en-us/azure/search/cognitive-search-concept-intro)で紹介されている技法を検索インデックスで活用することを検討しています。このタスクでは、Blob ストレージ コンテナーのコグニティブ検索を構成します。
+  
 参考情報
-
 - Azure Cognitive Search における AI の概要  
 <https://docs.microsoft.com/ja-jp/azure/search/cognitive-search-concept-intro>
+  
 ### **Task 1**: ストレージ アカウントへの Azure Search の追加
+  
+  1. [Azure Portal](https://portal.azure.com/) の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択して、リソースの一覧から **contoso-UniqueId** ストレージ アカウントを選択して**ストレージ アカウント** リソースに移動
+    
+     <img src="images/.PNG" />
+  
+  2. ストレージ アカウント ブレードの左側のメニューで **Azure Search の追加** を選択し、**検索サービスを選択します**タブで検索サービスを選択
+    
+     <img src="images/.PNG" />
+  
+  3. **次へ:データへの接続** を選択
+  
+  4. **データへの接続**タブで以下の構成を入力
+    
+     - **データ ソース**: **Azure Blob Storage** を選択
+     - **名前**: **policy-docs** と入力
+     - **抽出されるデータ**: **コンテンツとメタデータ**を選択
+     - **Parsing mode**: **Default** を選択
+     - **接続文字列**: ストレージ アカウント用に事前入力された接続文字列に設定したまま
+     - **コンテナー名**: **policies**と入力
 
+     <img src="images/.PNG" />
+  
+  5. **次へ:Add cognitive search (Optional)]** を選択
+  
+  6. **Add cognitive search** タブで以下の構成を設定
+    
+     - Attach Cognitive Services を展開して Cognitive Services アカウントを選択
+     - Add enrichments を展開
+
+        - **Skillset name**: **policy-docs-skillset**と入力
+        - **Text cognitive skills**: このボックスをオンにしてすべてのスキルを選択
+
+     <img src="images/.PNG" />
+  
+  7. **次へ:Customize target index** を選択
+  
+  8. **Customize target index** タブで以下の構成を設定
+    
+     - **Index name**: **policy-docs-index** と入力
+     - 上部の**取得可能**ボックスをオンにしてすべての項目を選択
+     - 上部の**検索可能**ボックスをオンにして、すべての項目を選択
+    
+     <img src="images/.PNG" />
+  
+  9. **次へ:[インデクサーの作成** を選択
+  
+  10. **インデクサーの作成** タブで、名前に **policy-docs-indexer** と入力し、スケジュールに **1 回**を選択し**送信**を選択
+    
+      <img src="images/.PNG" />
+
+      > メモ: このタスクでは、作成時にインデクサーを 1 回だけ実行しています。運用アプリケーションでは、インデクサーを実行するスケジュールを時間単位や日単位などのスケジュールで選択する場合があります。これにより、ターゲット BLOB ストレージ アカウントに到着する新しいデータを取り込むことができるようになります。
+  
+  11. インポートが正常に構成されたことを示す通知が Azure Portal に表示
+  
 ### **Task 2**: 検索結果のレビュー
 このタスクでは、検索インデックスに対してクエリーを実行し、コグニティブ検索によって保険契約ドキュメントに追加されたエンリッチメントをレビューします。
-
+  
+  1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し **hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから  **contoso-search-UniqueId** リソースを選択して **Search サービス** リソースに移動
+    
+     <img src="images/.PNG" />
+  
+  2. Search サービス ブレードで**インデクサー**を選択
+    
+     <img src="images/.PNG" />
+  
+  3. Policy-docs-indexer のインデクサーを実行すると**成功**のステータスが表示されることを確認。ステータスが**処理中**の場合は、**成功**に変わるまで 20 ～ 30 秒おきに**更新**を実行
+    
+     > **履歴がありません**のステータスが表示される場合は、policy-docs-indexer を選択してインデクサー ブレードで**実行**を選択します。
+  
+  4. 次に、Search サービス ブレード ツールバーの**検索エクスプローラー**を選択
+    
+     <img src="images/.PNG" />
+  
+  5. **検索エクスプローラー**ブレードで**検索**を選択
+  
+  6. 検索結果で返ってきたドキュメントを特にあなたがサーチインデックスを作成した時に追加したコグニティブスキルによって追加されたフィールドに注意して検査する。
+  該当するフィールドは、`People`, `Organizations`, `Locations`, `Keyphrases`, `Language`, `Translated_Text` です。
+    
+     ```
+     {
+         "@search.score": 1,
+         "content": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\n\nworksheet1\n\n\t\tFirst Name\t\tDate of Birth\n\n\t\tIma\t\t21 January 2002\n\n\t\tEcho\t\t12 August 2003\n\n\n\n\n\n\n",
+         "metadata_storage_content_type": "application/octet-stream",
+         "metadata_storage_size": 142754,
+         "metadata_storage_last_modified": "2019-10-23T21:42:23Z",
+         "metadata_storage_content_md5": "ksk3JZT5QPkHfAR0F17ZEw==",
+         "metadata_storage_name": "Cooke-COO13CE2ZLOKD.pdf",
+         "metadata_storage_path": "aHR0cHM6Ly9ob2xzdG9yYWdlYWNjb3VudC5ibG9iLmNvcmUud2luZG93cy5uZXQvcG9saWNpZXMvQ29va2UtQ09PMTNDRTJaTE9LRC5wZGY1",
+         "metadata_content_type": "application/pdf",
+         "metadata_language": "en",
+         "metadata_author": "Contoso Insurance",
+         "metadata_title": "Your Policy",
+         "People": [
+             "Igor Cooke",
+             "Cooke",
+             "Max"
+         ],
+         "Organizations": [
+             "Contoso Insurance - Your Platinum Policy",
+             "NI",
+             "DEPENDENTS\nFirst",
+             "Ima",
+             "Page Summary\nDependents",
+             "Echo"
+         ],
+         "Locations": [],
+         "Keyphrases": [
+             "Platinum Policy",
+             "Policy Holder",
+             "Date of Birth",
+             "Echo",
+             "DEPENDENTS",
+             "Ima",
+             "Box",
+             "Pellentesque AveTaupo",
+             "Address",
+             "NI",
+             "Contoso Insurance",
+             "Igor Cooke",
+             "Effective Coverage Dates",
+             "Pocket Max",
+             "Page Summary",
+             "COO13CE2ZLOKD",
+             "worksheet1"
+         ],
+         "Language": "en",
+         "Translated_Text": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\nworksheet1\n\nFirst Name\t\tDate of Birth\n\nIma\t\t21 January 2002\n\nEcho\t\t12 August 2003\n\n"
+     }
+      ```
+  
+  7. 比較目的でコグニティブ検索スキルが有効化されていない状態の同じドキュメントの例を以下に示す
+    
+     ```
+     {
+         "@search.score": 1,
+         "content": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\n\nworksheet1\n\n\t\tFirst Name\t\tDate of Birth\n\n\t\tIma\t\t21 January 2002\n\n\t\tEcho\t\t12 August 2003\n\n\n\n\n\n\n",
+         "metadata_storage_content_type": "application/octet-stream",
+         "metadata_storage_size": 142754,
+         "metadata_storage_last_modified": "2019-10-23T21:42:23Z",
+         "metadata_storage_content_md5": "ksk3JZT5QPkHfAR0F17ZEw==",
+         "metadata_storage_name": "Cooke-COO13CE2ZLOKD.pdf",
+         "metadata_storage_path": "aHR0cHM6Ly9ob2xzdG9yYWdlYWNjb3VudC5ibG9iLmNvcmUud2luZG93cy5uZXQvcG9saWNpZXMvQ29va2UtQ09PMTNDRTJaTE9LRC5wZGY1",
+         "metadata_content_type": "application/pdf",
+         "metadata_language": "en",
+         "metadata_author": "Contoso Insurance",
+         "metadata_title": "Your Policy"
+     }
+     ```
+  
+  8. これらの検索結果からわかるようにコグニティブ スキルを追加すると、検索インデックスに有用なメタデータが追加され、ドキュメントおよびそのコンテンツの利用性が向上する
+  
 ## **Exercise 10: API Management への API のインポートと公開**
 所要時間：30分
 
