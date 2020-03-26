@@ -691,38 +691,77 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 - AzCopy  
 <https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azcopy-v10>
 
+### **Task 1**: PDF ファイルを格納するコンテナーの作成
+このタスクでは、ストレージ アカウントにスキャン済み保険契約ドキュメントを格納する新しい Blob コンテナーを作成します。
+
   1. [Azure Portal](https://portal.azure.com/)の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択してリソースの一覧から **contosoUniqueId** ストレージ アカウントを選択して**ストレージ アカウント**リソースに移動
     
      <img src="images/.PNG" /> 
   
-  2. ストレージ アカウントの**概要**ブレードのサービスの下にある**コンテナー**を選択
+  2. ストレージ アカウントの概要ブレードのサービスの下にある**コンテナー**を選択
     
      <img src="images/.PNG" /> 
   
-  3. **コンテナー**ブレードで**コンテナー**を選択し、**新しいコンテナー**ダイアログでコンテナー名として**policies**と入力しパブリック アクセス レベルを**プライベート 匿名アクセスなし ) **に設定して [OK] を選択
+  3. コンテナーブレードで**コンテナー**を選択し、新しいコンテナーダイアログでコンテナー名として`policies` と入力しパブリック アクセス レベルを**プライベート:匿名アクセスなし**に設定して **OK**を選択
     
      <img src="images/.PNG" /> 
   
-  4. 作成されたコンテナーを [コンテナー] ブレードで選択し、左側のメニューで [プロパティ] を選択します。[policies - プロパティ] ブレードから URL をコピーします。後で参照するために、この URL をテキスト エディターに貼り付け
+  4. 作成されたコンテナーをコンテナーブレードで選択し、左側のメニューで**プロパティ**を選択し、プロパティブレードから URL をコピーし、後で参照するために URL をテキスト エディターに貼り付け
     
      <img src="images/.PNG" /> 
   
-  5. 次に、ストレージ アカウントのアクセス キーを取得します。このキーは、以下の AzCopy がストレージ コンテナーに接続するために必要です。Azure Portal の [ストレージ アカウント] ブレードの左側のメニューから [アクセス キー] を選択し、次の手順で使用するために key1 Key の値をテキスト エディターにコピー
+  5. Azure Portal のストレージ アカウントブレードの左側のメニューから**アクセス キー**を選択し、タスク 3 の AzCopy でストレージ コンテナーに接続するために必要なストレージ アカウントのアクセス キーを取得し **key1 Key** の値をテキスト エディターにコピー
     
      <img src="images/.PNG" /> 
-  
-
-test
-
-
-### **Task 1**: PDF ファイルを格納するコンテナーの作成
-このタスクでは、ストレージ アカウントにスキャン済み保険契約ドキュメントを格納する新しい Blob コンテナーを作成します。
 
 ### **Task 2**: SAS トークンの作成
-このタスクでは、ストレージ アカウントの SAS (Shared Access Signature) トークンを生成します。これは後の実習で Azure Function を使用して Azure ストレージの policies コンテナーからファイルを取得するために使用します。
+このタスクでは、ストレージ アカウントの SAS (Shared Access Signature) トークンを生成します。これは後の実習で Azure Function を使用して Azure ストレージの `policies` コンテナーからファイルを取得するために使用します。
+
+  1. Azure Portal のストレージ アカウントブレードの左側のメニューから **Shared access signature** を選択
+
+     <img src="images/.PNG" />
+   
+  2. Shared access signature ブレードで **Generate SAS and connection string** を選択し、SAS トークン値の右側にあるクリップボードにコピーボタンを選択して SAS トークン値をコピー
+
+     <img src="images/.PNG" />
+
+  3. 後で使用するために、SAS トークンをテキスト エディターに貼り付け
 
 ### **Task 3**: AzCopy を使用した Blob ストレージへの PDF の一括アップロード
 このタスクでは、AzCopy を使用して PDF ファイルを "オンプレミス" の場所から Azure ストレージの policies コンテナーにコピーします。
+
+  1. LabVM で Web ブラウザーを開き https://aka.ms/downloadazcopy から最新バージョンの AzCopy をダウンロード
+   
+  2. ダウンロードしたインストーラーを実行し、ライセンス許諾書に同意した上ですべての既定値を受け入れて AzCopy のインストールを完了
+   
+  3. LabVM のタスク バーで検索を実行し **cmd** と入力して Enter キーを押しでコマンド プロンプト ウィンドウを起動
+   
+  4. コマンド プロンプトで以下のコマンドを実行しカレントディレクトリを AzCopy ディレクトリに変更 ( 既定では、AzCopy は 64 ビットのマシンでは `C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy` にあり、32 ビットのマシンの場合は `Program Files (x86)` を `Program Files` に変更)    
+      ```
+      cd C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy
+      ```
+
+  5. トークン化された値を置換し以下のコマンドをコマンド プロンプトに入力
+
+     - `[FILE-SOURCE]`: これは GitHub repo からのダウンロード コピーを行った `policy-documents` フォルダーのパスとなり `C:\MCW` に解凍している場合のパスは `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\policy-documents`
+     - `[STORAGE-CONTAINER-URL]`: これは以前のタスクの手順でコピーしたストレージ アカウントの policies コンテナーの URL (https://contosojt7yc3zphxfda.blob.core.windows.net/policieshttps://contosojt7yc3zphxfda.blob.core.windows.net/policies など )
+     - `[STORAGE-ACCOUNT-KEY]`: これは以前のタスクの手順でコピーした Blob ストレージ アカウント キー (eqgxGSnCiConfgshXQ1rFwBO+TtCH6sduekk6s8PxPBxHWOmFumycTeOlL3myb8eg4Ba2dn7rtdHnk/1pi6P/w== など )
+     ```
+     AzCopy /Source:"[FILE-SOURCE]" /Dest:"[STORAGE-CONTAINER-URL]" /DestKey:"[STORAGE-ACCOUNT-KEY]" /S
+     ```
+   
+  6. 最終的なコマンド例
+      ```
+     AzCopy /Source:"C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\policy-documents" /Dest:"https://contosojt7yc3zphxfda.blob.core.windows.net/policies" /DestKey:"XJT3us2KT1WQHAQBbeotrRCWQLZayFDNmhLHt3vl2miKOHeXasB7IUlw2+y4afH6R/03wbTiRK9SRqGXt9JVqQ==" /S
+      ```
+   
+  7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
+    
+     <img src="images/.PNG" />
+   
+  8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
+
+     <img src="images/.PNG" />
 
 ## **Exercise 8: PDF にアクセスするための Azure Functions の作成**
 所要時間：30分
