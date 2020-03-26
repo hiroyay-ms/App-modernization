@@ -696,34 +696,34 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
 
   1. [Azure Portal](https://portal.azure.com/)の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択してリソースの一覧から **contosoUniqueId** ストレージ アカウントを選択して**ストレージ アカウント**リソースに移動
     
-     <img src="images/.PNG" /> 
+     <img src="images/E7-T1-1SelectStorageAccount.PNG" /> 
   
   2. ストレージ アカウントの概要ブレードのサービスの下にある**コンテナー**を選択
     
-     <img src="images/.PNG" /> 
+     <img src="images/E7-T1-2SelectContainer.PNG" /> 
   
   3. コンテナーブレードで**コンテナー**を選択し、新しいコンテナーダイアログでコンテナー名として`policies` と入力しパブリック アクセス レベルを**プライベート:匿名アクセスなし**に設定して **OK**を選択
     
-     <img src="images/.PNG" /> 
+     <img src="images/E7-T1-3CreateNewContainer.PNG" /> 
   
   4. 作成されたコンテナーをコンテナーブレードで選択し、左側のメニューで**プロパティ**を選択し、プロパティブレードから URL をコピーし、後で参照するために URL をテキスト エディターに貼り付け
     
-     <img src="images/.PNG" /> 
+     <img src="images/E7-T1-4CopyStorageURL.PNG" /> 
   
-  5. Azure Portal のストレージ アカウントブレードの左側のメニューから**アクセス キー**を選択し、タスク 3 の AzCopy でストレージ コンテナーに接続するために必要なストレージ アカウントのアクセス キーを取得し **key1 Key** の値をテキスト エディターにコピー
+  5. Azure Portal のストレージ アカウントブレードの左側のメニューから**アクセス キー**を選択し、タスク 3 の AzCopy でストレージ コンテナーに接続するために必要なストレージ アカウントのアクセス キーを取得し **key1 キー** の値をテキスト エディターにコピー
     
-     <img src="images/.PNG" /> 
+     <img src="images/E7-T1-5CopyStorageKey.PNG" /> 
 
 ### **Task 2**: SAS トークンの作成
 このタスクでは、ストレージ アカウントの SAS (Shared Access Signature) トークンを生成します。これは後の実習で Azure Function を使用して Azure ストレージの `policies` コンテナーからファイルを取得するために使用します。
 
   1. Azure Portal のストレージ アカウントブレードの左側のメニューから **Shared access signature** を選択
 
-     <img src="images/.PNG" />
+     <img src="images/E7-T2-1SelectSAS.PNG" />
    
-  2. Shared access signature ブレードで **Generate SAS and connection string** を選択し、SAS トークン値の右側にあるクリップボードにコピーボタンを選択して SAS トークン値をコピー
+  2. Shared access signature ブレードで **SAS と接続文字列を生成する** を選択し、SAS トークン値の右側にあるクリップボードにコピーボタンを選択して SAS トークン値をコピー
 
-     <img src="images/.PNG" />
+     <img src="images/E7-T2-2GenerateSAS.PNG" />
 
   3. 後で使用するために、SAS トークンをテキスト エディターに貼り付け
 
@@ -757,11 +757,11 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
    
   7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
     
-     <img src="images/.PNG" />
+     <img src="images/E7-T3-7SuccessAzCopy.PNG" />
    
   8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
 
-     <img src="images/.PNG" />
+     <img src="images/E7-T3-8ConfirmContainerFiles.PNG" />
 
 ## **Exercise 8: PDF にアクセスするための Azure Functions の作成**
 所要時間：30分
