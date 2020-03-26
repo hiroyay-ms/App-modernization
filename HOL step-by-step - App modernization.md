@@ -17,17 +17,19 @@ March 2020
       - [Task 1: リソース グループの作成](#task-1-リソース-グループの作成)
       - [Task 2: リソース グループへのアクセス権限の付与](#task-2-リソース-グループへのアクセス権限の付与)
       - [Task 3: ストレージ アカウントの作成](#task-3-ストレージ-アカウントの作成)
-      - [Task 4: SQL Server 2008 R2 仮想マシンの作成](#task-4-sql-server-2008-r2-仮想マシンの作成)
-      - [Task 5: Azure SQL Database のプロビジョニング](#task-5-azure-sql-database-のプロビジョニング)
-      - [Task 6: Azure Database Migration Service の作成](#task-6-azure-database-migration-service-の作成)
-      - [Task 7: API App のプロビジョニング](#task-7-api-app-のプロビジョニング)
-      - [Task 8: Azure Functions のプロビジョニング](#task-8-azure-functions-のプロビジョニング)
-      - [Task 9: Cognitive Search Service のプロビジョニング](#task-9-cognitive-search-service-のプロビジョニング)
-      - [Task 10: Cognitive Service アカウントの作成](#task-10-cognitive-service-アカウントの作成)
-      - [Task 11: Azure Key Vault の作成](#task-11-azure-key-vault-の作成)
-      - [Task 12: API Management のプロビジョニング](#task-12-api-management-のプロビジョニング)
-      - [Task 13: SQL Server データベースの復元](#task-12-sql-server-データベースの復元)
-      - [Task 14: Data Migration Assistant のインストール](#task-13-data-migration-assistant-のインストール)
+      - [Task 4: 仮想ネットワークの作成](#task-4-仮想ネットワークの作成)
+      - [Task 5: SQL Server 2008 R2 仮想マシンの作成](#task-5-sql-server-2008-r2-仮想マシンの作成)
+      - [Task 6: Azure SQL Database のプロビジョニング](#task-6-azure-sql-database-のプロビジョニング)
+      - [Task 7: Azure Database Migration Service の作成](#task-7-azure-database-migration-service-の作成)
+      - [Task 8: Web App のプロビジョニング](#task-8-web-app-のプロビジョニング)
+      - [Task 9: API App のプロビジョニング](#task-9-api-app-のプロビジョニング)
+      - [Task 10: Azure Functions のプロビジョニング](#task-10-azure-functions-のプロビジョニング)
+      - [Task 11: Cognitive Search Service のプロビジョニング](#task-11-cognitive-search-service-のプロビジョニング)
+      - [Task 12: Cognitive Service アカウントの作成](#task-12-cognitive-service-アカウントの作成)
+      - [Task 13: Azure Key Vault の作成](#task-13-azure-key-vault-の作成)
+      - [Task 14: API Management のプロビジョニング](#task-14-api-management-のプロビジョニング)
+      - [Task 15: SQL Server データベースの復元](#task-15-sql-server-データベースの復元)
+      - [Task 16: Data Migration Assistant のインストール](#task-16-data-migration-assistant-のインストール)
   - [Exercise 2: Azure SQL Database へのオンプレミス データベースの移行](#exercise-2-azure-sql-database-へのオンプレミス-データベースの移行)
     - [Task 1: ContosoInsurance の構成](#task-1-contosoinsurance-の構成)
     - [Task 2: Azure SQL Database への移行の評価の実行](#task-2-azure-sql-database-への移行の評価の実行)
@@ -112,215 +114,618 @@ API Management は、開発チームとアフィリエイト パートナー向�
 ## **Exercise 1: 環境のセットアップ**
 
 ### **Task 1**: リソース グループの作成
-1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、Azure ポータル（<https://portal.azure.com>）を開く
-2. 「＋リソースの作成」をクリック
+
+1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
+
+2. **＋リソースの作成** をクリック
+
+   <img src="images/create-resource.png" />
+
+3. 画面上部の検索ボックスに **resource** と入力し、表示される候補から **Resouce Group** を選択
 
    <img src="images/resourcegroup-create-01.png" />
 
-3. 画面上部の検索ボックスに「**resource**」と入力  
-表示される候補から **Resouce Group** を選択
+4. リソース グループ作成の**基本**タブで、次を入力  
+   - **リソースグループ名**（任意、サブスクリプション内で一意）  
+   - **リージョン**（任意、このワークショップで使用する地域）
 
-   <img src="images/resourcegroup-create-02.png" width="500" />
+   <img src="images/resourcegroup-create-03.png" />
 
-4. リソース グループ作成の「基本」ブレード内で、次の構成オプションを指定
+5. **確認および作成**をクリック
 
-   a. リソースグループ名（任意、サブスクリプション内で一意）
-   b. リージョン（任意、このワークショップで使用する地域）
-
-   <img src="images/resourcegroup-create-04.png" width="700" />
-
-5. 「**確認および作成**」をクリック
-6. エラーがないことを確認し「**作成**」をクリックし、新しいリソース グループを作成
+6. 確認および作成タブで**作成**をクリックし、新しいリソース グループを作成
 
 ### **Task 2**: リソース グループへのアクセス権限の付与
 1. 作成したリソースの管理ブレードへ移動
-2. 「**アクセス制御 (IAM)**」をクリック
+
+2. **アクセス制御 (IAM)** をクリック
 
    <img src="images/customrole-create-01.png" />
 
-3. 「カスタム ロールを作成する」の「**追加**」をクリック
+3. **カスタム ロールを作成する**の**追加**をクリック
 
-   <img src="images/customrole-create-02.png" width="700" />
+   <img src="images/customrole-create-02.png" />
 
-4. カスタム ロールの作成の「基本」ブレードで、次の構成オプションを指定
+4. カスタム ロールの作成の**基本**ブレードで、次の構成オプションを指定
+   - **カスタム ロール名**: 任意
+   - **ベースラインのアクセス許可**: **ロールを複製します** を選択
+   - **複製するロール**: **共同作成者** を選択
 
-   a. カスタム ロール名（任意）  
-   b. ベースラインのアクセス許可（**ロールを複製します** を選択）  
-   c. 複製するロール（**共同作成者** を選択）
+   <img src="images/customrole-create-03.png" />
 
-   <img src="images/customrole-create-03.png" width="700" />
+5. **次へ**をクリック
 
-5. 「**次へ**」をクリック
-6. 「アクセス許可」ブレードで割り当てられている許可/除外権限を確認  
-「**次へ**」をクリック
+6. **アクセス許可**タブで割り当てられている許可/除外権限を確認し、**次へ**をクリック
 
    <img src="images/customrole-create-04.png" />
 
-7. 「割り当て可能なスコープ」ブレードで、現在のリソース グループが表示されていることを確認  
-「**確認と作成**」をクリック
+7. **割り当て可能なスコープ**タブで、現在のリソース グループが表示されていることを確認  
+   **確認と作成**をクリック
 
    <img src="images/customrole-create-05.png" />
 
-8. 「**作成**」をクリックし、プロビジョニングを開始
-9. リソースグループの「アクセス制御 (IAM)」タブで「ロールの割り当てを追加する」の「**追加**」をクリック
-0. 「ロール割り当ての追加」フォームで、次の構成オプションを指定
+8. **作成**をクリックし、プロビジョニングを開始
+9. リソースグループの**アクセス制御 (IAM)** タブで**ロールの割り当てを追加する**の**追加**をクリック
+0. **ロール割り当ての追加**フォームで、以下の構成オプションを指定
 
-   <img src="images/customrole-add-user-01.png" width="700" />
+   <img src="images/customrole-add-user-01.png" />
 
-   a. 役割（上記手順で作成したカスタム ロールを選択）  
-   b. 選択（権限を付与するユーザーを選択
+1. **ロール割り当ての追加**フォームで次を構成
+    - **役割**: 上記手順で作成したカスタム ロールを選択  
+    - **選択**: 権限を付与するユーザーを選択
 
-   <img src="images/customrole-add-user-02.png" />
+      <img src="images/customrole-add-user-02.png" />
 
-   >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
-   Azure AD 外のユーザーを追加する場合は、メールアドレスを入力してください。
+    >作成したカスタム ロールが表示されるまで時間がかかる場合があります。  
+     Azure AD 外のユーザーを追加する場合は、メールアドレスを入力してください。
 
-   ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。
+   ※Azure AD 外のユーザーの場合は、下記の招待メールが届きます。 
 
    <img src="images/customrole-invitation-mail.png" width="500" />
 
    「**Get Started**」をクリックすることで、組織へのアクセス権が付与されます。
 
-1. カスタム グループへ追加したユーザーで Azure ポータルを開く
+1. カスタム グループへ追加したユーザーで [Azure ポータル](https://portal.azure.com/)を開く
 2. リソース グループへアクセスできることを確認
 
 ### **Task 3**: ストレージ アカウントの作成
+このタスクでは、SQL Advanced Data Security を使用して実行される脆弱性評価だけでなく、ポリシー ドキュメントの格納に使用する Azure ストレージ アカウントをプロビジョニングします。
+1. [Azure ポータル](https://portal.azure.com/)で**＋リソースの作成**を選択
 
-### **Task 4**: SQL Server 2008 R2 仮想マシンの作成
+   <img src="images/create-resource.png" />
 
-### **Task 5**: Azure SQL Database のプロビジョニング
-このタスクでは、Azure SQL Database (Azure SQL DB) を展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "sql database" と入力しエンターを押し、その検索結果から **SQL Database**を選択し**作成**を選択
-  3. SQL データベースの作成の**基本**タブで以下を入力
-     - プロジェクトの詳細
-       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
-     - データベースの詳細
-       - **データベース名** : "contosoInsurance" と入力
-       - **サーバー** : **新規作成**を選択し、新しいサーバーのブレードで以下を入力
-         - **サーバー名** : "contosoinsuranceSUFFIX" と入力
-         - **サーバー管理者ログイン** : "demouser" と入力
-         - **パスワード** : "Password.1!!" と入力
-         - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
-         - **Azure サービスにサーバーへのアクセスを許可する** : チェックボックスをオン
-         - **OK** を選択
-       - **SQL エラスティック プールを使用しますか?** : いいえ を選択
-       - **コンピューティングとストレージ** : デフォルトで選択されている 汎用目的, Gen5, 2 仮想コア, 32 GB ストレージのままで OK ( もし、これと異なるものが選択されている場合、\[ データベースの構成 ] から選択し直してください ) 
-  4. **次: ネットワーク**を選択
-  5. 選択されている接続方法が**アクセスなし**となっていることを確認
-  6. **次: 追加設定**を選択
-  7. **追加設定**タブで**Advanced Data Security**の**無料試用版の開始**を選択
-  8. **確認および作成**を選択
-  9. **確認および作成**タブで**作成**を選択し SQL Database を展開
+2. 新規画面にて**ストレージ**を選択し、**ストレージ アカウント**をクリック
 
-### **Task 6**: Azure Database Migration Service の作成
-このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "database migration" と入力しエンターを押し、その検索結果から **Azure Database Migration サービス**を選択し**作成**を選択
-  3. 移行サービスの作成の**基本**タブで以下を入力
-     > Note: `あなたのサブスクリプションは Microsoft.DataMigration への適切なアクセスを持っていません`というメッセージが表示された場合、次に進む前にブラウザウィンドウをリフレッシュ ( 再読み込み ) してください。もしメッセージが引き続き表示される場合、リソースプロバイダーが正常に登録されていることを確認してください。正常に登録されている場合、このメッセージを無視しても大丈夫です。
-     - プロジェクトの詳細
-       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
-     - インスタンスの詳細
-       - **移行サービス名** : "contoso-dms-SUFFIX" と入力
-       - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
-       - **サービスモード** : Azure を選択
-       - **価格レベル** : \[ レベルの構成 ] を選択し、遷移した画面で Premium: 4 vCores を選択し \[ 適用 ] を選択
-  4. **次: ネットワーク**を選択
-  5. **ネットワーク**タブにおいて既存の仮想ネットワークのリストから **hands-on-lab-SUFFIX-vnet/default** の横にあるチェックボックスを選択します。これにより、DMS インスタンスは LabVM や SqlServer2008 仮想マシンと同じ VNet に展開されます。
-  6. **確認および作成**を選択
-  7. **作成**を選択
-  8. Azure Data Migration Service の展開には 15 分程かかります。この待ち時間の間に次のタスクに進むことができます。
+   <img src="images/storage-account-create-02.png" />
 
-### **Task 7**: Web App のプロビジョニング
-このタスクでは、Contoso Insurance の Web アプリケーションの実行環境を提供する App Service (Web App) を展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "web app" と入力しエンターを押し、その検索結果から **Web アプリ**を選択
-  3. Web アプリのブレードから**作成**を選択
-  4. Web アプリの作成の**基本**タブで以下を入力
-     - プロジェクトの詳細
-       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
-     - インスタンスの詳細
-       - **名前** : "contoso-web-SUFFIX" と入力
-       - **公開** : コード を選択
-       - **ランタイムスタック** : .NET Core 3.0 を選択
-       - **オペレーティングシステム** : Windows を選択
-       - **地域** : ハンズオンラボで使用するリソースのリージョンを選択
-     - App Service プラン
-       - **プラン** : **新規作成**を選択し名前に**hands-on-lab-asp**を入力
-       - **SKU とサイズ** : デフォルトで選択されている Standard S1 のままで OK ( もし、これと異なるものが選択されている場合、\[ サイズを変更します ] から選択し直してください ) 
-  5. **次: 監視**を選択
-  6. **監視**タブにおいて Application Insights を有効にするで**いいえ**を選択
-  7. **確認および作成**を選択
-  8. **作成**を選択
-  9. Web App の展開には数分かかります。この待ち時間の間に次のタスクに進むことができます。
+3. **ストレージ アカウントの作成**の**基本**タブで、次の構成を設定
 
-### **Task 8**: API App のプロビジョニング
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **ストレージ アカウント名**： 任意（一意の名前、小文字と数字で3～24文字で指定）
+      - **場所**： リソース グループと同じリージョンを選択
+      - **パフォーマンス**： Standard
+      - **アカウントの種類**： StorageV2 (汎用 v2)
+      - **レプリケーション**： ローカル冗長ストレージ (LRS)
+      - **アクセス層 (既定)**： ホット
 
-### **Task 9**: Azure Functions のプロビジョニング
-このタスクでは、Azure BLOB ストレージから PDF ドキュメントを取得するために使用する Function App を展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "function app" と入力しエンターを押し、その検索結果から **関数アプリ**を選択
-  3. 関数アプリのブレードから**作成**を選択
-  4. 関数アプリの作成の**基本**タブで以下を入力
-     - プロジェクトの詳細
-       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
-     - インスタンスの詳細
-       - **関数アプリ名** : "contoso-func-SUFFIX" と入力
-       - **公開** : コード を選択
-       - **ランタイムスタック** : .NET Core を選択
-       - **バージョン** : 3.1 を選択
-       - **地域** : ハンズオンラボで使用するリソースのリージョンを選択
-  5. **ホスト中**を選択
-    - **ストレージアカウント** : Task 3 で作成したストレージアカウントを選択
-    - **オペレーティングシステム** : Windows を選択
-    - **プランの種類** : 消費量 ( サーバーレス )　を選択
-  6. **次: 監視**を選択
-    - **Application Insights を有効にする** : **いいえ** を選択
-  7. **確認および作成**を選択
-  8. **作成**を選択 
+   <img src="images/storage-account-create-03.png" />
 
-### **Task 10**: Cognitive Search Service のプロビジョニング
-このタスクでは、Azure Cognitive Search Service を展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "Azure Cognitive Search" と入力しエンターを押し、その検索結果から **Azure Cognitive Search**を選択
-  3. Azure Cognitive Search のブレードから**作成**を選択
-  4. 新しい検索サービスの作成の**基本**タブで以下を入力
-     - プロジェクトの詳細
-       - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-       - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソースグループを選択
-     - インスタンスの詳細
-       - **URL** : "contoso-search-SUFFIX" と入力
-       - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
-       - **価格レベル** : デフォルトで選択されている Standard のままで OK ( もし、これと異なるものが選択されている場合、\[ 価格レベルの変更 ] から選択し直してください )
-  5. **確認および作成**を選択
-  6. **作成**を選択
-  7. Azure Cognitive Search Service の展開には 10 分程かかります。この待ち時間の間に次のタスクに進むことができます。
+4. **確認および作成**をクリック
+5. 検証に成功したメッセージを確認し**作成**をクリック
+
+### **Task 4**: 仮想ネットワークの作成
+このタスクでは、仮想マシンを配置するための仮想ネットワークを作成します。
+
+   1. **＋リソースの作成**をクリック
+ 
+      <img src="images/create-resource.png" />
+
+   2. 新規画面にて**ネットワーク**を選択し**仮想ネットワーク**をクリック
+
+      <img src="images/vnet-create-01.png" />
+
+   3. **仮想ネットワークの作成**の**基本**タブで、次の構成を設定
+      - プロジェクトの詳細
+         - **サブスクリプション**： ワークショップで使用するサブスクリプション
+         - **リソース グループ**： 先の手順で作成したリソース グループ
+      - インスタンスの詳細
+         - **名前**： 任意（英数字、アンダースコア、ピリオド、ハイフンのみ）
+         - **地域**： リソース グループと同じリージョンを選択
+
+      <img src="images/vnet-create-02.png" />
+   
+   4. **次：IP アドレス** **>** をクリック
+
+   5. **IP アドレス**タブで IP アドレス空間とサブネットを構成
+
+      ※ 本ワークショップでは既定の IP アドレス空間（10.0.0.0/16）、default サブネット（10.0.0.0/24）のままで OK
+
+      <img src="images/vnet-create-03.png" />
+
+   6. **確認および作成**をクリック
+   7. **作成**をクリックし、仮想ネットワークのプロビジョニングを開始
+
+### **Task 5**: SQL Server 2008 R2 仮想マシンの作成
+このタスクでは、Azure 仮想マシンをプロビジョニングします。   
+仮想マシンは Windows Server 2008 R2 イメージ上の SQL Server 2008 SP3 Standard を使用します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **SQL Server 2008 R2 SP3 on Windows Server 2008 R2** を入力し Enter キーを押下
+
+   <img src="images/sqlvm-create-01.png" />
+
+4. **ソフトウェア プランの選択**から**SQL Server 2008 R2 SP3 Standard on Windows Server 2008 R2**を選択
+5. **作成**をクリック
+
+   <img src="images/sqlvm-create-02.png" width="700" />
   
-### **Task 11**: Cognitive Service アカウントの作成
+6. **仮想マシンの作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **仮想マシン名**： SqlServer2008
+      - **地域**： リソース グループと同じリージョンを選択
+      - **可用性オプション**： インフラストラクチャ冗長は必要ありません
+      - **イメージ**： SQL Server 2008 R2 SP3 on Windows Server 2008 R2
+      - **Azure スポット インスタンス**： いいえ
+      - **サイズ**： Standard D2 v3（サイズを変更しますをクリックして選択）
+   - 管理者アカウント
+      - **ユーザー名**： demouser
+      - **パスワード**： Password.1!!
+   - 受信ポートの規則
+      - **パブリック受信ポート**： 選択したポートを許可する
+      - **受信ポートを選択**： RDP (3389)
+   - お金を節約
+      - **Windows Server ライセンスを既にお持ちの場合**： いいえ
+
+   <img src="images/sqlvm-create-03.png" />
+  
+7. **次：ディスク** **>** をクリック
+
+8. **ディスク**タブで **OS ディスクの種類**を **Standard SSD** に変更
+
+   <img src="images/sqlvm-create-04.png" />
+
+9. **次：ネットワーク** **>** をクリック
+0. **ネットワーク**タブで、次の構成を設定
+   - **仮想ネットワーク**： 先の手順で作成した仮想ネットワーク
+   - **サブネット**： 仮想ネットワーク内のサブネット
+   - **パブリック IP**： 既定のまま（新規作成）
+
+   <img src="images/sqlvm-create-05.png" />
+
+1. **SQL Server の設定**タブを選択
+
+   <img src="images/sqlvm-create-06.png" />
+  
+2. **SQL Serer の設定**タブで、以下の構成を設定
+   - SQL 認証
+      - **SQL 認証**： 有効化
+      - **ログイン名**： demouser
+      - **パスワード**： Password.1!!
+
+   <img src="images/sqlvm-create-07.png" />
+
+3. **確認と作成**をクリック
+4. **作成**をクリックし、仮想マシンのプロビジョニングを開始
+
+### **Task 6**: Azure SQL Database のプロビジョニング
+このタスクでは、Azure SQL Database (Azure SQL DB) を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. 新規画面にて**データベース**を選択し、**SQL Database**をクリック
+
+   <img src="images/sqldatabase-create-01.png" />
+
+3. **SQL Database の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - データベースの詳細
+      - **データベース名**： ContosoInsurance
+      - **サーバー**： 任意（contosoinsurance サフィックスを付けて新規作成）
+      - **SQL エラスティック プールを使用しますか**： いいえ
+      - **コンピューティングとストレージ**： 汎用目的 Gen5、2 仮想コア、32 GB ストレージ（既定）
+
+   <img src="images/sqldatabase-create-02.png" />
+
+   ※新しいサーバーの作成フォーム
+      - **サーバー名**： 任意（contosoinsurance サフィックスを付与）
+      - **サーバー管理者ログイン**： demouser
+      - **パスワード**： Password.1!!
+      - **場所**： リソース グループと同じリージョン  
+      <img src="images/sqldatabase-create-03.png" />
+
+4. **次：ネットワーク** **>** をクリック
+5. **ネットワーク**タブで**接続方法**の**アクセスなし**が選択されていることを確認し、**確認および作成**をクリック
+
+   <img src="images/sqldatabase-create-04.png" />
+
+6. **作成**をクリックし、SQL Database のプロビジョニングを開始
+
+### **Task 7**: Azure Database Migration Service の作成
+このタスクでは、Azure Database Migration Service (DMS) のインスタンスを展開します。
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **Azure Database Migration Service** と入力し Enter キーを押下
+
+   <img src="images/dms-create-01.png" />
+
+3. Azure Database Migration サービス ブレードにて**作成**をクリック
+
+   <img src="images/dms-create-02.png" width="600" />
+
+4. **SQL Database の作成**の**基本**タブで、次の構成を設定
+
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **移行サービス名**： contoso-dms
+      - **場所**： リソース グループと同じリージョン
+      - **サービス モード**： Azure
+      - **価格レベル**： Premium（レベルの構成をクリックし選択）
+
+   <img src="images/dms-create-04.png" />
+
+5. **ネットワーク**タブで SQL Server 2008 仮想マシンが配置されている仮想ネットワークを選択し、**確認および作成**をクリック
+
+   <img src="images/dms-create-05.png" />
+
+6. **作成**をクリックし、Azure Data Migration Service のプロビジョニングを開始
+
+### **Task 8**: Web App のプロビジョニング
+このタスクでは、Contoso Insurance の Web アプリケーションの実行環境を提供する App Service (Web App) を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. 新規画面にて **Web** を選択し、**Web アプリ**をクリック
+
+   <img src="images/webapp-create-01.png" />
+
+3. **Web アプリ**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **名前**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core 3.0
+      - **オペレーティング システム**： Windows
+      - **地域**： リソース グループと同じリージョン
+   - App Service プラン
+      - **Windows プラン**： 新規作成をクリックし、任意の名前で作成
+      - **SKU とサイズ**： Standard S1　ACU 合計 100, 1.75 GB メモリ
+
+   <img src="images/webapp-create-02.png" />
+
+   ※App Service プランの作成
+
+   <img src="images/app-service-plan.png" />
+
+4. **次：監視** **>** をクリック
+
+5. **監視**タブで **Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/webapp-create-03.png" />
+
+6. **確認および作成**をクリック
+
+7. **作成**をクリックし、Web アプリのプロビジョニングを開始
+
+### **Task 9**: API App のプロビジョニング
+このタスクでは、Contoso Insurance API をホスティングする App Service（Web App）を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. 新規画面にて **Web** を選択し、**Web アプリ**をクリック
+
+   <img src="images/webapp-create-01.png" />
+
+3. **Web アプリ**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **名前**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core 3.0
+      - **オペレーティング システム**： Windows
+      - **地域**： リソース グループと同じリージョン
+   - App Service プラン
+      - **Windows プラン**： 先の Web アプリで作成した App Service プランを選択
+      - **SKU とサイズ**： Standard S1　ACU 合計 100, 1.75 GB メモリ
+
+   <img src="images/apiapp-create-01.png" /> 
+
+4. **次：監視** **>** をクリック
+
+5. **監視**タブで **Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/webapp-create-03.png" />
+
+6. **確認および作成**をクリック
+
+7. **作成**をクリックし、Web アプリのプロビジョニングを開始
+
+### **Task 10**: Azure Functions のプロビジョニング
+このタスクでは、Azure BLOB ストレージから PDF ドキュメントを取得するために使用する Function App を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **function** と入力し、表示される候補より **Function App** を選択
+
+   <img src="images/function-create-01.png" />
+
+3. **関数アプリ**ブレードで**作成**をクリック
+
+   <img src="images/function-create-02.png" />
+
+4. **関数アプリの作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **関数アプリ名**： 任意（一意の名前）
+      - **公開**： コード
+      - **ランタイム スタック**： .NET Core
+      - **バージョン**： 3.1
+      - **地域**： リソース グループと同じリージョン
+
+   <img src="images/function-create-03.png" />
+
+5. **次：ホスト中** **>** をクリック
+
+6. **ホスト中**タブで、次の構成を設定
+   - **ストレージ アカウント**： 既定のまま（新規作成）
+   - **オペレーティング システム**： Windows
+   - **プランの種類**： 消費量 (サーバーレス)
+
+   <img src="images/function-create-04.png" />
+
+7. **次：監視** **>** をクリック
+
+8. **監視**タブで**Application Insights を有効にする**を**いいえ**に設定
+
+   <img src="images/function-create-05.png" />
+
+9. **確認および作成**をクリック
+
+0. **作成**をクリックし、関数アプリのプロビジョニングを開始
+
+### **Task 11**: Cognitive Search Service のプロビジョニング
+このタスクでは、Azure Cognitive Search Service を展開します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **Azure Cognitive Search** と入力し Enter キーを押下
+
+3. **Azure Cognitive Search** ブレードで**作成**をクリック
+
+   <img src="images/search-create-02.png" width="600" />
+
+4. **Azure Cognitive Search の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **URL**： 任意（2～60文字、小文字、数字、ダッシュのみ使用可）
+      - **場所**： リソース グループと同じリージョン
+      - **価格レベル**： Standard
+
+   <img src="images/search-create-03.png" />
+
+5. **確認および作成**をクリック
+
+6. **作成**をクリックし、Azure Cognitive Search のプロビジョニングを開始
+
+### **Task 12**: Cognitive Service アカウントの作成
 このタスクでは、Azure Cognitive Search Account を展開します。
-  1. [Azure Portal](https://portal.azure.com/) で**ポータルメニューの表示**を選択し、メニューから**リソースの作成**を選択
-  2. Azure Market Place の検索ウィンドウに "cognitive services" と入力しエンターを押し、その検索結果から **Cognitive Services**を選択
-  3. Cognitive Service のブレードから**作成**を選択
-  4. 新しい検索サービスの作成の**基本**タブで以下を入力
-     - **名前** : "ontoso-cog-services" と入力
-     - **サブスクリプション** : ハンズオンラボでで使用するサブスクリプションを選択
-     - **場所** : ハンズオンラボで使用するリソースのリージョンを選択
-     - **価格レベル** : S0 を選択
-     - **リソースグループ** : 既存のリソースグループのリストから "hands-on-lab-SUFFIX" リソ      - 注意事項を確認しチェックボックスにチェック
-  . **作成**を選択
 
-### **Task 12**: Azure Key Vault の作成
+1. **＋リソースの作成**をクリック
 
-### **Task 13**: API Management のプロビジョニング
+   <img src="images/create-resource.png" />
 
-### **Task 14**: SQL Server データベースの復元
+2. Azure Marketplace の検索ボックスに **cognitive service** と入力し、表示される候補より **Cognitive Services** を選択
 
-### **Task 15**: Data Migration Assistant のインストール
+   <img src="images/cognitive-service-create-01.png" />
+
+3. **Cognitive Services** ブレードで**作成**をクリック
+
+   <img src="images/cognitive-service-create-02.png" />
+
+4. **Cognitive Services の作成**の**基本**タブで、次の構成を設定
+   - **名前**： 任意（2～64文字、英数字、ダッシュのみ使用可）
+   - **サブスクリプション**： ワークショップで使用するサブスクリプション
+   - **場所**： リソース グループと同じリージョン
+   - **価格レベル**： S0
+   - **リソース グループ**： 先の手順で作成したリソース グループ
+   - **以下の通知を読み、理解しました** にチェック
+
+   <img src="images/cognitive-service-create-03.png" />
+
+5. **作成**をクリックし、Cognitive Services のプロビジョニングを開始
+
+### **Task 13**: Azure Key Vault の作成
+このタスクでは、Azure Key Vault のプロビジョニングを行います。  
+Azure Key Vault はアプリケーション シークレットを安全に保存するために使用できます。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **key vault** と入力し、表示される候補より **Key Vault** を選択
+
+   <img src="images/keyvault-create-01.png" />
+
+3. **Key Vault** ブレードで**作成**をクリック
+
+   <img src="images/keyvault-create-02.png" />
+
+4. **Key Vault の作成**の**基本**タブで、次の構成を設定
+   - プロジェクトの詳細
+      - **サブスクリプション**： ワークショップで使用するサブスクリプション
+      - **リソース グループ**： 先の手順で作成したリソース グループ
+   - インスタンスの詳細
+      - **Key Vault 名**： 任意
+      - **地域**： リソース グループと同じリージョン
+      - **価格レベル**： 標準
+      - **論理的な削除**： 無効化
+
+   <img src="images/keyvault-create-03.png" />
+
+5. **確認および作成**をクリック
+
+6. **作成**をクリックし、Key Vault のプロビジョニングを開始
+
+### **Task 14**: API Management のプロビジョニング
+このタスクでは、API Management をプロビジョニングします。  
+API Management は、Contoso Insurance API を管理するために使用します。
+
+1. **＋リソースの作成**をクリック
+
+   <img src="images/create-resource.png" />
+
+2. Azure Marketplace の検索ボックスに **API Management** と入力し Enter キーを押下
+
+3. **API Management** ブレードで**作成**をクリック
+
+   <img src="images/api-management-create-02.png" />
+
+4. **API Management の作成**フォームで、次の構成を設定
+   - **名前**： 任意（一意、英数字のみ使用可）
+   - **サブスクリプション**： ワークショップで使用するサブスクリプション
+   - **リソース グループ**： 先の手順で作成したリソース グループ
+   - **場所**： リソース グループと同じリージョン
+   - **組織名**： Contoso Insurance
+   - **管理者のメール アドレス**： 任意（ワークショップ参加者のメール アドレス）
+   - **価格レベル**： 開発者 (いいえ SLA)
+   - **Application Insights を有効にする** へのチェックはなし
+
+   <img src="images/api-management-create-03.png" />
+
+5. **作成**をクリックし、API Management のプロビジョニングを開始
+
+>API Management は作成の完了まで時間がかかるので、作成をクリック後、次のタスクの実行に移ります。
+
+### **Task 15**: SQL Server データベースの復元
+このタスクでは、SqlServer2008 仮想マシンへの RDP 接続を行い、サーバー OS への Internet Explorer のセキュリティ設定の無効化、および SQL Server へのデータベースの復元を行います。
+
+1. [Azure ポータル](https://portal.azure.com)でリソース グループをクリック
+
+   <img src="images/resource-group.png" />
+
+2. リストから作成したリソース グループを選択
+
+3. リソース グループ内のリソースの一覧より **SqlServer2008** 仮想マシンをクリック
+
+   <img src="images/resource-list-sqlserver.png" />
+
+4. 左側のメニューで**接続**タブを選択し、**RDP ファイルのダウンロード** をクリック
+
+   <img src="images/sqlserver-vm-setting-01.png" />
+
+5. ダウンロードした RDP ファイルを開き、**接続**をクリック
+
+   <img src="images/sqlserver-vm-setting-02.png" />
+
+6. プロンプトが表示されるので、次の資格情報を入力し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-03.png" />
+
+7. メッセージが表示されるので **はい** をクリックし、仮想マシンへ接続
+
+   <img src="images/sqlserver-vm-setting-04.png" />
+
+8. ログイン後、サーバー マネージャーを起動  
+※自動的に開始されない場合は、スタート メニューから起動
+
+9. **Security Information** の **Configure IE ESC** をクリック
+
+   <img src="images/sqlserver-vm-setting-05.png" />
+
+0. **Internet Explorer Enhanced Security** ダイアログが表示  
+**Administrators**, **Users** ともに **Off** を選択し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-06.png" />
+
+1. [ContosoInsurance データベースのバックアップ](https://raw.githubusercontent.com/microsoft/MCW-App-modernization/master/Hands-on%20lab/lab-files/Database/ContosoInsurance.zip) をダウンロードし、zip ファイルを C:\ContosoInsurance に展開
+
+   <img src="images/sqlserver-vm-setting-07.png" />
+
+2. スタート メニューから **SQL Server Management Studio** を起動
+
+   <img src="images/sqlserver-vm-setting-08.png" />
+
+3. **Connect to Server** ダイアログ ボックスで **Connect** をクリック 
+
+   <img src="images/sqlserver-vm-setting-09.png" />
+
+4. オブジェクト エクスプローラー内の **Databases** を右クリック  
+コンテキスト メニューより **Attach...** を選択
+
+   <img src="images/sqlserver-vm-setting-10.png" />
+
+5. **Attach Databases** ダイアログの **General** ページで **Add** ボタンをクリック  
+zip ファイルを展開したフォルダから **ContosoInsurance.mdf** を選択し **OK** をクリック
+
+   <img src="images/sqlserver-vm-setting-11.png" />
+
+6. **Attach Databases** ダイアログでデータベースの詳細にデータとログ ファイルが表示されていることを確認  
+**OK** をクリックし、データベースをアタッチ
+
+   <img src="images/sqlserver-vm-setting-12.png" />
+
+7. **Databases** リストに **ContosoInsurance** が表示されることを確認
+
+   <img src="images/sqlserver-vm-setting-13.png" />
+
+### **Task 16**: Data Migration Assistant のインストール
+このタスクでは、SqlServer2008 仮想マシンに Microsoft Data Migration Assistant（DMA）をインストールします。
+
+1. Web ブラウザーを起動し <https://www.microsoft.com/en-us/download/details.aspx?id=53595> へ移動
+
+2. **Download** をクリック
+
+   <img src="images/dma-install-01.png" />
+
+3. ダウンロードしたインストーラーを実行
+
+4. **Microsoft Data Migration Assistant Setup** ウィザードの開始画面で **Next** をクリック
+
+   <img src="images/dma-install-02.png" />
+
+5. ライセンス条項とプライバシー ポリシーに同意し **Next** をクリック
+
+   <img src="images/dma-install-03.png" />
+
+6. **Install** をクリックし、インストールを開始
+
+   <img src="images/dma-install-04.png" />
+
+7. **Finish** をクリックし、インストーラーを終了
+
+   <img src="images/dma-install-05.png" />
 
 ## **Exercise 2: Azure SQL Database へのオンプレミス データベースの移行**
 所要時間：45分
