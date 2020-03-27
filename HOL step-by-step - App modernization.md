@@ -1089,15 +1089,15 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
   
   1. [Azure Portal](https://portal.azure.com/) の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択して、リソースの一覧から **contoso-UniqueId** ストレージ アカウントを選択して**ストレージ アカウント** リソースに移動
     
-     <img src="images/.PNG" />
+     <img src="images/E9-T1-1SelectStorageAccount.PNG" />
   
   2. ストレージ アカウント ブレードの左側のメニューで **Azure Search の追加** を選択し、**検索サービスを選択します**タブで検索サービスを選択
-    
-     <img src="images/.PNG" />
   
   3. **次へ:データへの接続** を選択
+    
+      <img src="images/E9-T1-3AddAzureSearch.PNG" />
   
-  4. **データへの接続**タブで以下の構成を入力
+  4. **データへの接続**タブで以下の構成を入力し**次: 認知技術を追加します ( 省略可能 )** を選択
     
      - **データ ソース**: **Azure Blob Storage** を選択
      - **名前**: **policy-docs** と入力
@@ -1105,62 +1105,58 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
      - **Parsing mode**: **Default** を選択
      - **接続文字列**: ストレージ アカウント用に事前入力された接続文字列に設定したまま
      - **コンテナー名**: **policies**と入力
-
-     <img src="images/.PNG" />
   
-  5. **次へ:Add cognitive search (Optional)]** を選択
+     　　<img src="images/E9-T1-4AzureSearchConnectStorage.PNG" />
   
-  6. **Add cognitive search** タブで以下の構成を設定
+  5. **認知技術を追加します** タブで以下の構成を設定し**次: 対象インデックスをカスタマイズします** を選択
     
-     - Attach Cognitive Services を展開して Cognitive Services アカウントを選択
-     - Add enrichments を展開
+     - Cognitive Services をアタッチする展開して作成済みの Cognitive Services アカウントを選択
+       
+        <img src="images/E9-T1-5AzureSearchSetting1.PNG" />
 
-        - **Skillset name**: **policy-docs-skillset**と入力
-        - **Text cognitive skills**: このボックスをオンにしてすべてのスキルを選択
-
-     <img src="images/.PNG" />
+      - Add enrichments を展開
+        - **スキルセット名**: **policy-docs-skillset**と入力
+        - **テキストの認知技術**: このボックスをオンにしてすべてのスキルを選択
+        
+        <img src="images/E9-T1-5AzureSearchSetting2.PNG" />
   
-  7. **次へ:Customize target index** を選択
-  
-  8. **Customize target index** タブで以下の構成を設定
+  6. **対象インデックスをカスタマイズします** タブで以下の構成を設定し**次: インデクサーの作成** を選択
     
-     - **Index name**: **policy-docs-index** と入力
+     - **インデックス名**: **policy-docs-index** と入力
      - 上部の**取得可能**ボックスをオンにしてすべての項目を選択
      - 上部の**検索可能**ボックスをオンにして、すべての項目を選択
     
-     <img src="images/.PNG" />
+       <img src="images/E9-T1-6AzureSearchIndexCustomerise.PNG" />
   
-  9. **次へ:[インデクサーの作成** を選択
-  
-  10. **インデクサーの作成** タブで、名前に **policy-docs-indexer** と入力し、スケジュールに **1 回**を選択し**送信**を選択
+  7. **インデクサーの作成** タブで、名前に **policy-docs-indexer** と入力し、スケジュールに **1 度**を選択し**送信**を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E9-T1-7AzureSearchIndexCreate.PNG" />
 
       > メモ: このタスクでは、作成時にインデクサーを 1 回だけ実行しています。運用アプリケーションでは、インデクサーを実行するスケジュールを時間単位や日単位などのスケジュールで選択する場合があります。これにより、ターゲット BLOB ストレージ アカウントに到着する新しいデータを取り込むことができるようになります。
   
-  11. インポートが正常に構成されたことを示す通知が Azure Portal に表示
+  8. インポートが正常に構成されたことを示す通知が Azure Portal に表示
   
 ### **Task 2**: 検索結果のレビュー
 このタスクでは、検索インデックスに対してクエリーを実行し、コグニティブ検索によって保険契約ドキュメントに追加されたエンリッチメントをレビューします。
   
   1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し **hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから  **contoso-search-UniqueId** リソースを選択して **Search サービス** リソースに移動
     
-     <img src="images/.PNG" />
+     <img src="images/E9-T2-1SelectAzureSearch.PNG" />
   
-  2. Search サービス ブレードで**インデクサー**を選択
+  2. Search サービス ブレードで**インデクサー**を選択し Policy-docs-indexer が**成功**のステータスで表示されることを確認。ステータスが**処理中**の場合は、**成功**に変わるまで 20 ～ 30 秒おきに**更新**を実行
     
-     <img src="images/.PNG" />
+     <img src="images/E9-T2-2SelectAzureSearchIndexer.PNG" />
+
+     > **履歴がありません**のステータスが表示される場合は、policy-docs-indexer を選択してインデクサー ブレードで**実行**を選択します。  
   
-  3. Policy-docs-indexer のインデクサーを実行すると**成功**のステータスが表示されることを確認。ステータスが**処理中**の場合は、**成功**に変わるまで 20 ～ 30 秒おきに**更新**を実行
+  3. 次に、Search サービス ブレード ツールバーの**検索エクスプローラー**を選択
     
-     > **履歴がありません**のステータスが表示される場合は、policy-docs-indexer を選択してインデクサー ブレードで**実行**を選択します。
-  
-  4. 次に、Search サービス ブレード ツールバーの**検索エクスプローラー**を選択
-    
-     <img src="images/.PNG" />
+     <img src="images/E9-T2-3SelectAzureSearchExploer.PNG" />
   
   5. **検索エクスプローラー**ブレードで**検索**を選択
-  
+    
+     <img src="images/E9-T2-5StartAzureSearchExploer.PNG" />
+ 
   6. 検索結果で返ってきたドキュメントを特にあなたがサーチインデックスを作成した時に追加したコグニティブスキルによって追加されたフィールドに注意して検査する。
   該当するフィールドは、`People`, `Organizations`, `Locations`, `Keyphrases`, `Language`, `Translated_Text` です。
     
