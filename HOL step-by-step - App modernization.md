@@ -578,7 +578,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
   
       <img src="images/.PNG" />
-      @@@この結果がエラー500 なのであとで確認
+      @@@この結果がエラー500 なので .NetCore を確認
   
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
@@ -669,12 +669,12 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
   
       <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので後で確認
+      @@@API の結果がエラーなのでここが表示されないので要確認
   
   11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
   
       <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので後で確認
+      @@@API の結果がエラーなのでここが表示されないので要確認
   　　
   12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
   
@@ -1014,8 +1014,8 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
     
-     <img src="images/.PNG" />
-     @@@ランタイムエラーで表示されず
+     <img src="images/E8-T7-9CopyFunctionHostKey.PNG" />
+     @@@先に Azure Functions を展開した場合はランタイムエラーでホストキーが表示されず、発行時に新規作成の場合は表示される
   
   10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
     
@@ -1032,7 +1032,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   11. Web App のアプリケーション設定に新しく追加した `PolicyDocumentsPath` 設定が表示される
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T7-11AddWebAppConfig.PNG" />
   
 ### **Task 8**: Web アプリからドキュメント取得のテスト
 このタスクでは、PolicyConnect Web アプリを開いて保険契約ドキュメントをダウンロードします。以前の手順ではページが見つからないことを示すエラーが表示されていました。
@@ -1046,31 +1046,35 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
        - **Username**: demouser
        - **Password**: Password.1!!
        
-      <img src="images/.PNG" />
+      <img src="images/E8-T8-2LogInWebPage.PNG" />
   
   3. ログインしたら、上部のメニューから **Managed Policy Holders** を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T8-3SelectManagedPolicyHolders.PNG" />
 
   4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある [Details] リンクを選択
     
      <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
   
   5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認
     
      <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
   
   6. **File Path** の下のリンクを選択して、契約ドキュメントをダウンロード
     
      <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
   
 ### **Task 9**: ライブ メトリックス ストリームの表示
   
   1. Azure Portal で Application Insights のライブ メトリックス ストリームに戻る
   
-  2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の [Sample Telemetry] セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
+  2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の サンプル テレメトリ セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
     
      <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
   
 ## **Exercise 9: 保険契約ドキュメントへのフルテキスト検索機能の追加**
 所要時間：15分
