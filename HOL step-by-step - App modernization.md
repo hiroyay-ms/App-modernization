@@ -773,11 +773,11 @@ Contoso はアプリケーションを準備するためにいくつかの更新
 
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T1-2SellectPowerShell.PNG" />
   
   3. Cloud Shell が正常に要求されたことを示すメッセージが表示され PS Azure プロンプトが表示
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T1-3LaunchPowerShell.PNG" />
   
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App 名を取得
      ```
@@ -792,7 +792,7 @@ Contoso はアプリケーションを準備するためにいくつかの更新
   
   5. 次の手順で使用するために出力の Name の値をコピー
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T1-5ResultFunctionAppInfo.PNG" />
   
   6. `policies` コンテナーの URL および以前の手順でテキスト エディターにコピーした `SAS トークン`の値を以下のように置換し Azure Cloud Shell コマンド プロンプトから実行
      - `<your-function-app-name>`: 以前の手順でコピーした Function App 名で置き換え
@@ -818,26 +818,28 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
      - **名前**: **PolicyStorageSas**と入力
      - **値**: 以前の手順でコピーした **SAS トークン**を貼り付け
   
-  4. **OK** を選択
+  4. **追加**を選択
   
   5. **追加**を再度選択し新しいユーザー変数ダイアログで次の情報を入力
      - **名前**: **PolicyStorageUrl** と入力
      - **値**: 以前の手順でコピーした **policies** コンテナーの URL を貼り付け
-     
-     <img src="images/.PNG" />
   
-  6. プロジェクトを保存
+  6.  **追加**を選択
+  
+  7.  プロジェクトを保存
+    
+      <img src="images/E8-T2-5AddLocalFunctionEnvironmentValue.PNG" />
   
 ### **Task 3**: Visual Studio での Azure Functions の作成
 このタスクでは、Visual Studio を使用して Azure Functions を作成します。この関数は、Blob ストレージから保険契約ドキュメントを取得するサーバーレス API として機能します。
   
   1. LabVM で Visual Studio に戻りソリューション エクスプローラーで `Contoso.FunctionApp` を展開し `PolicyDocsFunction.cs` をダブルクリックして開く
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T3-1OpenPolicyDocsFunctionsCs.PNG" />
   
   2. `PolicyDocsFunction.cs` ファイルで `TODO #3` ブロック (14 行目以降) を確認
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T3-2ConfirmTODO3.PNG" />
   
   3. 契約名義人リストおよび契約番号を渡すためのブロック内のコードと "get" リクエストだけを許可するようコードを以下のように更新
     
@@ -846,12 +848,13 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
          public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "policies/{policyHolder}/{policyNumber}")] HttpRequest req, string policyHolder, string policyNumber, ILogger log)
      ```
+       <img src="images/E8-T3-3UpdateTODO3.PNG" />
 
      > このコードでは許容可能な動詞から `"post"` を削除し、HttpTrigger のルートを `null` から `policies/{policyHolder}/{policyNumber}`に更新することで関数をパラメーター化し、Run メソッドに `string` パラメーターを追加することで関数内でこれらのパラメーターを取得および使用可能にする
   
   4. `PolicyDocsFunction.cs` ファイル内の `GetDocumentsFromStorage` メソッド内で `TODO #4`  ブロックを確認
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T3-4ConfirmTODO4.PNG" />
   
   5. ブロック内のコードを更新し上記の手順で追加した環境変数から `PolicyStorageUrl` および `PolicyStorageSas` の値を取得するようコードを以下のように更新
     
@@ -859,6 +862,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
       var containerUri = Environment.GetEnvironmentVariable("PolicyStorageUrl");
       var sasToken = Environment.GetEnvironmentVariable("PolicyStorageSas");
       ```
+      <img src="images/E8-T3-5UpdateTODO4.PNG" />
 
       > API を Azure API App に展開すると `Environment.GetEnvironmentVariables()` は指定された値を構成済みアプリケーション設定内で検索
   
@@ -876,13 +880,14 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし**デバッグ**、**新しいインスタンスを開始**の順に選択
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T4-1StartLocalDebug.PNG" />
 
   2. メッセージが表示されたら、Function App がローカル マシンのリソースにアクセスすることを許可
   
   3. 新しいコンソール ダイアログが表示され Function App が読み込まれるので、コンソールの出力で関数のローカル URL を確認
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T4-3LocalDebugProcess1.PNG" />
+     <img src="images/E8-T4-3LocalDebugProcess2.PNG" />
   
   4. `PolicyDocs` の後ろにある URL をコピーしてテキスト エディターに貼り付け
     
@@ -904,7 +909,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   7. 契約ドキュメントが新しいブラウザー ウィンドウで開く
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T4-7LocalDebugResult.PNG" />
   
   8. 関数が適切に機能することを確認した後、コンソール ウィンドウを閉じるか、Visual Studio ツールバーの停止ボタンを選択して Visual Studio のデバッグ セッションを停止
     
@@ -913,23 +918,25 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T5-1PublishFunctions.PNG" />
   
   2. **発行先を選択**ダイアログで **Azure Functions Consumption Plan** を選択し、**既存のものを選択** を選択し、パッケージ ファイルから実行ボックスをオンにしたままにして**プロファイルの作成**を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T5-2SelectPublishTarget.PNG" />
   
   3. App Service ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Function App ("contoso-**func**" で始まるリソース) を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T5-3SelectAzureFunctions.PNG" />
   
   4. **OK** を選択
   
   5. Visual Studio で `Contoso.FunctionApp` プロジェクトの発行ページに戻り、**発行**を選択して Function App を Azure Functions に発行
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T5-5PublishAzureFunctions.PNG" />
   
   6. 正常に発行されたことを示すメッセージが Visual Studio の出力パネルに表示されることを確認
+    
+      <img src="images/E8-T5-6PublishResultAzureFunctions.PNG" />
   
   7. これで PolicyConnect Web アプリケーション内で Azure Function App を使用する準備が完了
   
@@ -938,23 +945,27 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-func-UniqueId** App サービスを選択して **Function App** に移動
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T6-1SelectAzureFunctions.PNG" />
   
-  2. Function App ブレードの上部に表示されている **Configure Application Insights to capture function logs.** を選択
+  2. Function App ブレードの上部に表示されている **新しい Azure Funtions 管理エクスペリエンスのプレビュー** を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T6-2SelectNewManagePreview.PNG" />
   
-  3. アプリケーション インサイト ブレードで**新しいリソースを作成**を選択し、contoso-ai-SUFFIX などのグローバルに一意の名前を入力して**OK**を選択
+  3. Azure Functions ブレードで設定から **Application Insights** を選択し、**Application Insights を有効にする**を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T6-3ActivateApplicationInsights.PNG" />
   
-  4. Application Insights リソースを作成した後、Function App の概要ブレードに戻り、構成済み機能]の **Application Insights** を選択
+  4. **contoso-func-appinsights-SUFFIX** などのグローバルに一意の名前を入力し、場所を選択して**適用**を選択し再起動への同意に**はい**を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T6-4ApplyApplicationInsights.PNG" />
   
-  5. Application Insights ブレードの左側のメニューから**ライブ メトリックス ストリーム**を選択
+  5. 正常に変更が適用されたメッセージが表示された後、作成されたリソース名を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T6-5CreateApplicationInsights.PNG" />
+  
+  6. Application Insights ブレードの左側のメニューから**Live Metrics**を選択
+    
+      <img src="images/E8-T6-6SelectLiveMetrics.PNG" />
      
       > メモ: アプリがオフラインであることを示すメッセージが表示される場合もありますが、この問題は次のタスクで処理します。
   
@@ -965,18 +976,19 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T7-1LaunchCloudShell.PNG" />
   
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T7-2SellectPowerShell.PNG" />
   
   3. PowerShell Azure プロンプトが表示される
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T7-3LaunchPowerShell.PNG" />
   
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App の URL を取得
      ```
+     $resourceGroup = "<your-resource-group-name>"
      az functionapp list -g <your-resource-group-name> --output table
      ```
         
@@ -984,24 +996,26 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   5. 後で使用するために **DefaultHostName** 値をテキスト エディターにコピー
     
-      <img src="images/.PNG" />
+      <img src="images/E8-T7-5ResultFunctionAppInfo.PNG" />
   
   6. `<your-resource-group-name>` をリソース グループの名前で置き換えCloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得
      ```
+     $resourceGroup = "<your-resource-group-name>"
      az webapp list -g <your-resource-group-name> --output table
      ```
   
   7. 後で使用するために Web App の名前 ("contoso-**web**" で始まるリソース名) をテキスト エディターにコピー
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T7-7ResultWebAppInfo.PNG" />
   
   8. Function App に必要な最後の設定の Default Host Key を取得するには、Azure Portal で Function App に移動し概要ブレードで **Function App** の設定を選択
     
-     <img src="images/.PNG" />
+     <img src="images/E8-T7-8SelectFunctionAppSettings.PNG" />
   
   9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
     
      <img src="images/.PNG" />
+     @@@ランタイムエラーで表示されず
   
   10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
     
