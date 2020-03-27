@@ -793,50 +793,50 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 ### **Task 4**: Key Vault へのサービス プリンシパル アクセスの割り当て
 このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
 
-## **Exercise 5: Azure App Services への Web API の展開**  
-所要時間：45分  
+## **Exercise 5: Azure App Services への Web API の展開**
+所要時間：45分
   
-Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。  
+Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。
   
-### **Task 1**: Visual Studio でソリューションを開く  
-このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています。   
+### **Task 1**: Visual Studio でソリューションを開く
+このタスクでは、`Contoso` スターター ソリューションを Visual Studio で開きます。Visual Studio ソリューションには以下のプロジェクトが含まれています
   
-  - **Contoso.Azure**: ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ  
-  - **Contoso.Data**: データ アクセス オブジェクトを含むライブラリ  
-  - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます  
-  - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション  
-  - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API  
+  - **Contoso.Azure**: ソリューション内で Azure サービスと通信するためにその他のプロジェクトで使用されるヘルパー クラスを含む共通のライブラリ
+  - **Contoso.Data**: データ アクセス オブジェクトを含むライブラリ
+  - **Contoso.FunctionApp**: Blob ストレージから保険契約ドキュメントを取得するために使用される Azure Function を含みます
+  - **Contoso.Web**: ASP.NET Core 2.2 PolicyConnect Web アプリケーション
+  - **Contoso.WebApi**: データベースと通信するために Web アプリケーションで使用される ASP.NET Core 2.2 Web API
   
-  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く  
- 
-     <img src="images/E5-T1-1OpenSln.PNG" />  
+  1. ファイル エクスプローラーで `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\src` に移動し、`Contoso.sln` ファイルをダブルクリックしてソリューションを Visual Studio で開く
   
-  2. ファイルを開く方法を尋ねるメッセージが表示されたら **Visual Studio 2019** を選択し**OK**を選択  
-   
-     <img src="images/E5-T1-2SelectOpen.PNG" />  
-
+     <img src="images/E5-T1-1OpenSln.PNG" />
+  
+  2. ファイルを開く方法を尋ねるメッセージが表示されたら **Visual Studio 2019** を選択し**OK**を選択
+  
+     <img src="images/E5-T1-2SelectOpen.PNG" />
+  
   3. Azure アカウントの資格情報を使用して Visual Studio にサインイン  
+  
+     <img src="images/E5-T1-3VSsignin.PNG" />
+  
+  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択
+  
+     <img src="images/E5-T1-4SecurityCheck.PNG" />
+  
+### **Task 2**: Key Vault を使用するための Web API の更新
+このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために `Contoso.WebApi` プロジェクトを更新します。接続情報を `Contoso.WebApi` プロジェクトの `appsettings.json` ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。
+  > Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。追加されているパッケージは `Microsoft.Extensions.Configuration.AzureKeyVault` です。
+  
+  1. Visual Studio のソリューション エクスプローラーで `Contoso.WebApi` プロジェクトを展開し `Program.cs` ファイルをダブルクリックして開く
+  
+     <img src="images/E5-T2-1OpenProgramcs.png" />
    
-     <img src="images/E5-T1-3VSsignin.PNG" />  
+  2. `Program.cs` ファイルで `CreateWebHostBuilder` メソッド内の `TODO #1 ブロック` (23 行目) を見つける
   
-  4. セキュリティ警告メッセージが表示された場合、**ソリューション内のすべてのプロジェクトに対して確認メッセージを表示する**ボックスをオフにして**OK**を選択  
+     <img src="images/E5-T2-2ConfirmTODO1.PNG" />
   
-     <img src="images/E5-T1-4SecurityCheck.PNG" />  
-  
-### **Task 2**: Key Vault を使用するための Web API の更新  
-このタスクでは、アプリケーション シークレットの格納と取得を目的として Azure Key Vault を使用するために `Contoso.WebApi` プロジェクトを更新します。接続情報を `Contoso.WebApi` プロジェクトの `appsettings.json` ファイルに追加し、いくつかのコードを追加して Azure Key Vault の使用を有効化します。  
-  > Key Vault との対話を有効化するために必要な NuGet パッケージはプロジェクト内で既に参照されています。追加されているパッケージは `Microsoft.Extensions.Configuration.AzureKeyVault` です。  
-  
-  1. Visual Studio のソリューション エクスプローラーで `Contoso.WebApi` プロジェクトを展開し `Program.cs` ファイルをダブルクリックして開く  
-    
-     <img src="images/E5-T2-1OpenProgramcs.png" />  
-    
-  2. `Program.cs` ファイルで `CreateWebHostBuilder` メソッド内の `TODO #1 ブロック` (23 行目) を見つける  
-    
-     <img src="images/E5-T2-2ConfirmTODO1.PNG" />  
-    
-  3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供  　
-     
+  3. 次のコードを使用してブロック内のコードを完了し Key Vault を構成に追加し Key Vault に適切な接続情報を提供
+   
      ```
      config.AddAzureKeyVault(
          KeyVaultConfig.GetKeyVaultEndpoint(buildConfig["KeyVaultName"]),
@@ -845,47 +845,47 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
       );
       ``` 
     
-  4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる  
-    
-     <img src="images/E5-T2-4UpdateTODO1.PNG" />  
-    
-  5. 次に `Contoso.WebApi` プロジェクトの `Startup.cs` ファイルを更新するためにソリューション エクスプローラーでこのファイルをダブルクリック  
-    
-  6. 前の実習では、Azure SQL Database の接続文字列を Key Vault に追加し、シークレットに `SqlConnectionString` という名前を割り当てた。次は以下のコードを使用して、`Startup.cs` ファイルの `Configuration` プロパティ内の `TODO #2` ブロック (38 行目) を更新する。この更新により、アプリケーションでシークレット名を使用して Key Vault から接続文字列を取得することができる  
-    
-     <img src="images/E5-T2-6ConfirmTODO2.PNG" />  
+  4. `Program.cs` を保存し更新された `CreateWebHostBuilder` メソッドは次のようになる
+  
+     <img src="images/E5-T2-4UpdateTODO1.PNG" />
+  
+  5. 次に `Contoso.WebApi` プロジェクトの `Startup.cs` ファイルを更新するためにソリューション エクスプローラーでこのファイルをダブルクリック
+  
+  6. 前の実習では、Azure SQL Database の接続文字列を Key Vault に追加し、シークレットに `SqlConnectionString` という名前を割り当てた。次は以下のコードを使用して、`Startup.cs` ファイルの `Configuration` プロパティ内の `TODO #2` ブロック (38 行目) を更新する。この更新により、アプリケーションでシークレット名を使用して Key Vault から接続文字列を取得することができる
+  
+     <img src="images/E5-T2-6ConfirmTODO2.PNG" />
      
      ```
      services.AddDbContext<ContosoDbContext>(options =>  
          options.UseSqlServer(Configuration["SqlConnectionString"]));
      ```
     
-  7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる  
-    
-     <img src="images/E5-T2-7UpdateTODO2.PNG" />  
-    
-  8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる  
-    
+  7. `Startup.cs` を保存し更新された `Configuration` プロパティは次のようになる
+  
+     <img src="images/E5-T2-7UpdateTODO2.PNG" />
+  
+  8. これで Web API が完全に構成され、Azure Key Vault からシークレットを取得できるようになる
+  
 ### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー  
-Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。  
-
-  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動  
-    
-     <img src="images/E5-T3-1SelectAPIapp.PNG" />  
-    
-  2. API App ブレードの左側のメニューで**構成**を選択  
-    
-     <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />  
-    
-  3. 構成ブレードの**アプリケーション設定**タブで**高度な編集**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )  
-    
-     <img src="images/E5-T3-3SelectAdvancedEdit.PNG" />  
-    
-  4. 詳細エディターを使用し 3 つの Key Vault 設定すべてを一度に追加するために詳細エディターの内容を以下で置き換え  
-    
-     - `your-key-vault-name`: 以前の実習でテキストエディターにコピーしたキーコンテナーの名前に置き換え  
-     - `your-service-principal-application-id`: サービス プリンシパルを作成したときに出力として表示された `appId` の値で置き換え  
-     - `your-service-principal-password`: これは、サービス プリンシパルを作成したときに出力として表示された `password` の値で置き換え  
+Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
+  
+  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動
+      
+     <img src="images/E5-T3-1SelectAPIapp.PNG" />
+  
+  2. API App ブレードの左側のメニューで**構成**を選択
+  
+     <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />
+  
+  3. 構成ブレードの**アプリケーション設定**タブで**高度な編集**を選択 ( Advanced edit では JSON を構成に直接貼り付け可能 )
+  
+     <img src="images/E5-T3-3SelectAdvancedEdit.PNG" />
+  
+  4. 詳細エディターを使用し 3 つの Key Vault 設定すべてを一度に追加するために詳細エディターの内容を以下で置き換え
+  
+     - `your-key-vault-name`: 以前の実習でテキストエディターにコピーしたキーコンテナーの名前に置き換え
+     - `your-service-principal-application-id`: サービス プリンシパルを作成したときに出力として表示された `appId` の値で置き換え
+     - `your-service-principal-password`: これは、サービス プリンシパルを作成したときに出力として表示された `password` の値で置き換え
        
      ```
      [
@@ -904,106 +904,106 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
      ]
      ```
   
-  5. エディターの最終的なコンテンツ例は以下  
-    
-     ```
-     [
-         {
-             "name": "KeyVaultName",
-             "value": "contosokvjt7yc3zphxfda"
-         },
-         {
-             "name": "KeyVaultClientId",
-             "value": "94ee2739-794b-4038-a378-573a5f52918c"
-         },
-         {
-             "name": "KeyVaultClientSecret",
-             "value": "b9a3a8b7-574d-467f-8cae-d30d1d1c1ac4"
-         }
-     ]
-     ```
+  5. エディターの最終的なコンテンツ例は以下
+  
+       ```
+       [
+           {
+               "name": "KeyVaultName",
+               "value": "contosokvjt7yc3zphxfda"
+           },
+           {
+               "name": "KeyVaultClientId",
+               "value": "94ee2739-794b-4038-a378-573a5f52918c"
+           },
+           {
+               "name": "KeyVaultClientSecret",
+               "value": "b9a3a8b7-574d-467f-8cae-d30d1d1c1ac4"
+           }
+       ]
+       ```
          
-  6. **OK** を選択  
+  6. **OK** を選択
+  
+     <img src="images/E5-T3-6CompleteJSON.PNG" />
+  
+  7. **構成** ブレードで**保存**を選択
+  
+     <img src="images/E5-T3-7-1SaveConfiguration.PNG" />
+  
+  8. アプリケーションの再起動確認で**続行**を選択
+  
+     <img src="images/E5-T3-7-2RebootApp.PNG" />
     
-     <img src="images/E5-T3-6CompleteJSON.PNG" />  
-    
-  7. **構成** ブレードで**保存**を選択  
-    
-     <img src="images/E5-T3-7-1SaveConfiguration.PNG" />  
-    
-  8. アプリケーションの再起動確認で**続行**を選択  
-    
-     <img src="images/E5-T3-7-2RebootApp.PNG" />  
-      
-### **Task 4**: Azure への API の展開  
-このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。  
-
-  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択  
-    
-     <img src="images/E5-T4-1SetPublishAPIapp.PNG" />   
-    
-  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択  
-    
-     <img src="images/E5-T4-2SelectPublishAPIapp.PNG" />  
-    
-  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (contoso-**api** で始まるリソース) を選択  
-    
-     <img src="images/E5-T4-3SelectPublishAzureAPIapp.PNG" />  
-    
-  4. **OK** を選択  
-    
-  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行  
-    
-     <img src="images/E5-T4-5PublishAzureAPIapp.PNG" />  
-    
-  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される  
-    
-     <img src="images/E5-T4-6CheckPublishStatus.PNG" />  
-    
-     >  **Web 公開アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Web 公開アクティビティ**の順に選択します  
-    
-  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。  
-    
-     <img src="images/E5-T4-7CantFoundURL.PNG" />  
-    
-  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )  
-    
-     <img src="images/E5-T4-8AccessSwagger.PNG" />  
-     
-     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能  
-    
-  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト  
-    
-     <img src="images/E5-T4-9TryGET.PNG" />  
-    
-  10. **Execute** を選択  
-    
-      <img src="images/E5-T4-10SelectExecute.PNG" />  
-    
-  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される  
-    
-      <img src="images/.PNG" />  
-      @@@この結果がエラー500 なのであとで確認
-    
+### **Task 4**: Azure への API の展開
+このタスクでは、Visual Studio を使用して API プロジェクトを Azure の API App に展開します。
+  
+  1. Visual Studio ソリューション エクスプローラーで **Contoso.Web** プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+  
+     <img src="images/E5-T4-1SetPublishAPIapp.PNG" />
+  
+  2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択**を選択して**プロファイルの作成**を選択
+  
+     <img src="images/E5-T4-2SelectPublishAPIapp.PNG" />
+  
+  3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある API App (contoso-**api** で始まるリソース) を選択
+  
+     <img src="images/E5-T4-3SelectPublishAzureAPIapp.PNG" />
+  
+  4. **OK** を選択
+  
+  5. Visual Studio で `Contoso.WebApi` プロジェクトの発行ページに戻り、**発行**を選択して Web API を Azure API App に発行
+  
+     <img src="images/E5-T4-5PublishAzureAPIapp.PNG" />
+  
+  6. Web API が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される
+  
+     <img src="images/E5-T4-6CheckPublishStatus.PNG" />
+  
+     >  **Web 公開アクティビティ** ビューが表示されない場合は、**表示**メニューから**その他のウィンドウ**、**Web 公開アクティビティ**の順に選択します
+  
+  7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web API の URL を開く。最初はページが見つからないことを示すメッセージが表示される。
+  
+     <img src="images/E5-T4-7CantFoundURL.PNG" />
+  
+  8. API App が正常に機能していることを確認するにはブラウザーのアドレス バーの末尾に `/swagger` を追加する。 ( 例 : https://contoso-api-jjbp34uowoybc.azurewebsites.net/swagger/ )。API の Swagger UI ページが表示され使用可能な API エンドポイントのリストが表示される )
+  
+     <img src="images/E5-T4-8AccessSwagger.PNG" />
+  
+     > [Swagger UI](https://swagger.io/tools/swagger-ui/) では、OpenAPI Specification に従い REST API の文書が自動的に生成される。開発者はこの文書を使用し実装ロジックなしで API のエンドポイントを可視化し容易に操作が可能
+  
+  9. いずれかの `GET` エンドポイントを選択し、**Try it out** を選択して API の機能をテスト
+  
+     <img src="images/E5-T4-9TryGET.PNG" />
+  
+  10. **Execute** を選択
+  
+      <img src="images/E5-T4-10SelectExecute.PNG" />
+  
+  11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
+  
+      <img src="images/.PNG" />
+      @@@この結果がエラー500 なので .NetCore を確認
+  
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
-
+  
 ### **Task 1**: Web App のアプリケーション設定への API App URL の追加
 所要時間：10分
-
-このタスクでは、Azure Cloud Shell および Azure CLI を使用して発行済み API App の URL を Web App のアプリケーション設定に追加し、Web App が API App と連動するための準備を行います。
-
+  
+このタスクでは、Azure Cloud Shell および Azure CLI を使用して発行済み API App の URL を Web App のアプリケーション設定に追加し、Web App が API App と連動するための準備を行います。  
+  
   1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
   
-     <img src="images/E6-T1-1LaunchCloudShell.PNG" /> 
-  
+     <img src="images/E6-T1-1LaunchCloudShell.PNG" />
+    
   2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
   
-     <img src="images/E6-T1-2SellectPowerShell.png" /> 
+     <img src="images/E6-T1-2SellectPowerShell.png" />
   
   3. PowerShell Azure プロンプトが表示される
   
-     <img src="images/E6-T1-3LaunchPowerShell.PNG" /> 
+     <img src="images/E6-T1-3LaunchPowerShell.PNG" />
   
   4. Cloud Shell プロンプトで以下のコマンドを `<your-resource-group-name>` の箇所をリソース グループの名前で置き換え実行し API App URL と Web App の両方の情報を取得
   
@@ -1012,14 +1012,11 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
      az webapp list -g $resourceGroup --output table
      ```
      
-    > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、  
-    Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、  
-    このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>`
-    を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
+      > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、 Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>` を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
   
   5. 出力された次の手順で使用する API App の **DefaultHostName** 値 ("contoso-**api**" で始まるリソース名) および Web App の **Name** の 2 つの値をコピーします
   
-     <img src="images/E6-T1-5AppInfo.PNG" /> 
+     <img src="images/E6-T1-5AppInfo.PNG" />
   
   6. 次にコマンドの値を以下のように置換し、Azure Cloud Shell コマンド プロンプトから実行
   
@@ -1034,32 +1031,32 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   7. 出力結果から Web App のアプリケーション設定に新しく追加された設定を確認
   
-     <img src="images/E6-T1-10CheckNewWebAppConfig.PNG" /> 
+     <img src="images/E6-T1-10CheckNewWebAppConfig.PNG" />
   
 ### **Task 2**: Azure への Web アプリケーションの展開
 このタスクでは、Contoso.Web アプリケーションを Azure Web App に発行します。
-
+  
   1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.Web` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
   
-     <img src="images/E6-T2-1SetPublishWebApp.PNG" /> 
+     <img src="images/E6-T2-1SetPublishWebApp.PNG" />
   
   2. **発行先を選択**ダイアログで **App Service** を選択し**既存のものを選択** を選択して**プロファイルの作成**を選択
   
-     <img src="images/E6-T2-2SelectPublishWebApp.PNG" /> 
+     <img src="images/E6-T2-2SelectPublishWebApp.PNG" />
   
   3. **App Service** ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Web App ("contoso-**web**" で始まるリソース) を選択
   
-     <img src="images/E6-T2-3SelectPublishAzureWebApp.PNG" /> 
+     <img src="images/E6-T2-3SelectPublishAzureWebApp.PNG" />
   
   4. **OK** を選択
   
   5. Visual Studio で `Contoso.Web` プロジェクトの発行ページに戻り、**発行**を選択して Web App を Azure Web App に発行
   
-     <img src="images/E6-T2-5PublishAzureWebApp.PNG" /> 
+     <img src="images/E6-T2-5PublishAzureWebApp.PNG" />
   
   6. Web App が正常に発行されたことを示すステータスがサイトへの URL と共に Visual Studio の **Web  公開アクティビティ** ビューに表示される
   
-     <img src="images/E6-T2-6CheckPublishStatus.PNG" /> 
+     <img src="images/E6-T2-6CheckPublishStatus.PNG" />
   
   7. Web ブラウザーが開いて発行済みサイトが表示される。表示されない場合は、ブラウザー ウィンドウで発行済み Web App の URL を開く
   
@@ -1073,107 +1070,574 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   9. ログイン後、上部のメニューから **Managed Policy Holders** を選択
   
      <img src="images/E6-T2-9SelectManagedPolicyHolders.PNG" />
-     
+  
   10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
-    
+  
       <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので後で確認
-
+      @@@API の結果がエラーなのでここが表示されないので要確認
+  
   11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
-    
+  
       <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので後で確認
-    　　
+      @@@API の結果がエラーなのでここが表示されないので要確認
+  　　
   12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
-
-
+  
 ## **Exercise 7: Blob ストレージへの保険契約ドキュメントのアップロード**
 所要時間：10分
-
+  
 現在、Contoso では、スキャンしたすべての PDF ファイルをローカル ネットワーク内に格納しています。Contoso は、PDF ファイルをワークフローからクラウドに自動的に格納したいと考えています。この実習では、Blob コンテナーにファイルを格納するためのストレージ アカウントを準備します。次に、既存の PDF ファイルを一括アップロードします。
-
+  
 参考情報
 - AzCopy  
 <https://docs.microsoft.com/ja-jp/azure/storage/common/storage-use-azcopy-v10>
-
-  1. [Azure Portal](https://portal.azure.com/)の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択してリソースの一覧から **contosoUniqueId** ストレージ アカウントを選択して**ストレージ アカウント**リソースに移動
-    
-     <img src="images/.PNG" /> 
   
-  2. ストレージ アカウントの**概要**ブレードのサービスの下にある**コンテナー**を選択
-    
-     <img src="images/.PNG" /> 
-  
-  3. **コンテナー**ブレードで**コンテナー**を選択し、**新しいコンテナー**ダイアログでコンテナー名として**policies**と入力しパブリック アクセス レベルを**プライベート 匿名アクセスなし ) **に設定して [OK] を選択
-    
-     <img src="images/.PNG" /> 
-  
-  4. 作成されたコンテナーを [コンテナー] ブレードで選択し、左側のメニューで [プロパティ] を選択します。[policies - プロパティ] ブレードから URL をコピーします。後で参照するために、この URL をテキスト エディターに貼り付け
-    
-     <img src="images/.PNG" /> 
-  
-  5. 次に、ストレージ アカウントのアクセス キーを取得します。このキーは、以下の AzCopy がストレージ コンテナーに接続するために必要です。Azure Portal の [ストレージ アカウント] ブレードの左側のメニューから [アクセス キー] を選択し、次の手順で使用するために key1 Key の値をテキスト エディターにコピー
-    
-     <img src="images/.PNG" /> 
-  
-
-
-
-
 ### **Task 1**: PDF ファイルを格納するコンテナーの作成
 このタスクでは、ストレージ アカウントにスキャン済み保険契約ドキュメントを格納する新しい Blob コンテナーを作成します。
-
+  
+  1. [Azure Portal](https://portal.azure.com/)の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択してリソースの一覧から **contosoUniqueId** ストレージ アカウントを選択して**ストレージ アカウント**リソースに移動
+   
+     <img src="images/E7-T1-1SelectStorageAccount.PNG" />
+    
+  2. ストレージ アカウントの概要ブレードのサービスの下にある**コンテナー**を選択
+  
+     <img src="images/E7-T1-2SelectContainer.PNG" />
+  
+  3. コンテナーブレードで**コンテナー**を選択し、新しいコンテナーダイアログでコンテナー名として`policies` と入力しパブリック アクセス レベルを**プライベート:匿名アクセスなし**に設定して **OK**を選択
+  
+     <img src="images/E7-T1-3CreateNewContainer.PNG" />
+  
+  4. 作成されたコンテナーをコンテナーブレードで選択し、左側のメニューで**プロパティ**を選択し、プロパティブレードから URL をコピーし、後で参照するために URL をテキスト エディターに貼り付け
+  
+     <img src="images/E7-T1-4CopyStorageURL.PNG" />
+  
+  5. Azure Portal のストレージ アカウントブレードの左側のメニューから**アクセス キー**を選択し、タスク 3 の AzCopy でストレージ コンテナーに接続するために必要なストレージ アカウントのアクセス キーを取得し **key1 キー** の値をテキスト エディターにコピー
+  
+     <img src="images/E7-T1-5CopyStorageKey.PNG" />
+  
 ### **Task 2**: SAS トークンの作成
-このタスクでは、ストレージ アカウントの SAS (Shared Access Signature) トークンを生成します。これは後の実習で Azure Function を使用して Azure ストレージの policies コンテナーからファイルを取得するために使用します。
-
+このタスクでは、ストレージ アカウントの SAS (Shared Access Signature) トークンを生成します。これは後の実習で Azure Function を使用して Azure ストレージの `policies` コンテナーからファイルを取得するために使用します。
+  
+  1. Azure Portal のストレージ アカウントブレードの左側のメニューから **Shared access signature** を選択
+  
+     <img src="images/E7-T2-1SelectSAS.PNG" />
+   
+  2. Shared access signature ブレードで **SAS と接続文字列を生成する** を選択し、SAS トークン値の右側にあるクリップボードにコピーボタンを選択して SAS トークン値をコピー
+  
+     <img src="images/E7-T2-2GenerateSAS.PNG" />
+  
+  3. 後で使用するために、SAS トークンをテキスト エディターに貼り付け
+  
 ### **Task 3**: AzCopy を使用した Blob ストレージへの PDF の一括アップロード
 このタスクでは、AzCopy を使用して PDF ファイルを "オンプレミス" の場所から Azure ストレージの policies コンテナーにコピーします。
-
+  
+  1. LabVM で Web ブラウザーを開き https://aka.ms/downloadazcopy から最新バージョンの AzCopy をダウンロード
+  
+  2. ダウンロードしたインストーラーを実行し、ライセンス許諾書に同意した上ですべての既定値を受け入れて AzCopy のインストールを完了
+  
+  3. LabVM のタスク バーで検索を実行し **cmd** と入力して Enter キーを押しでコマンド プロンプト ウィンドウを起動
+  
+  4. コマンド プロンプトで以下のコマンドを実行しカレントディレクトリを AzCopy ディレクトリに変更 ( 既定では、AzCopy は 64 ビットのマシンでは `C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy` にあり、32 ビットのマシンの場合は `Program Files (x86)` を `Program Files` に変更)    
+      ```
+      cd C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy
+      ```
+  
+  5. トークン化された値を置換し以下のコマンドをコマンド プロンプトに入力
+  
+     - `[FILE-SOURCE]`: これは GitHub repo からのダウンロード コピーを行った `policy-documents` フォルダーのパスとなり `C:\MCW` に解凍している場合のパスは `C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\policy-documents`
+     - `[STORAGE-CONTAINER-URL]`: これは以前のタスクの手順でコピーしたストレージ アカウントの policies コンテナーの URL (https://contosojt7yc3zphxfda.blob.core.windows.net/policieshttps://contosojt7yc3zphxfda.blob.core.windows.net/policies など )
+     - `[STORAGE-ACCOUNT-KEY]`: これは以前のタスクの手順でコピーした Blob ストレージ アカウント キー (eqgxGSnCiConfgshXQ1rFwBO+TtCH6sduekk6s8PxPBxHWOmFumycTeOlL3myb8eg4Ba2dn7rtdHnk/1pi6P/w== など )
+     ```
+     AzCopy /Source:"[FILE-SOURCE]" /Dest:"[STORAGE-CONTAINER-URL]" /DestKey:"[STORAGE-ACCOUNT-KEY]" /S
+     ```
+  
+  6. 最終的なコマンド例
+      ```
+     AzCopy /Source:"C:\MCW\MCW-App-modernization-master\Hands-on lab\lab-files\policy-documents" /Dest:"https://contosojt7yc3zphxfda.blob.core.windows.net/policies" /DestKey:"XJT3us2KT1WQHAQBbeotrRCWQLZayFDNmhLHt3vl2miKOHeXasB7IUlw2+y4afH6R/03wbTiRK9SRqGXt9JVqQ==" /S
+      ```
+  
+  7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
+    
+       <img src="images/E7-T3-7SuccessAzCopy.PNG" />
+  
+  8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
+  
+      <img src="images/E7-T3-8ConfirmContainerFiles.PNG" />
+  
 ## **Exercise 8: PDF にアクセスするための Azure Functions の作成**
 所要時間：30分
-
-Contoso はアプリケーションを準備するためにいくつかの更新を行いましたが、API に組み込むことのできていない機能がいくつかあります。Contoso は、PoC (概念実証) API ソリューションをセットアップして、アプリケーションのユーザーが Azure ストレージ アカウントから保険契約情報を直接取得できるようにしたいと考えています。この実習では、Azure Functions を作成し、サーバーレス テクノロジを使用して、この機能を有効にします。
-
+  
+Contoso はアプリケーションを準備するためにいくつかの更新を行いましたが、API に組み込むことのできていない機能がいくつかあります。Contoso は、PoC ( 概念実証 ) API ソリューションをセットアップして、アプリケーションのユーザーが Azure ストレージ アカウントから保険契約情報を直接取得できるようにしたいと考えています。この実習では、Azure Functions を作成し、サーバーレス テクノロジを使用して、この機能を有効にします。
+  
 ### **Task 1**:  Azure Functions へのアプリケーション設定の追加
 このタスクでは、Azure Cloud Shell および Azure CLI を使用して、ストレージ アカウントの policies コンテナー URL および SAS トークン値を Function App のアプリケーション設定に追加し、新しい関数と連動するよう Azure Function App を準備します。
+  
+  1. [Azure Portal](https://portal.azure.com/)で画面右上のメニューから Azure Cloud Shell アイコンを選択
+    
+     <img src="images/E8-T1-1LaunchCloudShell.PNG" />
 
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+    
+     <img src="images/E8-T1-2SellectPowerShell.PNG" />
+  
+  3. Cloud Shell が正常に要求されたことを示すメッセージが表示され PS Azure プロンプトが表示
+    
+     <img src="images/E8-T1-3LaunchPowerShell.PNG" />
+  
+  4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App 名を取得
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az functionapp list -g $resourceGroup --output table
+     ```
+   
+     > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、  
+    Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、  
+    このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>`
+    を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります  
+  
+  5. 次の手順で使用するために出力の Name の値をコピー
+    
+     <img src="images/E8-T1-5ResultFunctionAppInfo.PNG" />
+  
+  6. `policies` コンテナーの URL および以前の手順でテキスト エディターにコピーした `SAS トークン`の値を以下のように置換し Azure Cloud Shell コマンド プロンプトから実行
+     - `<your-function-app-name>`: 以前の手順でコピーした Function App 名で置き換え
+     - `<your-policies-container-url>`: 以前の手順でコピーした `policies` コンテナー URL で置き換え
+     - `<your-storage-account-sas-token>`: 以前の手順でコピーしたストレージ アカウントの `SAS トークン`で置き換え
+
+     ```
+     $functionAppName = "<your-function-app-name>"
+     $storageUrl = "<your-policies-container-url>"
+     $storageSas = "<your-storage-account-sas-token>"
+     az functionapp config appsettings set -n $functionAppName -g $resourceGroup --settings "PolicyStorageUrl=$storageUrl" "PolicyStorageSas=$storageSas"
+     ```
+  
 ### **Task 2**: プロジェクト環境変数の追加
-関数は環境変数を使用して構成設定を取得します。関数をローカルでテストするには、これらの設定を開発用マシンでユーザー環境変数として追加するか、プロジェクト設定に追加する必要があります。
-
+Azure Functions は環境変数を使用して構成設定を取得します。作成した Azure Functions をローカルでテストするには、これらの設定を開発用マシンでユーザー環境変数として追加するか、プロジェクト設定に追加する必要があります。
+このタスクでは、LabVM でいくつかの環境変数を作成し、LabVM 上でローカルに Function App のデバッグを行えるようにします。
+  
+  1. ソリューション エクスプローラーで **Contoso-FunctionApp** プロジェクトを右クリックして **プロパティ** を選択
+  
+  2. **デバッグ**タブを選択
+  
+  3. **環境変数**セクションで**追加**を選択して以下の情報を入力
+     - **名前**: **PolicyStorageSas**と入力
+     - **値**: 以前の手順でコピーした **SAS トークン**を貼り付け
+  
+  4. **追加**を選択
+  
+  5. **追加**を再度選択し新しいユーザー変数ダイアログで次の情報を入力
+     - **名前**: **PolicyStorageUrl** と入力
+     - **値**: 以前の手順でコピーした **policies** コンテナーの URL を貼り付け
+  
+  6.  **追加**を選択
+  
+  7.  プロジェクトを保存
+    
+      <img src="images/E8-T2-5AddLocalFunctionEnvironmentValue.PNG" />
+  
 ### **Task 3**: Visual Studio での Azure Functions の作成
 このタスクでは、Visual Studio を使用して Azure Functions を作成します。この関数は、Blob ストレージから保険契約ドキュメントを取得するサーバーレス API として機能します。
+  
+  1. LabVM で Visual Studio に戻りソリューション エクスプローラーで `Contoso.FunctionApp` を展開し `PolicyDocsFunction.cs` をダブルクリックして開く
+    
+     <img src="images/E8-T3-1OpenPolicyDocsFunctionsCs.PNG" />
+  
+  2. `PolicyDocsFunction.cs` ファイルで `TODO #3` ブロック (14 行目以降) を確認
+    
+     <img src="images/E8-T3-2ConfirmTODO3.PNG" />
+  
+  3. 契約名義人リストおよび契約番号を渡すためのブロック内のコードと "get" リクエストだけを許可するようコードを以下のように更新
+    
+     ```
+     [FunctionName("PolicyDocs")]
+         public static async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "policies/{policyHolder}/{policyNumber}")] HttpRequest req, string policyHolder, string policyNumber, ILogger log)
+     ```
+       <img src="images/E8-T3-3UpdateTODO3.PNG" />
 
+     > このコードでは許容可能な動詞から `"post"` を削除し、HttpTrigger のルートを `null` から `policies/{policyHolder}/{policyNumber}`に更新することで関数をパラメーター化し、Run メソッドに `string` パラメーターを追加することで関数内でこれらのパラメーターを取得および使用可能にする
+  
+  4. `PolicyDocsFunction.cs` ファイル内の `GetDocumentsFromStorage` メソッド内で `TODO #4`  ブロックを確認
+    
+      <img src="images/E8-T3-4ConfirmTODO4.PNG" />
+  
+  5. ブロック内のコードを更新し上記の手順で追加した環境変数から `PolicyStorageUrl` および `PolicyStorageSas` の値を取得するようコードを以下のように更新
+    
+      ```
+      var containerUri = Environment.GetEnvironmentVariable("PolicyStorageUrl");
+      var sasToken = Environment.GetEnvironmentVariable("PolicyStorageSas");
+      ```
+      <img src="images/E8-T3-5UpdateTODO4.PNG" />
+
+      > API を Azure API App に展開すると `Environment.GetEnvironmentVariables()` は指定された値を構成済みアプリケーション設定内で検索
+  
+  6. `PolicyDocsFunction.cs` を保存
+  
+  7. Function のコードをレビューし、その仕組みを理解しておいてください。 Azure Functions は Http リクエストを受け取るたびに `HttpTrigger` を実行します。また Http リクエストは `GET` リクエストにのみに制限するように構成されており、 
+  Function App でリクエストを PolicyDocs 関数にルーティングするために、リクエストは `https://<function-name>.azurewebsites.net/policies/{policyHolder}/{policyName}` の形式である必要があります。関数内で、Http リクエストは ストレージ アカウントの `policies` コンテナー の URL に対して発行され、指定した契約名義人および契約番号の PDF ドキュメントが取得されます。PDF ドキュメントは PDF 添付ファイルとしてブラウザーに返されます
+  
+  8. これで Function App が完全に構成され、パラメーター化された値の取得およびストレージ アカウントの `policies` コンテナーからドキュメントの取得を行う  
+  
 ### **Task 4**: ローカル環境での関数のテスト
-このタスクでは、Visual Studio デバッガ―から関数をローカルで実行し、適切に構成されていること、およびストレージ アカウントの policies コンテナーからドキュメントを取得できることを確認します。
+このタスクでは、Visual Studio デバッガ―から関数をローカルで実行し、適切に構成されていること、およびストレージ アカウントの `policies` コンテナーからドキュメントを取得できることを確認します。
+  
+ > 重要: Windows Server 2008 R2 の Internet Explorer には PDF ドキュメントを開く機能が含まれていません。このタスクでダウンロードしてドキュメントを表示するには、LabVM で [Chrome ブラウザーをダウンロードしてインストール](https://www.google.com/chrome/)する必要があります。
+  
+  1. Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし**デバッグ**、**新しいインスタンスを開始**の順に選択
+    
+     <img src="images/E8-T4-1StartLocalDebug.PNG" />
 
+  2. メッセージが表示されたら、Function App がローカル マシンのリソースにアクセスすることを許可
+  
+  3. 新しいコンソール ダイアログが表示され Function App が読み込まれるので、コンソールの出力で関数のローカル URL を確認
+    
+     <img src="images/E8-T4-3LocalDebugProcess1.PNG" />
+     <img src="images/E8-T4-3LocalDebugProcess2.PNG" />
+  
+  4. `PolicyDocs` の後ろにある URL をコピーしてテキスト エディターに貼り付け
+    
+     ```
+     http://localhost:7071/api/policies/{policyHolder}/{policyNumber}
+     ```
+  
+  5. トークン化された値を次のように置換
+    
+     - {policyHolder}: Acevedo
+     - {policyNumber}: ACE5605VZZ2ACQ
+
+     更新した URL 例は以下
+      ```
+      http://localhost:7071/api/policies/Acevedo/ACE5605VZZ2ACQ
+      ```
+  
+  6. 更新した URL を新しい Chrome Web ブラウザー ウィンドウのアドレス バーに入力して Enter 
+  
+  7. 契約ドキュメントが新しいブラウザー ウィンドウで開く
+    
+      <img src="images/E8-T4-7LocalDebugResult.PNG" />
+  
+  8. 関数が適切に機能することを確認した後、コンソール ウィンドウを閉じるか、Visual Studio ツールバーの停止ボタンを選択して Visual Studio のデバッグ セッションを停止
+    
 ### **Task 5**: Azure Functions への関数の展開
 このタスクでは、関数を Azure Functions に展開します。Azure Functions では、Web アプリケーションが関数を使用して契約ドキュメントを取得します。
-
+  
+  1. LabVM 上の Visual Studio のソリューション エクスプローラーで `Contoso.FunctionApp` プロジェクトを右クリックし、コンテキスト メニューから**発行**を選択
+    
+      <img src="images/E8-T5-1PublishFunctions.PNG" />
+  
+  2. **発行先を選択**ダイアログで **Azure Functions Consumption Plan** を選択し、**既存のものを選択** を選択し、パッケージ ファイルから実行ボックスをオンにしたままにして**プロファイルの作成**を選択
+    
+      <img src="images/E8-T5-2SelectPublishTarget.PNG" />
+  
+  3. App Service ダイアログで使用する Azure サブスクリプションを選択し、必要に応じて適切な資格情報を使用してログインし、以前に発行したサブスクリプションが選択されていることを確認。そして、hands-on-lab-SUFFIX リソース グループの下にある Function App ("contoso-**func**" で始まるリソース) を選択
+    
+      <img src="images/E8-T5-3SelectAzureFunctions.PNG" />
+  
+  4. **OK** を選択
+  
+  5. Visual Studio で `Contoso.FunctionApp` プロジェクトの発行ページに戻り、**発行**を選択して Function App を Azure Functions に発行
+    
+      <img src="images/E8-T5-5PublishAzureFunctions.PNG" />
+  
+  6. 正常に発行されたことを示すメッセージが Visual Studio の出力パネルに表示されることを確認
+    
+      <img src="images/E8-T5-6PublishResultAzureFunctions.PNG" />
+  
+  7. これで PolicyConnect Web アプリケーション内で Azure Function App を使用する準備が完了
+  
 ### **Task 6**: Azure Functions での Application Insights の有効化
 このタスクでは、Application Insights を Azure Functions に追加し、関数に対するリクエストのインサイトを収集します。
-
+  
+  1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-func-UniqueId** App サービスを選択して **Function App** に移動
+    
+      <img src="images/E8-T6-1SelectAzureFunctions.PNG" />
+  
+  2. Function App ブレードの上部に表示されている **新しい Azure Funtions 管理エクスペリエンスのプレビュー** を選択
+    
+      <img src="images/E8-T6-2SelectNewManagePreview.PNG" />
+  
+  3. Azure Functions ブレードで設定から **Application Insights** を選択し、**Application Insights を有効にする**を選択
+    
+      <img src="images/E8-T6-3ActivateApplicationInsights.PNG" />
+  
+  4. **contoso-func-appinsights-SUFFIX** などのグローバルに一意の名前を入力し、場所を選択して**適用**を選択し再起動への同意に**はい**を選択
+    
+      <img src="images/E8-T6-4ApplyApplicationInsights.PNG" />
+  
+  5. 正常に変更が適用されたメッセージが表示された後、作成されたリソース名を選択
+    
+      <img src="images/E8-T6-5CreateApplicationInsights.PNG" />
+  
+  6. Application Insights ブレードの左側のメニューから**Live Metrics**を選択
+    
+      <img src="images/E8-T6-6SelectLiveMetrics.PNG" />
+     
+      > メモ: アプリがオフラインであることを示すメッセージが表示される場合もありますが、この問題は次のタスクで処理します。
+  
+  6. ライブ メトリックス ストリーム ウィンドウは、次のタスクで参照するために開いたままにする
+  
 ### **Task 7**: Web Apps のアプリケーション設定への Azure Functions URL の追加
 このタスクでは、Azure Functions の URL を Web App のアプリケーション設定に追加します。
+  
+  1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
+    
+      <img src="images/E8-T7-1LaunchCloudShell.PNG" />
+  
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+    
+      <img src="images/E8-T7-2SellectPowerShell.PNG" />
+  
+  3. PowerShell Azure プロンプトが表示される
+    
+      <img src="images/E8-T7-3LaunchPowerShell.PNG" />
+  
+  4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App の URL を取得
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az functionapp list -g <your-resource-group-name> --output table
+     ```
+        
+        > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>` を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
+  
+  5. 後で使用するために **DefaultHostName** 値をテキスト エディターにコピー
+    
+      <img src="images/E8-T7-5ResultFunctionAppInfo.PNG" />
+  
+  6. `<your-resource-group-name>` をリソース グループの名前で置き換えCloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp list -g <your-resource-group-name> --output table
+     ```
+  
+  7. 後で使用するために Web App の名前 ("contoso-**web**" で始まるリソース名) をテキスト エディターにコピー
+    
+     <img src="images/E8-T7-7ResultWebAppInfo.PNG" />
+  
+  8. Function App に必要な最後の設定の Default Host Key を取得するには、Azure Portal で Function App に移動し概要ブレードで **Function App** の設定を選択
+    
+     <img src="images/E8-T7-8SelectFunctionAppSettings.PNG" />
+  
+  9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
+    
+     <img src="images/E8-T7-9CopyFunctionHostKey.PNG" />
+     @@@先に Azure Functions を展開した場合はランタイムエラーでホストキーが表示されず、発行時に新規作成の場合は表示される
+  
+  10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
+    
+      -`<your-web-app-name>`: コピーした Function App の DefaultHostName で置き換え
+      -`<your-function-app-default-host-name>`: ピーした Function App の `DefaultHostName` で置き換え
+      -`<your-function-app-default-host-key>`: コピーした Function App の既定のホスト キーで置き換え
 
+      ```
+      $webAppName = "<your-web-app-name>"
+      $defaultHostName = "<your-function-app-default-host-name>"
+      $defaultHostKey = "<your-function-app-default-host-key>"
+      az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "PolicyDocumentsPath=https://$defaultHostName/api/policies/{policyHolder}/{policyNumber}?code=$defaultHostKey"
+      ```
+  
+  11. Web App のアプリケーション設定に新しく追加した `PolicyDocumentsPath` 設定が表示される
+    
+      <img src="images/E8-T7-11AddWebAppConfig.PNG" />
+  
 ### **Task 8**: Web アプリからドキュメント取得のテスト
 このタスクでは、PolicyConnect Web アプリを開いて保険契約ドキュメントをダウンロードします。以前の手順ではページが見つからないことを示すエラーが表示されていました。
+  
+  1. Web ブラウザーを開いて発行済みの Web App の URL に移動
+     
+     > メモ: URL が不明な場合は、Azure Portal の Web App リソースの概要ブレードから取得できます。
+  
+  2. PolicyConnect Web ページで以下の資格情報を入力して **Log in** を選択
+    
+       - **Username**: demouser
+       - **Password**: Password.1!!
+       
+      <img src="images/E8-T8-2LogInWebPage.PNG" />
+  
+  3. ログインしたら、上部のメニューから **Managed Policy Holders** を選択
+    
+      <img src="images/E8-T8-3SelectManagedPolicyHolders.PNG" />
 
+  4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある [Details] リンクを選択
+    
+     <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
+  
+  5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認
+    
+     <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
+  
+  6. **File Path** の下のリンクを選択して、契約ドキュメントをダウンロード
+    
+     <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
+  
 ### **Task 9**: ライブ メトリックス ストリームの表示
-
+  
+  1. Azure Portal で Application Insights のライブ メトリックス ストリームに戻る
+  
+  2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の サンプル テレメトリ セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
+    
+     <img src="images/.PNG" />
+     @@@API の結果がエラーなのでここが表示されないので要確認
+  
 ## **Exercise 9: 保険契約ドキュメントへのフルテキスト検索機能の追加**
 所要時間：15分
-
-Contoso は保険契約ドキュメントのフルテキスト検索を実行する機能を実装したいと考えています。以前、Contoso では、使用可能な状態でドキュメントから情報を取得することができませんでしたが、『Azure Search Service でのコグニティブ検索』で紹介されている技法を検索インデックスで活用することを検討しています。この実習では、Blob ストレージ コンテナーのコグニティブ検索を構成します。
-
+  
+Contoso は保険契約ドキュメントのフルテキスト検索を実行する機能を実装したいと考えています。以前、Contoso では、使用可能な状態でドキュメントから情報を取得することができませんでしたが、[Azure Search Service でのコグニティブ検索](https://docs.microsoft.com/en-us/azure/search/cognitive-search-concept-intro)で紹介されている技法を検索インデックスで活用することを検討しています。このタスクでは、Blob ストレージ コンテナーのコグニティブ検索を構成します。
+  
 参考情報
-
 - Azure Cognitive Search における AI の概要  
 <https://docs.microsoft.com/ja-jp/azure/search/cognitive-search-concept-intro>
+  
 ### **Task 1**: ストレージ アカウントへの Azure Search の追加
+  
+  1. [Azure Portal](https://portal.azure.com/) の 左側のナビゲーション メニューから**リソース グループ**を選択し、**hands-on-lab-SUFFIX** リソース グループを選択して、リソースの一覧から **contoso-UniqueId** ストレージ アカウントを選択して**ストレージ アカウント** リソースに移動
+    
+     <img src="images/E9-T1-1SelectStorageAccount.PNG" />
+  
+  2. ストレージ アカウント ブレードの左側のメニューで **Azure Search の追加** を選択し、**検索サービスを選択します**タブで検索サービスを選択
+  
+  3. **次へ:データへの接続** を選択
+    
+      <img src="images/E9-T1-3AddAzureSearch.PNG" />
+  
+  4. **データへの接続**タブで以下の構成を入力し**次: 認知技術を追加します ( 省略可能 )** を選択
+    
+     - **データ ソース**: **Azure Blob Storage** を選択
+     - **名前**: **policy-docs** と入力
+     - **抽出されるデータ**: **コンテンツとメタデータ**を選択
+     - **Parsing mode**: **Default** を選択
+     - **接続文字列**: ストレージ アカウント用に事前入力された接続文字列に設定したまま
+     - **コンテナー名**: **policies**と入力
+  
+     　　<img src="images/E9-T1-4AzureSearchConnectStorage.PNG" />
+  
+  5. **認知技術を追加します** タブで以下の構成を設定し**次: 対象インデックスをカスタマイズします** を選択
+    
+     - Cognitive Services をアタッチする展開して作成済みの Cognitive Services アカウントを選択
+       
+        <img src="images/E9-T1-5AzureSearchSetting1.PNG" />
 
+      - Add enrichments を展開
+        - **スキルセット名**: **policy-docs-skillset**と入力
+        - **テキストの認知技術**: このボックスをオンにしてすべてのスキルを選択
+        
+        <img src="images/E9-T1-5AzureSearchSetting2.PNG" />
+  
+  6. **対象インデックスをカスタマイズします** タブで以下の構成を設定し**次: インデクサーの作成** を選択
+    
+     - **インデックス名**: **policy-docs-index** と入力
+     - 上部の**取得可能**ボックスをオンにしてすべての項目を選択
+     - 上部の**検索可能**ボックスをオンにして、すべての項目を選択
+    
+       <img src="images/E9-T1-6AzureSearchIndexCustomerise.PNG" />
+  
+  7. **インデクサーの作成** タブで、名前に **policy-docs-indexer** と入力し、スケジュールに **1 度**を選択し**送信**を選択
+    
+      <img src="images/E9-T1-7AzureSearchIndexCreate.PNG" />
+
+      > メモ: このタスクでは、作成時にインデクサーを 1 回だけ実行しています。運用アプリケーションでは、インデクサーを実行するスケジュールを時間単位や日単位などのスケジュールで選択する場合があります。これにより、ターゲット BLOB ストレージ アカウントに到着する新しいデータを取り込むことができるようになります。
+  
+  8. インポートが正常に構成されたことを示す通知が Azure Portal に表示
+  
 ### **Task 2**: 検索結果のレビュー
 このタスクでは、検索インデックスに対してクエリーを実行し、コグニティブ検索によって保険契約ドキュメントに追加されたエンリッチメントをレビューします。
+  
+  1. [Azure Portal](https://portal.azure.com/) で左側のナビゲーション メニューで**リソース グループ**を選択し **hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから  **contoso-search-UniqueId** リソースを選択して **Search サービス** リソースに移動
+    
+     <img src="images/E9-T2-1SelectAzureSearch.PNG" />
+  
+  2. Search サービス ブレードで**インデクサー**を選択し Policy-docs-indexer が**成功**のステータスで表示されることを確認。ステータスが**処理中**の場合は、**成功**に変わるまで 20 ～ 30 秒おきに**更新**を実行
+    
+     <img src="images/E9-T2-2SelectAzureSearchIndexer.PNG" />
 
+     > **履歴がありません**のステータスが表示される場合は、policy-docs-indexer を選択してインデクサー ブレードで**実行**を選択します。  
+  
+  3. 次に、Search サービス ブレード ツールバーの**検索エクスプローラー**を選択
+    
+     <img src="images/E9-T2-3SelectAzureSearchExploer.PNG" />
+  
+  5. **検索エクスプローラー**ブレードで**検索**を選択
+    
+     <img src="images/E9-T2-5StartAzureSearchExploer.PNG" />
+ 
+  6. 検索結果で返ってきたドキュメントを特にあなたがサーチインデックスを作成した時に追加したコグニティブスキルによって追加されたフィールドに注意して検査する。
+  該当するフィールドは、`People`, `Organizations`, `Locations`, `Keyphrases`, `Language`, `Translated_Text` です。
+    
+     ```
+     {
+         "@search.score": 1,
+         "content": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\n\nworksheet1\n\n\t\tFirst Name\t\tDate of Birth\n\n\t\tIma\t\t21 January 2002\n\n\t\tEcho\t\t12 August 2003\n\n\n\n\n\n\n",
+         "metadata_storage_content_type": "application/octet-stream",
+         "metadata_storage_size": 142754,
+         "metadata_storage_last_modified": "2019-10-23T21:42:23Z",
+         "metadata_storage_content_md5": "ksk3JZT5QPkHfAR0F17ZEw==",
+         "metadata_storage_name": "Cooke-COO13CE2ZLOKD.pdf",
+         "metadata_storage_path": "aHR0cHM6Ly9ob2xzdG9yYWdlYWNjb3VudC5ibG9iLmNvcmUud2luZG93cy5uZXQvcG9saWNpZXMvQ29va2UtQ09PMTNDRTJaTE9LRC5wZGY1",
+         "metadata_content_type": "application/pdf",
+         "metadata_language": "en",
+         "metadata_author": "Contoso Insurance",
+         "metadata_title": "Your Policy",
+         "People": [
+             "Igor Cooke",
+             "Cooke",
+             "Max"
+         ],
+         "Organizations": [
+             "Contoso Insurance - Your Platinum Policy",
+             "NI",
+             "DEPENDENTS\nFirst",
+             "Ima",
+             "Page Summary\nDependents",
+             "Echo"
+         ],
+         "Locations": [],
+         "Keyphrases": [
+             "Platinum Policy",
+             "Policy Holder",
+             "Date of Birth",
+             "Echo",
+             "DEPENDENTS",
+             "Ima",
+             "Box",
+             "Pellentesque AveTaupo",
+             "Address",
+             "NI",
+             "Contoso Insurance",
+             "Igor Cooke",
+             "Effective Coverage Dates",
+             "Pocket Max",
+             "Page Summary",
+             "COO13CE2ZLOKD",
+             "worksheet1"
+         ],
+         "Language": "en",
+         "Translated_Text": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\nworksheet1\n\nFirst Name\t\tDate of Birth\n\nIma\t\t21 January 2002\n\nEcho\t\t12 August 2003\n\n"
+     }
+      ```
+  
+  7. 比較目的でコグニティブ検索スキルが有効化されていない状態の同じドキュメントの例を以下に示す
+    
+     ```
+     {
+         "@search.score": 1,
+         "content": "\nContoso Insurance - Your Platinum Policy\n\nPolicy Holder: Igor Cooke\nPolicy #: COO13CE2ZLOKD\nEffective Coverage Dates: 22 July 2008 - 13 August 2041\nAddress: P.O. Box 442, 802 Pellentesque AveTaupo, NI 240\nPolicy Amount: $48,247.00\nDeductible: $250.00\nOut of Pocket Max: $1,000.00\n\nDEPENDENTS\nFirst Name Date of Birth\n\nIma 21 January 2002\nEcho 12 August 2003\n\nPage Summary\nDependents\n\n1 / 0 22 July 2008\n\n\nworksheet1\n\n\t\tFirst Name\t\tDate of Birth\n\n\t\tIma\t\t21 January 2002\n\n\t\tEcho\t\t12 August 2003\n\n\n\n\n\n\n",
+         "metadata_storage_content_type": "application/octet-stream",
+         "metadata_storage_size": 142754,
+         "metadata_storage_last_modified": "2019-10-23T21:42:23Z",
+         "metadata_storage_content_md5": "ksk3JZT5QPkHfAR0F17ZEw==",
+         "metadata_storage_name": "Cooke-COO13CE2ZLOKD.pdf",
+         "metadata_storage_path": "aHR0cHM6Ly9ob2xzdG9yYWdlYWNjb3VudC5ibG9iLmNvcmUud2luZG93cy5uZXQvcG9saWNpZXMvQ29va2UtQ09PMTNDRTJaTE9LRC5wZGY1",
+         "metadata_content_type": "application/pdf",
+         "metadata_language": "en",
+         "metadata_author": "Contoso Insurance",
+         "metadata_title": "Your Policy"
+     }
+     ```
+  
+  8. これらの検索結果からわかるようにコグニティブ スキルを追加すると、検索インデックスに有用なメタデータが追加され、ドキュメントおよびそのコンテンツの利用性が向上する
+  
 ## **Exercise 10: API Management への API のインポートと公開**
 所要時間：30分
 
