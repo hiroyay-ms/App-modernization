@@ -33,18 +33,19 @@ March 2020
   - [Exercise 2: Azure SQL Database へのオンプレミス データベースの移行](#exercise-2-azure-sql-database-へのオンプレミス-データベースの移行)
     - [Task 1: ContosoInsurance の構成](#task-1-contosoinsurance-の構成)
     - [Task 2: Azure SQL Database への移行の評価の実行](#task-2-azure-sql-database-への移行の評価の実行)
-    - [Task 3: Data Migration Assistant を使用したデータベース スキーマの移行](#task-3-data-migration-assistant-を使用したデータベース-スキーマの移行)
-    - [Task 4: SQL Server 2008 R2 仮想マシンの IP アドレスの取得](#task-4-sql-server-2008-r2-仮想マシンの-ip-アドレスの取得)
-    - [Task 5: Azure Database Migration Service を使用したデータベースの移行](#task-5-azure-database-migration-service-を使用したデータベースの移行)
+    - [Task 3: SQL Server 2008 R2 仮想マシンの IP アドレスの取得](#task-3-sql-server-2008-r2-仮想マシンの-ip-アドレスの取得)
+    - [Task 4: 仮想マシンのネットワーク設定](#task-4-仮想マシンのネットワーク設定)
+    - [Task 5: SQL Database のファイアウォール設定](#task-5-SQL-Database-のファイアウォール設定)
+    - [Task 6: Data Migration Assistant を使用したデータベース スキーマの移行](#task-6-data-migration-assistant-を使用したデータベース-スキーマの移行)
+    - [Task 7: Azure Database Migration Service を使用したデータベースの移行](#task-7-azure-database-migration-service-を使用したデータベースの移行)
   - [Exercise 3: データベースのアップグレード後のセキュリティ強化](#exercise-3-データベースのアップグレード後のセキュリティ強化)
     - [Task 1: データの検出と分類の構成](#task-3-データの検出と分類の構成)
     - [Task 2: Advanced Data Security の脆弱性評価のレビュー](#task-2-advanced-data-security-の脆弱性評価のレビュー)
     - [Task 3: 動的データ マスクの有効化](#task-3-動的データ-マスクの有効化)
   - [Exercise 4: Key Vault の構成](#exercise-4-key-vault-の構成)
-    - [Task 1: Key Vault アクセス ポリシーの追加](#task-1-key-vault-アクセス-ポリシーの追加)
-    - [Task 2: SQL 接続文字列を格納する新しいシークレットの作成](#task-2-sql-接続文字列を格納する新しいシークレットの作成)
-    - [Task 3: サービス プリンシパルの作成](#task-3-サービス-プリンシパルの作成)
-    - [Task 4: Key Vault へのサービス プリンシパル アクセスの割り当て](#task-4-key-vault-へのサービス-プリンシパル-アクセスの割り当て)
+    - [Task 1: SQL 接続文字列を格納する新しいシークレットの作成](#task-1-sql-接続文字列を格納する新しいシークレットの作成)
+    - [Task 2: サービス プリンシパルの作成](#task-2-サービス-プリンシパルの作成)
+    - [Task 3: Key Vault へのサービス プリンシパル アクセスの割り当て](#task-3-key-vault-へのサービス-プリンシパル-アクセスの割り当て)
   - [Exercise 5: Azure App Services への Web API の展開](#exercise-5-azure-app-services-への-web-api-の展開)
     - [Task 1: Visual Studio でソリューションを開く](#task-1-visual-studio--ソリューションを開く)
     - [Task 2: Key Vault を使用するための Web API の更新](#task-2-key-vault-を使用するための-web-wpi-の更新)
@@ -112,8 +113,13 @@ API Management は、開発チームとアフィリエイト パートナー向�
    - リソース プロバイダーの登録
 
 ## **Exercise 1: 環境のセットアップ**
+所要時間：70分
+
+この実習では、Azure リソースを手動でプロビジョニングおよび構成するための段階的な手順を提供します。
+>多くの Azure リソースでは、グローバルに一意の名前が必要です。手順書に表示される名前にエイリアス、イニシャル、数字を付与、または別の値に置き換えて、リソースに一意の名前が付けられるようにするひつようがあります。
 
 ### **Task 1**: リソース グループの作成
+このタスクでは、ワークショップで使用するリソース グループの作成を行います。リソース グループは、Azure ソリューションの関連するリソースを保持するコンテナーであり、グループ内のすべてのリソースで同じライフサイクルを共有します。
 
 1. Web ブラウザーの新しいタブ、またはインスタンスを起動し、**Azure ポータル**（<https://portal.azure.com>）を開く
 
@@ -736,24 +742,405 @@ DMA を使用すると、新しいバージョンの SQL Server または Azure 
 ### 参考情報
 - Data Migration Assistant の概要  
 <https://docs.microsoft.com/ja-jp/sql/dma/dma-overview?view=azuresqldb-mi-current>
+- Azure SQL Database と Azure SQL Data Warehouse の IP ファイアウォール規則  
+<https://docs.microsoft.com/ja-jp/azure/sql-database/sql-database-firewall-configure>
 
 ### **Task 1**: ContosoInsurance の構成
 評価を開始する前に、SQL Server 2008 R2 インスタンスで ContosoInsurance データベースを構成する必要があります。このタスクでは、SQL Server 2008 R2 インスタンス上の ContosoInsurance データベースに対して SQL スクリプトを実行します。
 
+1. [Azure ポータル](https://portal.azure.com)から Exercise 1 で作成した SqlServer2008 仮想マシンを選択
+
+2. 左側のメニューから**接続**を選択し、**RDP ファイルのダウンロード**をクリック
+
+3. 以下の資格情報を入力し、SqlServer2008 仮想マシンへ接続
+   - **アカウント名**： demouser
+   - **パスワード**： Password.1!!
+
+4. **Microsoft SQL Server Management Studio 17** を起動
+
+5. **Connect Server** ダイアログでサーバー名 **SQLSERVER2008**、認証 **Windows Authentication** が選択されていることを確認し、**Connect** をクリック
+
+   <img src="images/sqlserver-migration-01.png" />
+
+6. オブジェクト エクスプローラー内の **Databases** を展開し **ContosoInsurance ** を選択
+
+   <img src="images/sqlserver-migration-02.png" />
+
+7. ツールバーの **New Query** をクリック
+
+   <img src="images/sqlserver-migration-03.png" />
+
+8. スクリプトを実行し、次の構成を設定
+   - sa パスワードのリセット
+   - 混合モード認証の有効化
+   - WorkshopUser アカウントの作成
+   - データベース復旧モデルを FULL に変更
+
+   ```sql
+   USE master;
+   GO
+
+   -- SET the sa password
+   ALTER LOGIN [sa] WITH PASSWORD=N'Password.1!!';
+   GO
+
+   -- Enable Mixed Mode Authentication
+   EXEC xp_instance_regwrite N'HKEY_LOCAL_MACHINE',
+   N'Software\Microsoft\MSSQLServer\MSSQLServer', N'LoginMode', REG_DWORD, 2;
+   GO
+
+   -- Create a login and user named WorkshopUser
+   CREATE LOGIN WorkshopUser WITH PASSWORD = N'Password.1!!';
+   GO
+
+   EXEC sp_addsrvrolemember
+       @loginame = N'WorkshopUser',
+       @rolename = N'sysadmin';
+   GO
+
+   USE ContosoInsurance;
+   GO
+
+   IF NOT EXISTS (SELECT * FROM sys.database_principals WHERE name = N'WorkshopUser')
+   BEGIN
+       CREATE USER [WorkshopUser] FOR LOGIN [WorkshopUser]
+       EXEC sp_addrolemember N'db_datareader', N'WorkshopUser'
+   END;
+   GO
+
+   -- Update the recovery model of the database to FULL
+   ALTER DATABASE ContosoInsurance SET RECOVERY FULL;
+   GO
+   ```
+9. ツールバーの **Execute** をクリックし、スクリプトを実行
+
+   <img src="images/sqlserver-migration-04.png" />
+
+0. オブジェクト エクスプローラーでサーバー名を右クリックし、コンテキスト メニューから **Restart** をクリック  
+
+   <img src="images/sqlserver-migration-05.png" />
+
+1. プロンプトが表示されるので **Yes** をクリック  
+混合モード認証と新しい sa パスワードの有効化のために SQL Server を再起動
+
+   <img src="images/sqlserver-migration-06.png" />
+
 ### **Task 2**: Azure SQL Database への移行の評価の実行
 Contoso は、評価を実行して、Azure SQL Database にデータベースを移行する際に対処する必要のある潜在的な問題を識別したいと考えています。このタスクでは、Microsoft Data Migration Assistant (DMA) を使用して、Azure SQL Database に対して ContosoInsurance データベースの評価を実行します。
 
-### **Task 3**: Data Migration Assistant を使用したデータベース スキーマの移行
-評価結果をレビューしてデータベースを Azure SQL Database に移行できることを確認した後、  
-Data Migration Assistant を使用してスキーマを Azure SQL Database に移行します。
+1. SqlServer2008 仮想マシンのスタート メニューから **Data Migration Assistant** を起動
 
-### **Task 4**: SQL Server 2008 R2 仮想マシンの IP アドレスの取得
+   <img src="images/dma-assesment-01.png" />
+
+2. 画面左のメニューから **＋** アイコンをクリック
+
+   <img src="images/dma-assesment-02.png" />
+
+3. New Project で次を設定
+   - **Project Type**: Assesment
+   - **Project name**: 任意
+   - **Assesment Type**: Database Engine
+   - **Source server type**: SQL Server
+   - **Target server type**: Azure SQL Database  
+   <img src="images/dma-assesment-03.png" />
+
+4. **Create** をクリック
+
+5. **Check database compatibility** と **Check feature parity** のチェックを確認
+
+   <img src="images/dma-assesment-04.png" />
+
+6. **Next** をクリック
+
+7. **Connect to a Server** ダイアログで、次の接続情報を設定
+   - **Server name**: SqlServer2008
+   - **Authentication type**: SQL Server Authentication
+   - **Username**: WorkshopUser
+   - **Password**: Password.1!!
+   - **Encrypt connectoin**: チェック
+   - **Trust server certificate**: チェック  
+      <img src="images/dma-assesment-05.png" />
+
+8. **Add sources** ダイアログで **ContosoInsurance** をチェック
+
+   <img src="images/dma-assesment-06.png" />
+
+9. **Add** をクリック
+
+0. **Start Assesment** をクリック
+
+   <img src="images/dma-assesment-07.png" />
+
+1. SQL Database へ移行するための評価レポートを確認  
+**SQL Server feature parity** にはサポートされない機能や推奨事項を表示
+
+   <img src="images/dma-assesment-08.png" />
+
+   >Analysis Services および Reporting Services がサポートされていないことを表記  
+   これらは ContosoInsurance データベース内のオブジェクトへの影響しない 
+
+2. **Compatibility issues** をクリックし、互換性の問題を確認
+
+   <img src="images/dma-assesment-09.png" />
+
+   >レポートには何も表示されていないことを確認
+
+### **Task 3**: SQL Server 2008 R2 仮想マシンの IP アドレスの取得
 このタスクでは、Azure Cloud Shell を使用して SqlServer2008 VM の IP アドレスを取得します。  
 このアドレスは、DMS から SqlServer2008 VM に接続するために必要です。
 
-### **Task 5**: Azure Database Migration Service を使用したデータベースの移行
+1. [Azure ポータル](https://portal.azure.com)の画面上部のメニューから **Azure Cloud Chell** アイコンをクリック
+
+   <img src="images/get-sqlvm-public-ip-01.png" />
+
+2. ブラウザ下部に開く Cloud Shcell ウィンドウで **PowerShell** を選択
+
+   >ストレージがマウントされていないメッセージが表示された場合  
+   このワークショップで利用しているサブスクリプションを選択し、**ストレージの作成**をクリック
+
+   <img src="images/cloudshell-storage-not-mount.png" />
+
+   >Bash, PowerShell の切替は、メニューからも可能  
+
+   <img src="images/cloudshell-change-shell.png" />
+
+3. 次のコマンドを入力
+
+   ```powershell
+   $resourceGroup = "ワークショップで使用するリソース グループ名"
+   ```
+
+4. 次に SqlServer2008 仮想マシンのパブリック IP アドレスを取得する PowerShell コマンドを入力して実行
+
+   ```powershell
+   az vm list-ip-addresses -g $resourceGroup -n SqlServer2008 --output table
+   ```
+
+   <img src="images/get-sqlvm-public-ip-03.png" />
+
+5. **PublicIPAddresses** プロパティの値をコピー  
+後で参照できるようメモ帳などのテキスト エディタに貼り付け
+
+   <img src="images/get-sqlvm-public-ip-04.png" />
+
+6. Azure SQL Database のサーバー名を取得する次のコマンドを実行
+
+   ```powershell
+   az sql server list -g $resourceGroup
+   ```
+
+   <img src="images/get-sqlvm-public-ip-05.png" />
+
+7. **fullyQualifiedDomainName** 値をテキスト エディターにコピーして貼り付け
+
+### **Task 4**: 仮想マシンのネットワーク設定
+1. [Azure ポータル](https://portal.azure.com)から Exercise 1 で作成した SqlServer2008 仮想マシンを選択
+
+2. **ネットワーク**タブを選択し、**受信ポートの規則を追加する**をクリック
+
+   <img src="images/sqlvm-nsg-01.png" />
+
+3. **受信セキュリティ規則の追加**フォームで、次の構成を設定
+   - **ソース**: Any
+   - **ソース ポート範囲**: *
+   - **宛先**: Any
+   - **宛先ポート範囲**: 1433
+   - **プロトコル**: TCP
+   - **アクション**: 許可
+   - **優先度**: 310（任意）
+   - **名前**: SQLDatabaseEngine（任意）
+   
+   <img src="images/sqlvm-nsg-02.png" />
+
+4. 作成したルールが追加されたことを確認
+
+   <img src="images/sqlvm-nsg-03.png" />
+
+### **Task 5**: SQL Database のファイアウォール設定
+このタスクでは、SqlServer2008 仮想マシン、および他の Azure サービスから SQL Database にアクセスできるように Azure SQL Server にファイアウォール規則を作成します。Azure SQL Server には、最大 128 個のサーバー レベルの規則を作成できます。
+
+1. [Azure ポータル](https://portal.azure.com/)でワークショップで使用しているリソース グループのリストより Azure SQL Server を選択
+
+   <img src="images/sql-firewall-setting-01.png" />
+
+2. **概要**タブの**ファイアウォール設定の表示**をクリック
+
+   <img src="images/sql-firewall-setting-02.png" />
+
+3. 次の構成を設定
+   - **Azure サービスおよびリソースにこのサーバーへのアクセスを許可する**: はい
+   - **クライアント IP アドレス**
+      - **規則名**: SqlServer2008
+      - **開始 IP**: Task 3 で取得した仮想マシンのパブリック IP アドレス
+      - **終了 IP**: Task 3 で取得した仮想マシンのパブリック IP アドレス
+
+      <img src="images/sql-firewall-setting-03.png" />
+
+4. **保存**をクリック
+
+5. **サーバーのファイアウォール規則が正常に更新されました** メッセージの **OK** をクリック
+
+   <img src="images/sql-firewall-setting-04.png" />
+
+### **Task 6**: Data Migration Assistant を使用したデータベース スキーマの移行
+評価結果をレビューしてデータベースを Azure SQL Database に移行できることを確認した後、  
+Data Migration Assistant を使用してスキーマを Azure SQL Database に移行します。
+
+1. DMA を起動し、画面左のメニューより **＋** アイコンをクリック
+
+2. New Project ダイアログで、次を設定
+   - **Project type**: Migration
+   - **Project name**: 任意
+   - **Source server type**: SQL Server
+   - **Target server type**: Azure SQL Database
+   - **Migration scope**: Schema only  
+      <img src="images/dma-migration-01.png" />
+
+3. **Create** をクリック
+
+4. **Select source** タブで、次を入力
+   - **Server name**: SqlServer2008
+   - **Authentication type**: SQL Server Authentication
+   - **Username**: WorkshopUser
+   - **Password**: Password.1!!
+   - **Encrypt connection**: チェック
+   - **Trust server certificate**: チェック  
+   <img src="images/dma-migration-02.png" />
+
+5. **Connect** をクリック  
+**ContosoInsurance** データベースが選択されていることを確認
+
+   <img src="images/dma-migration-03.png" />
+
+6. **Next** をクリック
+
+7. **Select target** タブで、次を入力
+   - **Server name**: SQL Database のサーバー名
+   - **Authentication type**: SQL Server Authentication
+   - **Username**: demouser
+   - **Password**: Password.1!!
+   - **Encrypt connection**: チェック
+   - **Trust server certificate**: チェック  
+   <img src="images/dma-migration-04.png" />
+
+8. **Connect** をクリック
+**ContosoInsurance** データベースが選択されていることを確認
+
+   <img src="images/dma-migration-05.png" />
+
+9. **Next** をクリック
+
+0. **Select objects** タブで、すべてのオブジェクトが選択されていることを確認
+
+   <img src="images/dma-migration-06.png" />
+
+1. **Generate SQL script** をクリック
+
+2. 表示されるスクリプトを確認  
+**Assesment issues** に問題が表示されていないことも確認
+
+   <img src="images/dma-migration-07.png" />
+
+3. **Deploy schema** をクリック
+
+4. スキーマ展開後、結果にエラーがないことを確認
+
+   <img src="images/dma-migration-08.png" />
+
+5. SQL Server Management Studio を起動
+
+6. **Connect to Server** ダイアログに次の情報を入力
+   - **Server name**: SQL Database のサーバ名
+   - **Authentication**: SQL Server Authentication
+   - **Login**: demouser
+   - **Password**: Password.1!!  
+   <img src="images/dma-migration-09.png" />
+
+7. **Connect** をクリック
+
+8. オブジェクト エクスプローラーで **Databases** - **ContosoInsurance** を展開
+
+   <img src="images/dma-migration-10.png" />
+
+   >スキーマが作成されていることを確認
+
+### **Task 7**: Azure Database Migration Service を使用したデータベースの移行
 この時点で、DMAを使用したデータベーススキーマの移行が完了しています。このタスクでは、Azure Database Migration Service を使用して ContosoInsurance データベースのデータを新しい Azure SQL Database に以降します。
 Azure Database Migration Service はマイクロソフトの既存のツールおよびサービスのいくつかの機能と統合して、包括的で高可用性を備えたデータベース移行ソリューションを提供します。このサービスは Data Migration Assistant を使用して、移行を実行する前に必要な変更をガイドする推奨事項を提供する評価レポートを生成します。移行プロセスを開始する準備ができたら、必要なすべての手順が Azure Database Migration Service によって実行されます。
+
+1. [Azure ポータル](https://portal.azure.com)で、ワークショップで使用しているリソース グループ内のリストから **Azure Database Migration サービス** を選択
+
+   <img src="images/dms-migration-01.png" />
+
+2. Azure Database Migration サービス ブレードで **＋ 新しい移行プロジェクト** を選択
+
+   <img src="images/dms-migration-02.png" />
+
+3. 新しい移行プロジェクト フォームで、次の構成を設定
+   - **プロジェクト名**: DataMigration
+   - **ソース サーバーの種類**: SQL Server
+   - **ターゲット サーバーの種類**: Azure SQL Database
+   - **アクティビティの種類を選択します**: オフラインデータの移行
+
+   <img src="images/dms-migration-03.png" />
+
+4. **アクティビティの作成と実行** をクリック
+
+5. **移行ソースの詳細** フォームで、次の構成を設定
+   - **ソース SQL Server インスタンス名**: SqlServer2008 のパブリック IP アドレス
+   - **認証の種類**: SQL 認証
+   - **ユーザー名**: WorkshopUser
+   - **パスワード**: Password.1!!
+   - 接続のプロパティ
+      - **接続を暗号化する**: チェック
+      - **サーバー証明書を信頼する**: チェック
+   - TLS 1.2 security protocol
+      - **My server has TLS 1.2 enabled**: チェック
+
+   <img src="images/dms-migration-04.png" />
+
+   ※SqlServer 2008 のパブリック IP アドレスは Task 3 で取得したものを使用
+
+6. **保存** をクリック
+
+7. **移行ターゲットの詳細**フォームで、次の構成を設定
+   - **ターゲット サーバー名**: Azure SQL Server の FQDN
+   - **認証の種類**: SQL 認証
+   - **ユーザー名**: demouser
+   - **パスワード**: Password.1!!
+   - 接続のプロパティ
+      - **接続を暗号化する**: チェック
+
+   <img src="images/dms-migration-05.png" />
+
+   ※ Azure SQL Server の FQDN は Task 3 で取得したものを使用
+
+8. **ターゲット データベースへマッピング** フォームで **ContosoInsurance** データベースが選択されていることを確認
+
+   <img src="images/dms-migration-06.png" />
+
+9. **保存**をクリック
+
+0. **テーブルの選択** フォームで、すべてのテーブルが選択されていることを確認
+
+   <img src="images/dms-migration-07.png" />
+
+1. **保存**をクリック
+
+2. **移行の概要**フォームで**活動名**に任意の名前を入力
+
+   <img src="images/dms-migration-08.png" />
+
+3. **移行を実行する**をクリック
+
+4. データの移行が開始
+
+   <img src="images/dms-migration-09.png" />
+
+   >移行は数分で完了します。  
+   **更新**をクリックすることで、状態の変更を確認できます。
+
+   <img src="images/dms-migration-10.png" />
 
 ## **Exercise 3: データベースのアップグレード後のセキュリティ強化**
 この実習では、Azure SQL Database のいくつかのセキュリティ機能を確認し、Azure SQL Database を利用する際のセキュリティの利点をレビューします。SQL Database 向け Advanced Data Security (ADS) は、機密データの検出と分類、潜在的なデータベースの脆弱性の検出と緩和、およびデータベースに対する脅威を示す可能性のある異常なアクティビティの検出に関する機能を始めとする高度なセキュリティ機能を提供します。
@@ -769,32 +1156,245 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 ### **Task 1**: データの検出と分類の構成
 このタスクでは、Advanced Data Security の SQL データの検出と分類機能を確認します。データの検出と分類では、データベース内の機密データの検出、分類、ラベル付け、レポート作成を行うための新しいツールが導入されましたこの機能では、データベースだけでなく、データベース内のデータの保護を目的とした新しい SQL 情報保護パラダイムを構成する高度なサービスのセットが提供されます。最も機密性の高いデータ (ビジネス、財務、医療など) の検出と分類は、組織の情報保護の達成において極めて重要な役割を果たすことができます。
 
+1. [Azure ポータル](https://portal.azure.com/)で、ワークショップで使用しているリソース グループのリストから **ContosoInsurance** SQL Database を選択
+
+   <img src="images/database-enhancement-01.png" />
+
+2. SQL Database ブレードで **Advanced Data Security** タブを選択
+
+3. **データの検出と分類**タイルをクリック
+
+   <img src="images/database-enhancement-02.png" />
+
+4. **分類の推奨事項が指定された 7 個のデータが見つかりました**をクリック
+
+   <img src="images/database-enhancement-03.png" />
+
+5. **分類の追加**をクリック
+
+   <img src="images/database-enhancement-04.png" />
+
+6. **分類の追加**フォームで、次の構成を設定
+   - **スキーマ名**: dbo
+   - **テーブル名**: people
+   - **列名**: DOB (date)
+   - **情報の種類**: Date Of Birth
+   - **機密ラベル**: Highly Confidential -GDPR
+
+   <img src="images/database-enhancement-05.png" />
+
+7. **分類の追加**をクリック
+
+8. **すべての選択**をクリックし、すべての列を選択
+
+9. **選択した推奨事項を受け入れます**をクリック
+
+   <img src="images/database-enhancement-06.png" />
+
+0. **保存**をクリック
+
+   <img src="images/database-enhancement-07.png" />
+
+1. **概要**タブを選択し、データ分類状態のレポートを表示
+
+   <img src="images/database-enhancement-09.png" />
+
 ### **Task 2**: Advanced Data Security の脆弱性評価のレビュー
 このタスクでは、ContosoInsurance データベースに対して ADS で生成された評価レポートをレビューします。SQL の脆弱性評価サービスは、セキュリティ状態を可視化し、セキュリティの問題を解決してデータベース セキュリティを強化するための手順を示すサービスです。
 
+1. SQL Database の **Advanced Data Security**タブに戻り、**脆弱性評価**タイルをクリック
+
+   <img src="images/database-enhancement-10.png" />
+
+2. **スキャン**をクリック
+
+   <img src="images/database-enhancement-11.png" />
+
+3. スキャン完了後、**概要**タブを選択し、ダッシュボードを確認  
+ダッシュボードには、失敗および合格したチェックの数、重要度レベルごとのリスクの概要の内訳が表示
+
+   <img src="images/database-enhancement-12.png" />
+
+4. 失敗したチェックのいずれかを選択
+
+5. 詳細な説明が表示
+
+   <img src="images/database-enhancement-13.png" />
+
+   >結果の詳細は、理由についてより深い洞察を提供  
+   調査結果、推奨設定の影響、および調査結果の修正方法の詳細を説明
+
 ### **Task 3**: 動的データ マスクの有効化
 このタスクでは、Azure SQL Database  で動的データ マスク (DDM) を有効化して、クエリー結果からのデータベース内の機密データへのアクセスを制限します。この機能ではアプリケーション レイヤーへの影響を最小限に抑えた状態で公開する機密データを指定できるので、機密データへの不正アクセスの防止に役立ちます。これはポリシー ベースのセキュリティ機能で、指定したデータベース フィールドに対するクエリーの結果セット内の機密データを非表示にします。データベース内のデータは変更されることはありません。
+
+1. SQL Database ブレードの左側のメニューから**動的データ マスク**タブを選択
+
+   <img src="images/database-enhancement-14.png" />
+
+2. **＋ マスクの追加**をクリック
+
+   <img src="images/database-enhancement-15.png" />
+
+3. マスク ルール ブレードで、次の構成を設定
+   - **スキーマ**: dbo
+   - **テーブル**: table
+   - **列**: DOB (date)
+   - **マスク フィールド形式**: 既定値 (0, xxxx, 01-01-1900)
+
+   <img src="images/database-enhancement-16.png" />
+
+4. **追加**をクリック
+
+5. マスク ルールが追加されたことを確認し、**保存**をクリック
+
+   <img src="images/database-enhancement-17.png" />
+
+6. **動的データ マスキングの設定が正常に保存されました**で **OK** をクリック
+
+   <img src="images/database-enhancement-18.png" />
+
+7. SqlServer2008 仮想マシンへ RDP で、次の資格情報を使用し接続
+   - **Server name**: Azure SQL Server の FQDN
+   - **Authentication type**: SQL Authentication
+   - **Login**: demouser
+   - **Password**: Password.1!!
+
+   <img src="images/database-enhancement-19.png" />
+
+8. スタート メニューから **SQL Server Management Studio** を起動
+
+9. オブジェクト エクスプローラーで **Databases** を展開  
+**ContosoInsurance** を右クリックし、コンテキスト メニューから **New Query** を選択
+
+   <img src="images/database-enhancement-20.png" />
+
+0. 次のクエリを記述
+
+   ```sql
+   CREATE USER DDMUser WITHOUT LOGIN;  
+   GRANT SELECT ON [dbo].[people] TO DDMUser;
+   ```
+
+1. ツール バーの **Execute** をクリックし、クエリを実行し、テストを行うユーザーを作成  
+画面下部にコマンドが正常に完了したメッセージが表示されることを確認
+
+   <img src="images/database-enhancement-21.png" />
+
+2. ツール バーの **New Query** をクリック
+
+   <img src="images/database-enhancement-22.png" />
+
+3. 作成したユーザーで **people** テーブルに SELECT 句を実行するクエリを記述
+
+   ```sql
+   EXECUTE AS USER = 'DDMUser';  
+   SELECT * FROM [dbo].[people];  
+   REVERT;
+   ```
+4. **Execute** をクリックし、クエリを実行
+
+   <img src="images/database-enhancement-23.png" />
+
+   >DOB 列が設定したマスク形式で定義した 1900-01-01 と表示されていることを確認
+
+5. ツール バーの **New Query** をクリック
+
+6. 新しいクエリ ウィンドウに次のクエリを記述
+
+   ```sql
+   SELECT TOP 100 * FROM [dbo].[people]
+   ```
+
+7. **Execute** をクリックし、現在ログインしている特権ユーザー（demouser）でクエリを実行
+
+   <img src="images/database-enhancement-24.png" />
+
+   >DOB 列の値が表示されることを確認
 
 ## **Exercise 4: Key Vault の構成**
 所要時間：15分
 
 セキュリティ強化の一環として、Contoso は、アプリケーション構成ファイルでプレーン テキストとして表示されないように、アプリケーション シークレットをセキュアな方法で格納することを求めています。この実習では、Azure に移行した後に Contoso の Web アプリケーションと API アプリケーションのアプリケーション シークレットをセキュアに格納する Azure Key Vault を構成します。
 
-### **Task 1**: Key Vault アクセス ポリシーの追加
-このタスクでは、Key Vault にアクセス ポリシーを追加してアカウントでシークレットを作成します。
-
-### **Task 2**: SQL 接続文字列を格納する新しいシークレットの作成
+### **Task 1**: SQL 接続文字列を格納する新しいシークレットの作成
 このタスクでは、Azure SQL Database の ContosoInsurance データベースへの接続文字列をキー コンテナーにシークレットとして追加します。
 
-### **Task 3**: サービス プリンシパルの作成
+1. [Azure ポータル](https://portal.azure.com/)で、ワークショップで使用しているリソース グループのリストから **ContosoInsurance** SQL Database を選択
+
+   <img src="images/database-enhancement-01.png" />
+
+2. SQL Database ブレードのメニューから **接続文字列**を選択
+
+3. **ADO.NET** の接続文字列をコピー
+
+   <img src="images/keyvault-secret-01.png" />
+
+4. コピーした接続文字列をメモ帳などのテキスト エディターに貼り付け
+
+5. テキスト エディターでトークン化されたされたパスワード値 **{your_password}** を **Password.1!!** に置き換え
+
+6. 変更後の接続文字列をコピー
+   ```csharp {.scroll}
+   Server=tcp:{your_sql_server},1433;Initial Catalog=ContosoInsurance;Persist Security Info=False;User ID=demouser;Password=Password.1!!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+   ```
+
+7. [Azure ポータル](https://portal.azure.com)で、ワークショップで使用するリソース グループのリストから **Key Vault** リソースを選択
+
+   <img src="images/keyvault-secret-02.png" />
+
+8. Key Vault ブレードで **シークレット** を選択し、**生成/インポート** をクリック
+
+   <img src="images/keyvault-secret-03.png" />
+
+9. **シークレットの作成** フォームで、次の構成を設定
+   - **アップロード オプション**: 手動
+   - **名前**: SqlConnectionString
+   - **値**: Sql Database への接続文字列
+
+   <img src="images/keyvault-secret-04.png" />
+
+0. **作成**をクリック
+
+### **Task 2**: サービス プリンシパルの作成
 このタスクでは、Azure Cloud Shell および Azure コマンド ライン インターフェイス (CLI) を使用して、Azure Key Vault に格納されたシークレットへのアクセスを Web アプリと API アプリに提供するために使用する Azure Active Directory (Azure AD) アプリケーションおよびサービス プリンシパル (SP) を作成します。  
 >**重要**: このタスクを完了するには、Azure AD テナント内でアプリケーションの作成と役割の割り当てを行うアクセス許可が必要です。
 
-### **Task 4**: Key Vault へのサービス プリンシパル アクセスの割り当て
-このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
+1. [Azure ポータル](https://portal.azure.com/)の画面右上のメニューから Azure Cloud Shell のアイコンをクリック
 
-## **Exercise 5: Azure App Services への Web API の展開**
-所要時間：45分
+   <img src="images/get-sqlvm-public-ip-01.png" />
+
+2. PS Azure プロンプトが表示
+
+   <img src="images/sp-create-01.png" />
+
+3. 次のコマンドを実行
+
+   ```powershell
+   az account list --output table
+   ```
+
+   > **Note**: 複数の Azure サブスクリプションがあり、このワークショップで使用しているアカウントがデフォルトのアカウントでない場合は、**az account set --subscription {your-subscription-id}** を実行
+
+4. ワークショップで使用するサブスクリプション Id をコピー
+
+5. Cloud Shell プロンプトで次のコマンドを実行
+
+   ```powershell {.scroll}
+   $subscriptionId = "<your-subscription-id>"
+   $resourceGroup = "<your-resource-group-name>"
+   az ad sp create-for-rbac -n "contoso-apps" --role reader --scopes subscriptions/$subscriptionId/resourceGroups/$resourceGroup
+   ```
+
+   >your-subscription-id を先の手順でコピーした ID に、your-resource-group-name をワークショップで使用しているリソース グループ名に置き換えて実行します
+
+6. 次のタスクで appId, name, password の値が必要になるため、上記コマンドからの出力全体をテキスト エディターにコピー
+
+   <img src="images/sp-create-02.png" />
+
+   >**重要**: Azure Cloud Shell セッションはタイムアウトし、アクセスできなくなる可能性があるため、出力をテキスト エディターにコピーしてください。
+
+### **Task 3**: Key Vault へのサービス プリンシパル アクセスの割り当て
+このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
   
 Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。
   
