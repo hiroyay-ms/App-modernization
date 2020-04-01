@@ -1015,7 +1015,6 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
     
      <img src="images/E8-T7-9CopyFunctionHostKey.PNG" />
-     @@@先に Azure Functions を展開した場合はランタイムエラーでホストキーが表示されず、発行時に新規作成の場合は表示される
   
   10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
     
@@ -1070,8 +1069,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の サンプル テレメトリ セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T9-2LiveMetricsResult.PNG" />
   
 ## **Exercise 9: 保険契約ドキュメントへのフルテキスト検索機能の追加**
 所要時間：15分
@@ -1237,16 +1235,161 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
 
 ### **Task 1**: API App のインポート
 このタスクでは、OpenAPI 仕様を使用して、API App に関連付けられた Swagger 定義を活用し API Management に API App をインポートします。
+  
+  1. Azure Portal で hands-on-lab-SUFFIX リソース グループの下にあるリソースのリストから **PI Management サービス**を選択
+    
+     <img src="images/E10-T1-1SelectAPIManagement.PNG" />
+  
+  2. API Management サービスブレードで **APIs** を選択し、**+ API の追加**、**OpenAPI** の順に選択
+    
+     <img src="images/E10-T1-2SelectOpenAPI.PNG" />
+  
+  3. Create from OpenAPI specification ダイアログが表示された後、**Full** を選択し有効化する必要のあるすべてのオプションを展開
+    
+     <img src="images/E10-T1-3ExpandOpenAPIdialog.PNG" />
+  
+  4. API App の Swagger ページで PolicyConnect API タイルのすぐ下にある `swagger/v1/swagger.json` ファイル リンクを選択し **Copy link address** を選択
+    
+     <img src="images/E10-T1-4CopySwaggerURL.PNG" />
+  
+  5. API Management の Create from OpenAPI specification ダイアログに戻り以下の情報を入力し **Create** を選択
+    
+     - **OpenAPI specification**: Swagger ページからコピーしたリンク アドレスを貼り付け
+     - **Display name**: これは Swagger 定義から自動的に入力
+     - **Name**: これは Swagger 定義から自動的に入力
+     - **URL scheme**: **HTTPS** を選択
+     - **Products**: フィールドをクリックしてドロップダウン リストから **Unlimited** タグを選択
+      
+     <img src="images/E10-T1-5EnterOpenAPIdialog.PNG" />
+  
+  6. API を作成した後、左側の API のリストから **PolicyConnect API** を選択し Design タブで、All operations が選択された状態で、Inbound processing タイルの **Policies** アイコンを選択
+    
+     <img src="images/E10-T1-6SelectInboundprocessingPolicy.PNG" />
+  
+  7. Policies 画面で `<inbound></inbound>` タグの間、および `<base />` タグの下にコードを挿入。 `<Origin></origin>` タグの間にある `<your-web-app-url>` を **Web App** の URL で置換し **Save** を選択
+    
+     ```
+      <cors allow-credentials="true">
+          <allowed-origins>
+              <origin>your-web-app-url</origin>
+          </allowed-origins>
+          <allowed-methods>
+              <method>*</method>
+          </allowed-methods>
+          <allowed-headers>
+              <header>*</header>
+          </allowed-headers>
+          <expose-headers>
+              <header>*</header>
+          </expose-headers>
+      </cors>
+     ```
+    
+     以下は更新した policies の値の例
 
+     <img src="images/E10-T1-7EditPolicy.PNG" />
+   
+     > メモ: 上記で追加したポリシーは、クロス オリジン リソース共有 (CORS) を処理するためのものです。Web App をローカルでテストしている場合は、` https://localhost:<port-number>` を含む `<allowed-origins></allowed-origins>` 内にもう 1 つの `<origin></origin> を追加する必要があります。ここでの `port-number` はデバッガーによって割り当てられたポートです (上のスクリーンショットを参照)。
+  
+  8. 次に**設定**タブを選択し `https://` を含む API アプリの URL を入力し **Save** を選択
+    
+     <img src="images/E10-T1-8SettingPolicyConnectAPI.PNG" />
+  
 ### **Task 2**: Azure Functions のインポート
 このタスクでは、Azure Functions を API Management にインポートします。
-
+  
+  1. **+ API の追加**をもう一度選択して、API のソースとして **Function App** を選択
+    
+     <img src="images/E10-T2-1SelectFunctionApp.PNG" />
+  
+  2. **Create from Function App** ダイアログで、**Function App** フィールドの横にある **Browse** ボタンを選択
+    
+     <img src="images/E10-T2-2ExpandAzureFunctionsAPIdialogs.PNG" />
+  
+  3. Import Azure Functions ブレードで Function App を選択し、リストから対象の Function App を選択し**選択**を選択
+    
+     <img src="images/E10-T2-3ImportAzureFunctions.PNG" />
+  
+  4. [Import Azure Functions] ブレードに戻り、PolicyDocs Function が選択されていることを確認し**選択**を選択
+    
+     <img src="images/E10-T2-4SetAPIAzureFunctions.PNG" />
+  
+  5. APIM の [Create from Function App] ダイアログに戻って、API のすべてのプロパティが Azure Function から設定されていることを確認し、以前の手順で行ったように **Products** を **Unlimited** に設定し **Create** を選択
+    
+     <img src="images/E10-T2-5CreateAPIAzureFunctions.PNG" />
+  
 ### **Task 3**: 開発者ポータルからの API キーの取得
 このタスクでは、開発者ポータルで API を確認してキーを取得します。開発者ポータルでは、API およびエンドポイントのリストに加えて、API とエンドポイントに関する有益な情報が表示されます。
-
+  
+  1. Azure Portal の API Management サービスの概要ブレードから **Developer portal (legacy)** を選択し APIM 開発者ポータルを開く
+    
+     <img src="images/E10-T3-1SelectDeveloperportal(Legacy).PNG" />
+  
+  2. Azure API Management ポータル上部のメニューから **APIs** を選択し Function App に関連付けられた API を選択
+    
+     <img src="images/E10-T3-2SelectAzureFunctions.PNG" />
+  
+  3. API ページで次のタスクでの `PolicyDocumentsPath` 設定に使用する URL をコピーしテキストエディタ―に貼り付け
+    
+     > メモ: パスは Swagger で既に定義されているため、この手順を PolicyConnect API に対して実行する必要はありません。変更する必要があるのは、API App ではなく API Management をポイントしているベース URL です。
+   
+     <img src="images/E10-T3-3CopyURL.PNG" />
+  
+  4. 次に、API ページの右上にある **Administrator** ドロップダウンから **Profile** を選択し、プロファイル ページで **Unlimited** のプライマリ キーの横にある **Show** を選択し、キー値をコピーコピーしテキストエディタ―に貼り付け ( ここで取得する `Ocp-Apim-Subscription-Key` 値をは、PolicyConnect Web アプリケーションが APIM から API にアクセスするために必要 )
+    
+     <img src="images/E10-T3-4CopyKey.PNG" />
+  
 ### **Task 4**: API Management エンドポイントを使用するための Web App の更新
 このタスクでは、Azure Cloud Shell および Azure CLI を使用して、PolicyConnect Web App の Url および PolicyDocumentsPath 設定を更新します。API Management アクセス キーに新しい設定も追加します。
+  
+  1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
+    
+     <img src="images/E10-T4-1LaunchCloudShell.PNG" />
+  
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+    
+     <img src="images/E10-T4-2SellectPowerShell.PNG" />
+  
+  3. PowerShell Azure プロンプトが表示される
+    
+     <img src="images/E10-T4-3LaunchPowerShell.PNG" />
+  
+  4. Cloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得します。コマンドを実行する前に、<your-resource-group-name> をリソース グループの名前で置き換え
+    
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp list -g $resourceGroup --output table
+     ```
+  
+  5. 後で使用するために出力の Web App の名前 ("contoso-web" で始まるリソース名) をテキスト エディターにコピー
+    
+     <img src="images/E10-T4-5ResultWebAppInfo.PNG" />
+  
+  6. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行し WebApp の設定で反映されていることを確認
+    
+     - `<your-web-app-name>`: 以前の手順でコピーした Web App 名で置き換え
+     - `<your-apim-url>`: Azure Portal の API Management サービスの 概要ブレードから取得可能な API Management インスタンスのゲートウェイ URL で置き換え
+     - `<your-apim-function-app-path>`: 以前の手順でコピーした APIM の `PolicyDocumentsPath` URL で置き換え
+     - `<your-apim-subscription-key>`: 以前の手順でコピーした APIM の `Ocp-Apim-Subscription-Key` 値で置き換え
 
+     ```
+     $webAppName = "<your-web-app-name>"
+     $apimUrl = "<your-apim-gateway-url>"
+     $apimKey = "<your-apim-subscription-key>"
+     $policyDocsPath = "<your-apim-function-app-path>"
+     az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "PolicyDocumentsPath=$policyDocsPath" "ApiUrl=$apimUrl" "ApimSubscriptionKey=$apimKey"
+     ```
+     
+     <img src="images/E10-T4-6WebAppSettingResult.PNG" />
+  
+  7. WebApp の再起動を実施
+    
+     <img src="images/E10-T4-7RestartWebApp.PNG" />
+  
+  8. Web ブラウザーで Web App の URL に移動し、タブを選択するとこれまで通りデータが表示されることを確認
+    
+     <img src="images/E10-T4-8ViewPolicyHolders.PNG" />
+  
 ## **Exercise 11: PowerApps でのアプリの作成**
 所要時間：15分
 
