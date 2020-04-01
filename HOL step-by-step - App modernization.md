@@ -43,10 +43,9 @@ March 2020
     - [Task 2: Advanced Data Security の脆弱性評価のレビュー](#task-2-advanced-data-security-の脆弱性評価のレビュー)
     - [Task 3: 動的データ マスクの有効化](#task-3-動的データ-マスクの有効化)
   - [Exercise 4: Key Vault の構成](#exercise-4-key-vault-の構成)
-    - [Task 1: Key Vault アクセス ポリシーの追加](#task-1-key-vault-アクセス-ポリシーの追加)
-    - [Task 2: SQL 接続文字列を格納する新しいシークレットの作成](#task-2-sql-接続文字列を格納する新しいシークレットの作成)
-    - [Task 3: サービス プリンシパルの作成](#task-3-サービス-プリンシパルの作成)
-    - [Task 4: Key Vault へのサービス プリンシパル アクセスの割り当て](#task-4-key-vault-へのサービス-プリンシパル-アクセスの割り当て)
+    - [Task 1: SQL 接続文字列を格納する新しいシークレットの作成](#task-1-sql-接続文字列を格納する新しいシークレットの作成)
+    - [Task 2: サービス プリンシパルの作成](#task-2-サービス-プリンシパルの作成)
+    - [Task 3: Key Vault へのサービス プリンシパル アクセスの割り当て](#task-3-key-vault-へのサービス-プリンシパル-アクセスの割り当て)
   - [Exercise 5: Azure App Services への Web API の展開](#exercise-5-azure-app-services-への-web-api-の展開)
     - [Task 1: Visual Studio でソリューションを開く](#task-1-visual-studio--ソリューションを開く)
     - [Task 2: Key Vault を使用するための Web API の更新](#task-2-key-vault-を使用するための-web-wpi-の更新)
@@ -1157,29 +1156,267 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 ### **Task 1**: データの検出と分類の構成
 このタスクでは、Advanced Data Security の SQL データの検出と分類機能を確認します。データの検出と分類では、データベース内の機密データの検出、分類、ラベル付け、レポート作成を行うための新しいツールが導入されましたこの機能では、データベースだけでなく、データベース内のデータの保護を目的とした新しい SQL 情報保護パラダイムを構成する高度なサービスのセットが提供されます。最も機密性の高いデータ (ビジネス、財務、医療など) の検出と分類は、組織の情報保護の達成において極めて重要な役割を果たすことができます。
 
+1. [Azure ポータル](https://portal.azure.com/)で、ワークショップで使用しているリソース グループのリストから **ContosoInsurance** SQL Database を選択
+
+   <img src="images/database-enhancement-01.png" />
+
+2. SQL Database ブレードで **Advanced Data Security** タブを選択
+
+3. **データの検出と分類**タイルをクリック
+
+   <img src="images/database-enhancement-02.png" />
+
+4. **分類の推奨事項が指定された 7 個のデータが見つかりました**をクリック
+
+   <img src="images/database-enhancement-03.png" />
+
+5. **分類の追加**をクリック
+
+   <img src="images/database-enhancement-04.png" />
+
+6. **分類の追加**フォームで、次の構成を設定
+   - **スキーマ名**: dbo
+   - **テーブル名**: people
+   - **列名**: DOB (date)
+   - **情報の種類**: Date Of Birth
+   - **機密ラベル**: Highly Confidential -GDPR
+
+   <img src="images/database-enhancement-05.png" />
+
+7. **分類の追加**をクリック
+
+8. **すべての選択**をクリックし、すべての列を選択
+
+9. **選択した推奨事項を受け入れます**をクリック
+
+   <img src="images/database-enhancement-06.png" />
+
+0. **保存**をクリック
+
+   <img src="images/database-enhancement-07.png" />
+
+1. **概要**タブを選択し、データ分類状態のレポートを表示
+
+   <img src="images/database-enhancement-09.png" />
+
 ### **Task 2**: Advanced Data Security の脆弱性評価のレビュー
 このタスクでは、ContosoInsurance データベースに対して ADS で生成された評価レポートをレビューします。SQL の脆弱性評価サービスは、セキュリティ状態を可視化し、セキュリティの問題を解決してデータベース セキュリティを強化するための手順を示すサービスです。
 
+1. SQL Database の **Advanced Data Security**タブに戻り、**脆弱性評価**タイルをクリック
+
+   <img src="images/database-enhancement-10.png" />
+
+2. **スキャン**をクリック
+
+   <img src="images/database-enhancement-11.png" />
+
+3. スキャン完了後、**概要**タブを選択し、ダッシュボードを確認  
+ダッシュボードには、失敗および合格したチェックの数、重要度レベルごとのリスクの概要の内訳が表示
+
+   <img src="images/database-enhancement-12.png" />
+
+4. 失敗したチェックのいずれかを選択
+
+5. 詳細な説明が表示
+
+   <img src="images/database-enhancement-13.png" />
+
+   >結果の詳細は、理由についてより深い洞察を提供  
+   調査結果、推奨設定の影響、および調査結果の修正方法の詳細を説明
+
 ### **Task 3**: 動的データ マスクの有効化
 このタスクでは、Azure SQL Database  で動的データ マスク (DDM) を有効化して、クエリー結果からのデータベース内の機密データへのアクセスを制限します。この機能ではアプリケーション レイヤーへの影響を最小限に抑えた状態で公開する機密データを指定できるので、機密データへの不正アクセスの防止に役立ちます。これはポリシー ベースのセキュリティ機能で、指定したデータベース フィールドに対するクエリーの結果セット内の機密データを非表示にします。データベース内のデータは変更されることはありません。
+
+1. SQL Database ブレードの左側のメニューから**動的データ マスク**タブを選択
+
+   <img src="images/database-enhancement-14.png" />
+
+2. **＋ マスクの追加**をクリック
+
+   <img src="images/database-enhancement-15.png" />
+
+3. マスク ルール ブレードで、次の構成を設定
+   - **スキーマ**: dbo
+   - **テーブル**: table
+   - **列**: DOB (date)
+   - **マスク フィールド形式**: 既定値 (0, xxxx, 01-01-1900)
+
+   <img src="images/database-enhancement-16.png" />
+
+4. **追加**をクリック
+
+5. マスク ルールが追加されたことを確認し、**保存**をクリック
+
+   <img src="images/database-enhancement-17.png" />
+
+6. **動的データ マスキングの設定が正常に保存されました**で **OK** をクリック
+
+   <img src="images/database-enhancement-18.png" />
+
+7. SqlServer2008 仮想マシンへ RDP で、次の資格情報を使用し接続
+   - **Server name**: Azure SQL Server の FQDN
+   - **Authentication type**: SQL Authentication
+   - **Login**: demouser
+   - **Password**: Password.1!!
+
+   <img src="images/database-enhancement-19.png" />
+
+8. スタート メニューから **SQL Server Management Studio** を起動
+
+9. オブジェクト エクスプローラーで **Databases** を展開  
+**ContosoInsurance** を右クリックし、コンテキスト メニューから **New Query** を選択
+
+   <img src="images/database-enhancement-20.png" />
+
+0. 次のクエリを記述
+
+   ```sql
+   CREATE USER DDMUser WITHOUT LOGIN;  
+   GRANT SELECT ON [dbo].[people] TO DDMUser;
+   ```
+
+1. ツール バーの **Execute** をクリックし、クエリを実行し、テストを行うユーザーを作成  
+画面下部にコマンドが正常に完了したメッセージが表示されることを確認
+
+   <img src="images/database-enhancement-21.png" />
+
+2. ツール バーの **New Query** をクリック
+
+   <img src="images/database-enhancement-22.png" />
+
+3. 作成したユーザーで **people** テーブルに SELECT 句を実行するクエリを記述
+
+   ```sql
+   EXECUTE AS USER = 'DDMUser';  
+   SELECT * FROM [dbo].[people];  
+   REVERT;
+   ```
+4. **Execute** をクリックし、クエリを実行
+
+   <img src="images/database-enhancement-23.png" />
+
+   >DOB 列が設定したマスク形式で定義した 1900-01-01 と表示されていることを確認
+
+5. ツール バーの **New Query** をクリック
+
+6. 新しいクエリ ウィンドウに次のクエリを記述
+
+   ```sql
+   SELECT TOP 100 * FROM [dbo].[people]
+   ```
+
+7. **Execute** をクリックし、現在ログインしている特権ユーザー（demouser）でクエリを実行
+
+   <img src="images/database-enhancement-24.png" />
+
+   >DOB 列の値が表示されることを確認
 
 ## **Exercise 4: Key Vault の構成**
 所要時間：15分
 
 セキュリティ強化の一環として、Contoso は、アプリケーション構成ファイルでプレーン テキストとして表示されないように、アプリケーション シークレットをセキュアな方法で格納することを求めています。この実習では、Azure に移行した後に Contoso の Web アプリケーションと API アプリケーションのアプリケーション シークレットをセキュアに格納する Azure Key Vault を構成します。
 
-### **Task 1**: Key Vault アクセス ポリシーの追加
-このタスクでは、Key Vault にアクセス ポリシーを追加してアカウントでシークレットを作成します。
-
-### **Task 2**: SQL 接続文字列を格納する新しいシークレットの作成
+### **Task 1**: SQL 接続文字列を格納する新しいシークレットの作成
 このタスクでは、Azure SQL Database の ContosoInsurance データベースへの接続文字列をキー コンテナーにシークレットとして追加します。
 
-### **Task 3**: サービス プリンシパルの作成
+1. [Azure ポータル](https://portal.azure.com/)で、ワークショップで使用しているリソース グループのリストから **ContosoInsurance** SQL Database を選択
+
+   <img src="images/database-enhancement-01.png" />
+
+2. SQL Database ブレードのメニューから **接続文字列**を選択
+
+3. **ADO.NET** の接続文字列をコピー
+
+   <img src="images/keyvault-secret-01.png" />
+
+4. コピーした接続文字列をメモ帳などのテキスト エディターに貼り付け
+
+5. テキスト エディターでトークン化されたされたパスワード値 **{your_password}** を **Password.1!!** に置き換え
+
+6. 変更後の接続文字列をコピー
+   ```csharp {.scroll}
+   Server=tcp:{your_sql_server},1433;Initial Catalog=ContosoInsurance;Persist Security Info=False;User ID=demouser;Password=Password.1!!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
+   ```
+
+7. [Azure ポータル](https://portal.azure.com)で、ワークショップで使用するリソース グループのリストから **Key Vault** リソースを選択
+
+   <img src="images/keyvault-secret-02.png" />
+
+8. Key Vault ブレードで **シークレット** を選択し、**生成/インポート** をクリック
+
+   <img src="images/keyvault-secret-03.png" />
+
+9. **シークレットの作成** フォームで、次の構成を設定
+   - **アップロード オプション**: 手動
+   - **名前**: SqlConnectionString
+   - **値**: Sql Database への接続文字列
+
+   <img src="images/keyvault-secret-04.png" />
+
+0. **作成**をクリック
+
+### **Task 2**: サービス プリンシパルの作成
 このタスクでは、Azure Cloud Shell および Azure コマンド ライン インターフェイス (CLI) を使用して、Azure Key Vault に格納されたシークレットへのアクセスを Web アプリと API アプリに提供するために使用する Azure Active Directory (Azure AD) アプリケーションおよびサービス プリンシパル (SP) を作成します。  
 >**重要**: このタスクを完了するには、Azure AD テナント内でアプリケーションの作成と役割の割り当てを行うアクセス許可が必要です。
 
-### **Task 4**: Key Vault へのサービス プリンシパル アクセスの割り当て
+1. [Azure ポータル](https://portal.azure.com/)の画面右上のメニューから Azure Cloud Shell のアイコンをクリック
+
+   <img src="images/get-sqlvm-public-ip-01.png" />
+
+2. PS Azure プロンプトが表示
+
+   <img src="images/sp-create-01.png" />
+
+3. 次のコマンドを実行
+
+   ```powershell
+   az account list --output table
+   ```
+
+   > **Note**: 複数の Azure サブスクリプションがあり、このワークショップで使用しているアカウントがデフォルトのアカウントでない場合は、**az account set --subscription {your-subscription-id}** を実行
+
+4. ワークショップで使用するサブスクリプション Id をコピー
+
+5. Cloud Shell プロンプトで次のコマンドを実行
+
+   ```powershell {.scroll}
+   $subscriptionId = "<your-subscription-id>"
+   $resourceGroup = "<your-resource-group-name>"
+   az ad sp create-for-rbac -n "contoso-apps" --role reader --scopes subscriptions/$subscriptionId/resourceGroups/$resourceGroup
+   ```
+
+   >your-subscription-id を先の手順でコピーした ID に、your-resource-group-name をワークショップで使用しているリソース グループ名に置き換えて実行します
+
+6. 次のタスクで appId, name, password の値が必要になるため、上記コマンドからの出力全体をテキスト エディターにコピー
+
+   <img src="images/sp-create-02.png" />
+
+   >**重要**: Azure Cloud Shell セッションはタイムアウトし、アクセスできなくなる可能性があるため、出力をテキスト エディターにコピーしてください。
+
+### **Task 3**: Key Vault へのサービス プリンシパル アクセスの割り当て
 このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
+
+1. Cloud Shell プロンプトで次のコマンドを実行
+
+   ```powershell {.scroll}
+   az keyvault list -g $resourceGroup --output table
+   ```
+
+2. コマンドの実行結果から名前フィールドの値をコピー
+
+   <img src="images/sp-access-to-keyvault-01.png" />
+
+   >Web および API アプリの構成にも使用するためテキスト エディターに貼り付けておいてください。
+
+3. {your-key-vault-name} を前の手順でコピーした Key Vault の名前に置き換え、次のコマンドを実行
+
+   ```powershell {.scroll}
+   az keyvault set-policy -n {your-key-vault-name} --spn http://contoso-apps --secret-permissions get list
+   ```
+
+4. サービス プリンシパルがシークレットの **get**, **list** 権限が出力に表示されることを確認
+
+   <img src="images/sp-access-to-keyvault-02.png" />
 
 ## **Exercise 5: Azure App Services への Web API の展開**  
 所要時間：45分  
