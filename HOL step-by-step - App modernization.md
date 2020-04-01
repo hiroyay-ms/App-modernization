@@ -464,11 +464,11 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
 ### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー  
 Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
   
-  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動
+  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **App Service** に移動
       
      <img src="images/E5-T3-1SelectAPIapp.PNG" />
   
-  2. API App ブレードの左側のメニューで**構成**を選択
+  2. App Service ブレードの左側のメニューで**構成**を選択
   
      <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />
   
@@ -577,8 +577,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
   
-      <img src="images/.PNG" />
-      @@@この結果がエラー500 なので .NetCore を確認
+      <img src="images/E5-T4-11ResultExecute.PNG" />
   
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
@@ -668,15 +667,16 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
   
-      <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので要確認
+      <img src="images/E6-T2-10ListPolicyHolders.PNG" />
   
   11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
+      
+      <img src="images/E6-T2-11SelectFilePath.PNG" />
   
-      <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので要確認
-  　　
   12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
+    
+      <img src="images/E6-T2-12FileViewError.PNG" />
+
   
 ## **Exercise 7: Blob ストレージへの保険契約ドキュメントのアップロード**
 所要時間：10分
@@ -753,7 +753,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
     
-       <img src="images/E7-T3-7SuccessAzCopy.PNG" />
+       <img src="images/E7-T3-7SuccessAzCopy.png" />
   
   8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
   
@@ -989,7 +989,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App の URL を取得
      ```
      $resourceGroup = "<your-resource-group-name>"
-     az functionapp list -g <your-resource-group-name> --output table
+     az functionapp list -g $resourceGroup --output table
      ```
         
         > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>` を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
@@ -1001,7 +1001,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   6. `<your-resource-group-name>` をリソース グループの名前で置き換えCloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得
      ```
      $resourceGroup = "<your-resource-group-name>"
-     az webapp list -g <your-resource-group-name> --output table
+     az webapp list -g $resourceGroup --output table
      ```
   
   7. 後で使用するために Web App の名前 ("contoso-**web**" で始まるリソース名) をテキスト エディターにコピー
@@ -1052,20 +1052,17 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
     
       <img src="images/E8-T8-3SelectManagedPolicyHolders.PNG" />
 
-  4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある [Details] リンクを選択
+  4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある Details を選択
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-4ListPolicyHolders.PNG" />
   
-  5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認
+  5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認しファイルパスを選択
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-5CheckFilePath.PNG" />
   
   6. **File Path** の下のリンクを選択して、契約ドキュメントをダウンロード
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-6ViewFile.PNG" />
   
 ### **Task 9**: ライブ メトリックス ストリームの表示
   
