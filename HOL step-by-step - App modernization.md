@@ -1395,7 +1395,32 @@ Azure Database Migration Service はマイクロソフトの既存のツール�
 
 ### **Task 3**: Key Vault へのサービス プリンシパル アクセスの割り当て
 このタスクでは、前の手順で作成したサービス プリンシパルにリソース グループの Reader の役割を割り当てます。その後、アクセス ポリシーをキー コンテナーに追加して、キー コンテナーに格納されたシークレットの読み取りを許可します。
-  
+
+1. Cloud Shell プロンプトで次のコマンドを実行
+
+   ```powershell {.scroll}
+   az keyvault list -g $resourceGroup --output table
+   ```
+
+2. コマンドの実行結果から名前フィールドの値をコピー
+
+   <img src="images/sp-access-to-keyvault-01.png" />
+
+   >Web および API アプリの構成にも使用するためテキスト エディターに貼り付けておいてください。
+
+3. {your-key-vault-name} を前の手順でコピーした Key Vault の名前に置き換え、次のコマンドを実行
+
+   ```powershell {.scroll}
+   az keyvault set-policy -n {your-key-vault-name} --spn http://contoso-apps --secret-permissions get list
+   ```
+
+4. サービス プリンシパルがシークレットの **get**, **list** 権限が出力に表示されることを確認
+
+   <img src="images/sp-access-to-keyvault-02.png" />
+
+## **Exercise 5: Azure App Services への Web API の展開**  
+所要時間：45分  
+
 Contoso の開発者はクラウドへの社内アプリの移行作業を続けています。開発者からは、ASP.NET Core を使用して開発されたソリューションが提供されています。アプリを Azure に展開し、新しいアプリ サービスと通信するための構成を行う準備がほとんど整いました。要求されたサービスは既にプロビジョニングされているので、残りの作業は Azure Key Vault を API に統合し、アプリケーション レベルの構成設定を適用して Visual Studio ソリューションからアプリを展開することです。このタスクでは、Azure Portal を使用してアプリケーション設定を Web API に適用します。アプリケーション設定が完了したら、 Web App と API App を Visual Studio から Azure に展開します。
   
 ### **Task 1**: Visual Studio でソリューションを開く
