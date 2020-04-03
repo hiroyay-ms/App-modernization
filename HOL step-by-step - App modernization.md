@@ -1494,11 +1494,11 @@ Contoso の開発者はクラウドへの社内アプリの移行作業を続け
 ### **Task 3**: Azure 内の API App への Key Vault 構成セクションのコピー  
 Web API を Azure に展開する前に、必要なアプリケーション設定を Azure API App の構成に追加する必要があります。このタスクでは、API App の構成エディターを使用して、Key Vault への接続と Key Vault からのシークレットの取得を行うために必要な構成設定を追加します。
   
-  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **API App** に移動
+  1. [Azure Portal](https://portal.azure.com/) 左側のナビゲーション メニューで**リソース グループ**選択し、**hands-on-lab-SUFFIX** リソース グループを選択し、リソースのリストから **contoso-api-UniqueId** App サービスを選択して **App Service** に移動
       
      <img src="images/E5-T3-1SelectAPIapp.PNG" />
   
-  2. API App ブレードの左側のメニューで**構成**を選択
+  2. App Service ブレードの左側のメニューで**構成**を選択
   
      <img src="images/E5-T3-2SelectAPIappConfigration.PNG" />
   
@@ -1607,8 +1607,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   11. 応答に 200 の Response Code が表示され、Response 本文に JSON オブジェクトが表示される
   
-      <img src="images/.PNG" />
-      @@@この結果がエラー500 なので .NetCore を確認
+      <img src="images/E5-T4-11ResultExecute.PNG" />
   
 ## **Exercise 6: Azure App Services への Web アプリケーションの展開**
 この実習では、Contoso.Web Web アプリケーションを更新して新しく展開した API App に接続し、Web App を Azure App Services に展開します。
@@ -1698,15 +1697,16 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   10. Policy Holders ページで契約名義人のリストおよび契約に関する情報をレビューするためにいずれかのレコードの横にある **Details** リンクを選択 ( この情報は、Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得 )
   
-      <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので要確認
+      <img src="images/E6-T2-10ListPolicyHolders.PNG" />
   
   11. Policy Holder Details ページで **File Path** の下にあるリンクを選択し、ページが見つからないことを示すエラーページが表示されることを確認
+      
+      <img src="images/E6-T2-11SelectFilePath.PNG" />
   
-      <img src="images/.PNG" />
-      @@@API の結果がエラーなのでここが表示されないので要確認
-  　　
   12. Contoso では保険契約ドキュメントはネットワーク ファイル共有に格納されているため、展開した Web アプリからはアクセスできない。次の実習では、この問題に対処する
+    
+      <img src="images/E6-T2-12FileViewError.PNG" />
+
   
 ## **Exercise 7: Blob ストレージへの保険契約ドキュメントのアップロード**
 所要時間：10分
@@ -1783,7 +1783,7 @@ Web API を Azure に展開する前に、必要なアプリケーション設�
   
   7. コマンドの出力で 650 ファイルが正常に転送されたことを確認
     
-       <img src="images/E7-T3-7SuccessAzCopy.PNG" />
+       <img src="images/E7-T3-7SuccessAzCopy.png" />
   
   8. Azure ストレージ アカウントの policies コンテナーに移動してアップロードを確認
   
@@ -2019,7 +2019,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   4. `<your-resource-group-name>` をリソース グループ名で置き換え Cloud Shell プロンプトで以下のコマンドを実行し Function App の URL を取得
      ```
      $resourceGroup = "<your-resource-group-name>"
-     az functionapp list -g <your-resource-group-name> --output table
+     az functionapp list -g $resourceGroup --output table
      ```
         
         > メモ: 複数の Azure サブスクリプションがありこのハンズオン ラボで使用しているアカウントが自分のデフォルト アカウントでない場合、Azure Cloud Shell プロンプトで `az account list --output table` を実行してサブスクリプションのリストを出力し、このラボで使用しているアカウントのサブスクリプション ID をコピーしてから `az account set --subscription <サブスクリプション ID>` を実行して Azure CLI コマンドに適切なアカウントを設定する必要がある可能性があります
@@ -2031,7 +2031,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   6. `<your-resource-group-name>` をリソース グループの名前で置き換えCloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得
      ```
      $resourceGroup = "<your-resource-group-name>"
-     az webapp list -g <your-resource-group-name> --output table
+     az webapp list -g $resourceGroup --output table
      ```
   
   7. 後で使用するために Web App の名前 ("contoso-**web**" で始まるリソース名) をテキスト エディターにコピー
@@ -2045,7 +2045,6 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   9. Function App の設定 タブの**ホスト キー**セクションでキーの右側にある**コピー**操作リンクを選択し、既定のキーをコピーし次の手順で参照するために値をテキスト エディターにコピー
     
      <img src="images/E8-T7-9CopyFunctionHostKey.PNG" />
-     @@@先に Azure Functions を展開した場合はランタイムエラーでホストキーが表示されず、発行時に新規作成の場合は表示される
   
   10. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行
     
@@ -2082,20 +2081,17 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
     
       <img src="images/E8-T8-3SelectManagedPolicyHolders.PNG" />
 
-  4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある [Details] リンクを選択
+  4. Azure Key Vault に格納された接続文字列を使用して Azure SQL Database から取得された情報が Policy Holders ページに契約名義人のリストおよび契約に関する情報が表示された後、いずれかのレコードの横にある Details を選択
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-4ListPolicyHolders.PNG" />
   
-  5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認
+  5. Policy Holder Details ページでマウス カーソルを **File Path** の下のドキュメント リンクの上に置き、下部に表示されるパスが Function App をポイントしていることと契約名義人の姓と契約番号がパスの下に挿入されていることを確認しファイルパスを選択
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-5CheckFilePath.PNG" />
   
   6. **File Path** の下のリンクを選択して、契約ドキュメントをダウンロード
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T8-6ViewFile.PNG" />
   
 ### **Task 9**: ライブ メトリックス ストリームの表示
   
@@ -2103,8 +2099,7 @@ Azure Functions は環境変数を使用して構成設定を取得します。�
   
   2. Function App に関するリクエストのテレメトリーを示すダッシュボードが表示され、右側の サンプル テレメトリ セクションの下に、先の手順で作成したドキュメント リクエストが表示されていることを確認。 "PolicyDocs function received a request..."で始まるメッセージのトレースを選択し、その下のパネルに詳細を表示
     
-     <img src="images/.PNG" />
-     @@@API の結果がエラーなのでここが表示されないので要確認
+     <img src="images/E8-T9-2LiveMetricsResult.PNG" />
   
 ## **Exercise 9: 保険契約ドキュメントへのフルテキスト検索機能の追加**
 所要時間：15分
@@ -2270,38 +2265,286 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
 
 ### **Task 1**: API App のインポート
 このタスクでは、OpenAPI 仕様を使用して、API App に関連付けられた Swagger 定義を活用し API Management に API App をインポートします。
+  
+  1. Azure Portal で hands-on-lab-SUFFIX リソース グループの下にあるリソースのリストから **PI Management サービス**を選択
+    
+     <img src="images/E10-T1-1SelectAPIManagement.PNG" />
+  
+  2. API Management サービスブレードで **APIs** を選択し、**+ API の追加**、**OpenAPI** の順に選択
+    
+     <img src="images/E10-T1-2SelectOpenAPI.PNG" />
+  
+  3. Create from OpenAPI specification ダイアログが表示された後、**Full** を選択し有効化する必要のあるすべてのオプションを展開
+    
+     <img src="images/E10-T1-3ExpandOpenAPIdialog.PNG" />
+  
+  4. API App の Swagger ページで PolicyConnect API タイルのすぐ下にある `swagger/v1/swagger.json` ファイル リンクを選択し **Copy link address** を選択
+    
+     <img src="images/E10-T1-4CopySwaggerURL.PNG" />
+  
+  5. API Management の Create from OpenAPI specification ダイアログに戻り以下の情報を入力し **Create** を選択
+    
+     - **OpenAPI specification**: Swagger ページからコピーしたリンク アドレスを貼り付け
+     - **Display name**: これは Swagger 定義から自動的に入力
+     - **Name**: これは Swagger 定義から自動的に入力
+     - **URL scheme**: **HTTPS** を選択
+     - **Products**: フィールドをクリックしてドロップダウン リストから **Unlimited** タグを選択
+      
+     <img src="images/E10-T1-5EnterOpenAPIdialog.PNG" />
+  
+  6. API を作成した後、左側の API のリストから **PolicyConnect API** を選択し Design タブで、All operations が選択された状態で、Inbound processing タイルの **Policies** アイコンを選択
+    
+     <img src="images/E10-T1-6SelectInboundprocessingPolicy.PNG" />
+  
+  7. Policies 画面で `<inbound></inbound>` タグの間、および `<base />` タグの下にコードを挿入。 `<Origin></origin>` タグの間にある `<your-web-app-url>` を **Web App** の URL で置換し **Save** を選択
+    
+     ```
+      <cors allow-credentials="true">
+          <allowed-origins>
+              <origin>your-web-app-url</origin>
+          </allowed-origins>
+          <allowed-methods>
+              <method>*</method>
+          </allowed-methods>
+          <allowed-headers>
+              <header>*</header>
+          </allowed-headers>
+          <expose-headers>
+              <header>*</header>
+          </expose-headers>
+      </cors>
+     ```
+    
+     以下は更新した policies の値の例
 
+     <img src="images/E10-T1-7EditPolicy.PNG" />
+   
+     > メモ: 上記で追加したポリシーは、クロス オリジン リソース共有 (CORS) を処理するためのものです。Web App をローカルでテストしている場合は、` https://localhost:<port-number>` を含む `<allowed-origins></allowed-origins>` 内にもう 1 つの `<origin></origin> を追加する必要があります。ここでの `port-number` はデバッガーによって割り当てられたポートです (上のスクリーンショットを参照)。
+  
+  8. 次に**設定**タブを選択し `https://` を含む API アプリの URL を入力し **Save** を選択
+    
+     <img src="images/E10-T1-8SettingPolicyConnectAPI.PNG" />
+  
 ### **Task 2**: Azure Functions のインポート
 このタスクでは、Azure Functions を API Management にインポートします。
-
+  
+  1. **+ API の追加**をもう一度選択して、API のソースとして **Function App** を選択
+    
+     <img src="images/E10-T2-1SelectFunctionApp.PNG" />
+  
+  2. **Create from Function App** ダイアログで、**Function App** フィールドの横にある **Browse** ボタンを選択
+    
+     <img src="images/E10-T2-2ExpandAzureFunctionsAPIdialogs.PNG" />
+  
+  3. Import Azure Functions ブレードで Function App を選択し、リストから対象の Function App を選択し**選択**を選択
+    
+     <img src="images/E10-T2-3ImportAzureFunctions.PNG" />
+  
+  4. [Import Azure Functions] ブレードに戻り、PolicyDocs Function が選択されていることを確認し**選択**を選択
+    
+     <img src="images/E10-T2-4SetAPIAzureFunctions.PNG" />
+  
+  5. APIM の [Create from Function App] ダイアログに戻って、API のすべてのプロパティが Azure Function から設定されていることを確認し、以前の手順で行ったように **Products** を **Unlimited** に設定し **Create** を選択
+    
+     <img src="images/E10-T2-5CreateAPIAzureFunctions.PNG" />
+  
 ### **Task 3**: 開発者ポータルからの API キーの取得
 このタスクでは、開発者ポータルで API を確認してキーを取得します。開発者ポータルでは、API およびエンドポイントのリストに加えて、API とエンドポイントに関する有益な情報が表示されます。
-
+  
+  1. Azure Portal の API Management サービスの概要ブレードから **Developer portal (legacy)** を選択し APIM 開発者ポータルを開く
+    
+     <img src="images/E10-T3-1SelectDeveloperportal(Legacy).PNG" />
+  
+  2. Azure API Management ポータル上部のメニューから **APIs** を選択し Function App に関連付けられた API を選択
+    
+     <img src="images/E10-T3-2SelectAzureFunctions.PNG" />
+  
+  3. API ページで次のタスクでの `PolicyDocumentsPath` 設定に使用する URL をコピーしテキストエディタ―に貼り付け
+    
+     > メモ: パスは Swagger で既に定義されているため、この手順を PolicyConnect API に対して実行する必要はありません。変更する必要があるのは、API App ではなく API Management をポイントしているベース URL です。
+   
+     <img src="images/E10-T3-3CopyURL.PNG" />
+  
+  4. 次に、API ページの右上にある **Administrator** ドロップダウンから **Profile** を選択し、プロファイル ページで **Unlimited** のプライマリ キーの横にある **Show** を選択し、キー値をコピーコピーしテキストエディタ―に貼り付け ( ここで取得する `Ocp-Apim-Subscription-Key` 値をは、PolicyConnect Web アプリケーションが APIM から API にアクセスするために必要 )
+    
+     <img src="images/E10-T3-4CopyKey.PNG" />
+  
 ### **Task 4**: API Management エンドポイントを使用するための Web App の更新
 このタスクでは、Azure Cloud Shell および Azure CLI を使用して、PolicyConnect Web App の Url および PolicyDocumentsPath 設定を更新します。API Management アクセス キーに新しい設定も追加します。
+  
+  1. [Azure Portal](https://portal.azure.com/) の画面右上のメニューから Azure Cloud Shell アイコンを選択
+    
+     <img src="images/E10-T4-1LaunchCloudShell.PNG" />
+  
+  2. ブラウザー ウィンドウの下部に表示される Cloud Shell ウィンドウで **PowerShell** を選択
+    
+     <img src="images/E10-T4-2SellectPowerShell.PNG" />
+  
+  3. PowerShell Azure プロンプトが表示される
+    
+     <img src="images/E10-T4-3LaunchPowerShell.PNG" />
+  
+  4. Cloud Shell プロンプトで以下のコマンドを実行し、Web App 名を取得します。コマンドを実行する前に、<your-resource-group-name> をリソース グループの名前で置き換え
+    
+     ```
+     $resourceGroup = "<your-resource-group-name>"
+     az webapp list -g $resourceGroup --output table
+     ```
+  
+  5. 後で使用するために出力の Web App の名前 ("contoso-web" で始まるリソース名) をテキスト エディターにコピー
+    
+     <img src="images/E10-T4-5ResultWebAppInfo.PNG" />
+  
+  6. 次に、以下のコマンドのトークン化された値を次のように置換し、Azure Cloud Shell コマンド プロンプトから実行し WebApp の設定で反映されていることを確認
+    
+     - `<your-web-app-name>`: 以前の手順でコピーした Web App 名で置き換え
+     - `<your-apim-url>`: Azure Portal の API Management サービスの 概要ブレードから取得可能な API Management インスタンスのゲートウェイ URL で置き換え
+     - `<your-apim-function-app-path>`: 以前の手順でコピーした APIM の `PolicyDocumentsPath` URL で置き換え
+     - `<your-apim-subscription-key>`: 以前の手順でコピーした APIM の `Ocp-Apim-Subscription-Key` 値で置き換え
 
+     ```
+     $webAppName = "<your-web-app-name>"
+     $apimUrl = "<your-apim-gateway-url>"
+     $apimKey = "<your-apim-subscription-key>"
+     $policyDocsPath = "<your-apim-function-app-path>"
+     az webapp config appsettings set -n $webAppName -g $resourceGroup --settings "PolicyDocumentsPath=$policyDocsPath" "ApiUrl=$apimUrl" "ApimSubscriptionKey=$apimKey"
+     ```
+     
+     <img src="images/E10-T4-6WebAppSettingResult.PNG" />
+  
+  7. WebApp の再起動を実施
+    
+     <img src="images/E10-T4-7RestartWebApp.PNG" />
+  
+  8. Web ブラウザーで Web App の URL に移動し、タブを選択するとこれまで通りデータが表示されることを確認
+    
+     <img src="images/E10-T4-8ViewPolicyHolders.PNG" />
+  
 ## **Exercise 11: PowerApps でのアプリの作成**
 所要時間：15分
 
 モバイル アプリの作成には長い開発プロセスが必要なので、Contoso は PowerApps を使用してモバイル アプリケーションを作成し、現在のアプリでは提供されていない機能を迅速に追加することが検討されています。このシナリオでは、現在のアプリでは実行できない保険契約の値 (Silver、Gold、Platinum など) を編集する機能を実装します。このタスクでは、PowerApps で作成した新しいアプリを実行し、ContosoInsurance データベースに接続して基本的な CRUD (Create、Read、Update、および Delete) 操作を Policies テーブルに対して実行します。
 
 ### **Task 1**: PowerApps アカウントへのサインアップ
-
+  
+  1. https://web.powerapps.com にアクセスし Azure で使用しているアカウントと同一のものを使用して新しいアカウントにサインアップ
+   
+     > メモ: 既にサインインしたことがある場合、そのまま PowerApps のポータルが表示されます
+    
+  2. アカウント作成のリクエストを確認するためにプロセスを続行するリンクを含む電子メールが送信されることがあります
+    
+  3. Microsoft Store : https://www.microsoft.com/en-us/store/p/powerapps/9nblggh5z8f3 から **PowerApps Studio** をダウンロードしてインストール
+    
+     > メモ: PowerApps を LabVM にインストールできない場合、ローカル マシンにインストールして、この実習の手順を実行できます。  
+  
 ### **Task 2**: 新しい SQL 接続の作成
+  
+  1. 作成した PowerApps アカウントを使用して PowerApps Web サイトにログインし **データ** オプションを展開し左側のナビゲーション メニューから **接続** を選択
+    
+     <img src="images/E11-T2-1SelectDataConnection.PNG" />
+  
+  2. **新しい接続** ボタンを選択
+    
+     <img src="images/E11-T2-2SelectNewConnection.PNG" />
+  
+  3. 検索ボックスに **SQL** と入力しリストから SQL Server を選択
+    
+     <img src="images/E11-T2-3SelectSQLServer.PNG" />
+  
+  4. SQL Server 接続ダイアログで以下の情報を入力し**作成**を選択
+    
+     - **認証の種類**: **SQL Server 認証** を選択
+     - **SQL サーバ名**: Azure SQL Database のサーバー名を入力 ( 例. `contosoinsurance-jjbp34uowoybc.database.windows.net` )
+     - **SQL データベース名**: **ContosoInsurance** と入力
+     - **ユーザー名**: **demouser** と入力
+     - **パスワード**: **Password.1!!** と入力
 
+     <img src="images/E11-T2-4EnterSQLServerInfo.PNG" />
+  
 ### **Task 3**: 新しいアプリの作成
-
+  
+  1. 前の手順でダウンロードした PowerApps Studio アプリケーションを開き PowerApps アカウントでサインイン
+  
+  2. 左側にある**新規**を選択しブラウザー ウィンドウが開いたら、必要に応じて国/地域を確認して**開始**を選択
+  
+  3. 次に**データを使用して開始**リストの横にある**右向き矢印**を選択
+    
+     <img src="images/E11-T3-3SelectStart.PNG" />
+  
+  4. 以前のタスクで作成した **SQL Server 接続**を選択
+    
+     <img src="images/E11-T3-4SelectSQLServer.PNG" />
+  
+  5. テーブルの選択リストから **Policies** テーブルを選択し**接続**を選択
+    
+     <img src="images/E11-T3-5SelectPoliciesTable.PNG" />
+  
 ### **Task 4**: アプリの設計
-
+  
+  1. 新しいアプリが自動的に作成されデザイナー内に表示された後、最初のページタイトルを `[dbo].[Policies]` から式フィールドで **Policies** に編集
+    
+     <img src="images/E11-T4-1EditTitle.PNG" />
+   
+  2. 左側のメニューから **DetailScreen1** を選択
+    
+     <img src="images/E11-T4-2SelectDetailScreen1.PNG" />
+  
+  3. フォーム上のフィールドを選択して **Card: <フィールド名>** タグに基づいて目的の場所にドラッグし **Name**, **Description**, **DefaultDeductible**, **DefaultOutOfPocketMax** の順に並び替え
+    
+     <img src="images/E11-T4-3ReorderFieldNameCard.PNG" />
+  
+  4. フォーム上で DefaultDeductible および DefaultOutOfPocketMax ラベルをそれぞれを Default Deductible および Default Out of Pocket Max に変更
+    
+     > ヒント: タイトルを変更する前に対象のカードにカーソルを合わせ、右クリックした後、ロックを解除してください。
+    
+     > <img src="images/E11-T4-4EditFieldName.PNG" />
+  
+  5. 式フィールド内で引用符に囲んで「Policy」と入力し、画面のタイトルを Policy に変更
+    
+     <img src="images/E11-T4-5EditFieldTitle.PNG" />
+  
+  6. 左側のメニューで **EditScreen1** を選択し手順 4 ~ 6 を繰り返して画面を編集
+  
 ### **Task 5**: アプリ設定の編集とアプリの実行
-
+  1. 上部のメニューで [File] を選択
+    
+     <img src="images/E11-T5-1SelectFile.PNG" />
+  
+  2. [App settings]、[App name +] アイコンの順に選択して、新しいアプリ名 (PolicyConnect Plus など) を入力
+    
+     <img src="images/E11-T5-2EditName.PNG" />
+  
+  3. 左側のメニューで [Save] を選択してアプリをクラウドに保存し、下の [Save] ボタンを選択
+    
+     <img src="images/E11-T5-3SaveApp.PNG" />
+  
+  4. 保存した後、左側のメニューの上部にある左向きの矢印を選択
+    
+     <img src="images/E11-T5-4SelectArrow.PNG" />
+  
+  5. 左側のメニューから **BrowseScreen1** を選択し上部のメニューで **Run** を選択してアプリをプレビューの実行
+    
+     <img src="images/E11-T5-5PreviewApp.PNG" />
+  
+  6. プレビュー画面において現在の保険契約の表示、値の変更、および新規保険契約の作成を行うことができることを確認
+    
+     <img src="images/E11-T5-6PreviewAppResult.PNG" />
+  
+  7. スマートフォンで PowerApps のアプリケーションをダウンロードし、ログインした後 **PolicyConnect Plus** を起動し動作を確認
+  
 ## **ワークショップ後の作業**
 ワークショップで使用した Azure リソースを削除します。
 
 ### **Task 1**: リソース グループの削除
+  
+  1. Azure Portal で 左側のメニューから**リソース グループ**を選択し **Delete resource group** から **hands-on-lab-SUFFIX** リソース グループを削除
 
 ### **Task 2**: Contoso-apps サービス プリンシパルの削除
+  
+  1. Azure Portal で **Azure Active Directory**を選択し、**アプリの登録**を選択
 
+  2. **contoso-apps** アプリケーションを選択しアプリケーション ブレードの**削除**を選択
+  
 ***
 このドキュメントに含まれているURL およびその他のインターネット Web サイトの参照を始めとする情報は予告なく変更されることがあります。別途明示されている場合を除き、本書内で例として使用されている会社、組織、製品、ドメイン名、電子メール アドレス、ロゴ、人物、場所、およびイベントは架空のもので、実在する企業、組織、製品、ドメイン名、電子メール アドレス、ロゴ、人、場所、または人とは関係ありません。ユーザーは該当するすべての著作権法に従う責任があります。このドキュメントを使用する場合は、適用される著作権関連の法律に従っていただくものとします。このドキュメントのいかなる部分も、米国 Microsoft Corporation の書面による許諾を受けることなく、その目的を問わず、どのような形態であっても、複製または譲渡することは禁じられています。ここでいう形態とは、複写や記録など、電子的な、または物理的なすべての手段を含みます。ただしこれは、著作権法上のお客様の権利を制限するものではありません。
 マイクロソフトは、この文書に記載されている事項に関して、特許、申請中特許、商標、著作権、および他の知的財産権を所有する場合があります。別途マイクロソフトのライセンス契約上に明示の規定のない限り、このドキュメントはこれらの特許、商標、著作権、またはその他の無体財産権に関する権利をユーザーに許諾するものではありません。
