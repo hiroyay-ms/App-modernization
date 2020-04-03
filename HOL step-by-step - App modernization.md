@@ -1396,22 +1396,125 @@ Contoso は保険契約ドキュメントのフルテキスト検索を実行す
 モバイル アプリの作成には長い開発プロセスが必要なので、Contoso は PowerApps を使用してモバイル アプリケーションを作成し、現在のアプリでは提供されていない機能を迅速に追加することが検討されています。このシナリオでは、現在のアプリでは実行できない保険契約の値 (Silver、Gold、Platinum など) を編集する機能を実装します。このタスクでは、PowerApps で作成した新しいアプリを実行し、ContosoInsurance データベースに接続して基本的な CRUD (Create、Read、Update、および Delete) 操作を Policies テーブルに対して実行します。
 
 ### **Task 1**: PowerApps アカウントへのサインアップ
-
+  
+  1. https://web.powerapps.com にアクセスし Azure で使用しているアカウントと同一のものを使用して新しいアカウントにサインアップ
+   
+     > メモ: 既にサインインしたことがある場合、そのまま PowerApps のポータルが表示されます
+    
+  2. アカウント作成のリクエストを確認するためにプロセスを続行するリンクを含む電子メールが送信されることがあります
+    
+  3. Microsoft Store : https://www.microsoft.com/en-us/store/p/powerapps/9nblggh5z8f3 から **PowerApps Studio** をダウンロードしてインストール
+    
+     > メモ: PowerApps を LabVM にインストールできない場合、ローカル マシンにインストールして、この実習の手順を実行できます。  
+  
 ### **Task 2**: 新しい SQL 接続の作成
+  
+  1. 作成した PowerApps アカウントを使用して PowerApps Web サイトにログインし **データ** オプションを展開し左側のナビゲーション メニューから **接続** を選択
+    
+     <img src="images/E11-T2-1SelectDataConnection.PNG" />
+  
+  2. **新しい接続** ボタンを選択
+    
+     <img src="images/E11-T2-2SelectNewConnection.PNG" />
+  
+  3. 検索ボックスに **SQL** と入力しリストから SQL Server を選択
+    
+     <img src="images/E11-T2-3SelectSQLServer.PNG" />
+  
+  4. SQL Server 接続ダイアログで以下の情報を入力し**作成**を選択
+    
+     - **認証の種類**: **SQL Server 認証** を選択
+     - **SQL サーバ名**: Azure SQL Database のサーバー名を入力 ( 例. `contosoinsurance-jjbp34uowoybc.database.windows.net` )
+     - **SQL データベース名**: **ContosoInsurance** と入力
+     - **ユーザー名**: **demouser** と入力
+     - **パスワード**: **Password.1!!** と入力
 
+     <img src="images/E11-T2-4EnterSQLServerInfo.PNG" />
+  
 ### **Task 3**: 新しいアプリの作成
-
+  
+  1. 前の手順でダウンロードした PowerApps Studio アプリケーションを開き PowerApps アカウントでサインイン
+  
+  2. 左側にある**新規**を選択しブラウザー ウィンドウが開いたら、必要に応じて国/地域を確認して**開始**を選択
+  
+  3. 次に**データを使用して開始**リストの横にある**右向き矢印**を選択
+    
+     <img src="images/E11-T3-3SelectStart.PNG" />
+  
+  4. 以前のタスクで作成した **SQL Server 接続**を選択
+    
+     <img src="images/E11-T3-4SelectSQLServer.PNG" />
+  
+  5. テーブルの選択リストから **Policies** テーブルを選択し**接続**を選択
+    
+     <img src="images/E11-T3-5SelectPoliciesTable.PNG" />
+  
 ### **Task 4**: アプリの設計
-
+  
+  1. 新しいアプリが自動的に作成されデザイナー内に表示された後、最初のページタイトルを `[dbo].[Policies]` から式フィールドで **Policies** に編集
+    
+     <img src="images/E11-T4-1EditTitle.PNG" />
+   
+  2. 左側のメニューから **DetailScreen1** を選択
+    
+     <img src="images/E11-T4-2SelectDetailScreen1.PNG" />
+  
+  3. フォーム上のフィールドを選択して **Card: <フィールド名>** タグに基づいて目的の場所にドラッグし **Name**, **Description**, **DefaultDeductible**, **DefaultOutOfPocketMax** の順に並び替え
+    
+     <img src="images/E11-T4-3ReorderFieldNameCard.PNG" />
+  
+  4. フォーム上で DefaultDeductible および DefaultOutOfPocketMax ラベルをそれぞれを Default Deductible および Default Out of Pocket Max に変更
+    
+     > ヒント: タイトルを変更する前に対象のカードにカーソルを合わせ、右クリックした後、ロックを解除してください。
+    
+     > <img src="images/E11-T4-4EditFieldName.PNG" />
+  
+  5. 式フィールド内で引用符に囲んで「Policy」と入力し、画面のタイトルを Policy に変更
+    
+     <img src="images/E11-T4-5EditFieldTitle.PNG" />
+  
+  6. 左側のメニューで **EditScreen1** を選択し手順 4 ~ 6 を繰り返して画面を編集
+  
 ### **Task 5**: アプリ設定の編集とアプリの実行
-
+  1. 上部のメニューで [File] を選択
+    
+     <img src="images/E11-T5-1SelectFile.PNG" />
+  
+  2. [App settings]、[App name +] アイコンの順に選択して、新しいアプリ名 (PolicyConnect Plus など) を入力
+    
+     <img src="images/E11-T5-2EditName.PNG" />
+  
+  3. 左側のメニューで [Save] を選択してアプリをクラウドに保存し、下の [Save] ボタンを選択
+    
+     <img src="images/E11-T5-3SaveApp.PNG" />
+  
+  4. 保存した後、左側のメニューの上部にある左向きの矢印を選択
+    
+     <img src="images/E11-T5-4SelectArrow.PNG" />
+  
+  5. 左側のメニューから **BrowseScreen1** を選択し上部のメニューで **Run** を選択してアプリをプレビューの実行
+    
+     <img src="images/E11-T5-5PreviewApp.PNG" />
+  
+  6. プレビュー画面において現在の保険契約の表示、値の変更、および新規保険契約の作成を行うことができることを確認
+    
+     <img src="images/E11-T5-6PreviewAppResult.PNG" />
+  
+  7. スマートフォンで PowerApps のアプリケーションをダウンロードし、ログインした後 **PolicyConnect Plus** を起動し動作を確認
+  
 ## **ワークショップ後の作業**
 ワークショップで使用した Azure リソースを削除します。
 
 ### **Task 1**: リソース グループの削除
+  
+  1. Azure Portal で 左側のメニューから**リソース グループ**を選択し **Delete resource group** から **hands-on-lab-SUFFIX** リソース グループを削除
 
 ### **Task 2**: Contoso-apps サービス プリンシパルの削除
+  
+  1. Azure Portal で **Azure Active Directory**を選択し、**アプリの登録**を選択
 
+  2. **contoso-apps** アプリケーションを選択しアプリケーション ブレードの**削除**を選択
+  
 ***
 このドキュメントに含まれているURL およびその他のインターネット Web サイトの参照を始めとする情報は予告なく変更されることがあります。別途明示されている場合を除き、本書内で例として使用されている会社、組織、製品、ドメイン名、電子メール アドレス、ロゴ、人物、場所、およびイベントは架空のもので、実在する企業、組織、製品、ドメイン名、電子メール アドレス、ロゴ、人、場所、または人とは関係ありません。ユーザーは該当するすべての著作権法に従う責任があります。このドキュメントを使用する場合は、適用される著作権関連の法律に従っていただくものとします。このドキュメントのいかなる部分も、米国 Microsoft Corporation の書面による許諾を受けることなく、その目的を問わず、どのような形態であっても、複製または譲渡することは禁じられています。ここでいう形態とは、複写や記録など、電子的な、または物理的なすべての手段を含みます。ただしこれは、著作権法上のお客様の権利を制限するものではありません。
 マイクロソフトは、この文書に記載されている事項に関して、特許、申請中特許、商標、著作権、および他の知的財産権を所有する場合があります。別途マイクロソフトのライセンス契約上に明示の規定のない限り、このドキュメントはこれらの特許、商標、著作権、またはその他の無体財産権に関する権利をユーザーに許諾するものではありません。
